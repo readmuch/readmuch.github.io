@@ -23,6 +23,9 @@
             background: #333;
             padding: 0.5rem 0;
             text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         nav a {
             color: #fff;
@@ -41,6 +44,10 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+        section {
+            padding-top: 5rem; /* Creates space so the section title is visible */
+            margin-top: -5rem; /* Offsets the sticky nav bar */
+        }
         h2 {
             border-bottom: 2px solid #4CAF50;
             padding-bottom: 0.5rem;
@@ -50,14 +57,20 @@
             padding: 0;
         }
         ul li {
-            margin: 0.5rem 0;
+            margin: 1rem 0;
         }
         ul li a {
             text-decoration: none;
             color: #4CAF50;
+            font-weight: bold;
         }
         ul li a:hover {
             text-decoration: underline;
+        }
+        ul li p {
+            margin: 0.5rem 0 0 0;
+            color: #666;
+            font-size: 0.9rem;
         }
         footer {
             text-align: center;
@@ -77,53 +90,45 @@
         <a href="#life">Life</a>
         <a href="#tech">Tech</a>
         <a href="#education">Education</a>
-        <a href="#education">Fun</a>
     </nav>
     <div class="container">
         <section id="life">
             <h2>Life</h2>
             <ul>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
-                <li><a href="#">Note 1: Reflections on Daily Life</a></li>
-                <li><a href="#">Note 2: Finding Balance</a></li>
+                <li>
+                    <a href="#">Note 1: Reflections on Daily Life</a>
+                    <p>"Life is a journey of discovery and growth."</p>
+                </li>
+                <li>
+                    <a href="#">Note 2: Finding Balance</a>
+                    <p>"Finding balance in the chaos of daily life."</p>
+                </li>
             </ul>
         </section>
         <section id="tech">
             <h2>Tech</h2>
             <ul>
-                <li><a href="#">Note 1: Latest Tech Trends</a></li>
-                <li><a href="#">Note 2: My Favorite Tools</a></li>
+                <li>
+                    <a href="#">Note 1: Latest Tech Trends</a>
+                    <p>"AI is shaping the future of innovation."</p>
+                </li>
+                <li>
+                    <a href="#">Note 2: My Favorite Tools</a>
+                    <p>"Discovering tools that make work easier."</p>
+                </li>
             </ul>
         </section>
         <section id="education">
             <h2>Education</h2>
             <ul>
-                <li><a href="#">Note 1: Lifelong Learning</a></li>
-                <li><a href="#">Note 2: Modern Educational Methods</a></li>
-            </ul>
-        </section>
-        <section id="fun">
-            <h2>Education</h2>
-            <ul>
-                <li><a href="#">Note 1: Lifelong Learning</a></li>
-                <li><a href="#">Note 2: Modern Educational Methods</a></li>
+                <li>
+                    <a href="#">Note 1: Lifelong Learning</a>
+                    <p>"The joy of learning never fades."</p>
+                </li>
+                <li>
+                    <a href="#">Note 2: Modern Educational Methods</a>
+                    <p>"How technology is transforming classrooms."</p>
+                </li>
             </ul>
         </section>
     </div>
