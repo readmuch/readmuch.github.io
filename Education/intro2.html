@@ -18,6 +18,15 @@
             border-radius: 5px;
             overflow-x: auto;
         }
+        h1, h2, h3 {
+            color: #333;
+        }
+        blockquote {
+            font-style: italic;
+            color: #555;
+            border-left: 4px solid #ccc;
+            padding-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -27,11 +36,21 @@
     <script>
         // Markdown 파일 로드 및 렌더링
         fetch("sample.md") // Markdown 파일 경로
-            .then(response => response.text())
-            .then(text => {
-                document.getElementById("content").innerHTML = marked(text);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
             })
-            .catch(error => console.error("Error loading markdown:", error));
+            .then(markdownText => {
+                // marked.js를 사용하여 Markdown을 HTML로 변환
+                document.getElementById("content").innerHTML = marked.parse(markdownText);
+            })
+            .catch(error => {
+                console.error("Error loading markdown:", error);
+                document.getElementById("content").innerHTML = 
+                    `<p style="color: red;">Failed to load markdown file: ${error.message}</p>`;
+            });
     </script>
 </body>
 </html>
