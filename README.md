@@ -5,4 +5,4 @@
 ### ** Coontents **
 - **Life**: 소소한 일상생활의 기록
 - **Educaton**: 육아와 교육에 관하여
-- **Tech**: LLM 등 Tech에 대한 잡지식
+- **Tech**: LLM 등 AI에 대한 지식모음
