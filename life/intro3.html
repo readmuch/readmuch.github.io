@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Markdown Viewer</h1>
+    <div id="content"></div>
+
+    <script>
+        // Markdown 내용 직접 정의
+        const markdownContent = `
+# Markdown Viewer
+
+This is a **simple example** of how to display Markdown content directly in an HTML file.
+
+## Features
+
+- No need for an external Markdown file
+- Embedded Markdown as a JavaScript string
+- Uses [marked.js](https://marked.js.org/) to render Markdown
+
+### Example Code Block
+
+\`\`\`javascript
+console.log("Hello, Markdown!");
+\`\`\`
+
+---
+
+> **Note**: This approach avoids managing multiple files.
+
+        `;
+
+        // Render the Markdown content
+        document.getElementById("content").innerHTML = marked(markdownContent);
+    </script>
+</body>
+</html>
