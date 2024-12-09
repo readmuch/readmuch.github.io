@@ -18,6 +18,15 @@
             border-radius: 5px;
             overflow-x: auto;
         }
+        h1, h2, h3 {
+            color: #333;
+        }
+        blockquote {
+            font-style: italic;
+            color: #555;
+            border-left: 4px solid #ccc;
+            padding-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -25,9 +34,9 @@
     <div id="content"></div>
 
     <script>
-        // Markdown 내용 직접 정의
+        // Markdown content as a string
         const markdownContent = `
-# Markdown Viewer
+# Markdown Viewer test
 
 This is a **simple example** of how to display Markdown content directly in an HTML file.
 
@@ -46,11 +55,10 @@ console.log("Hello, Markdown!");
 ---
 
 > **Note**: This approach avoids managing multiple files.
-
         `;
 
-        // Render the Markdown content
-        document.getElementById("content").innerHTML = marked(markdownContent);
+        // Use marked.js to render the Markdown and inject it into the HTML
+        document.getElementById("content").innerHTML = marked.parse(markdownContent);
     </script>
 </body>
 </html>
