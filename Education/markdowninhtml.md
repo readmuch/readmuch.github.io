@@ -50,10 +50,10 @@ Wikipedia: <https://www.wikipedia.org>
 
 <img src="./flower.jpg" alt="로컬 이미지" width="400" height="300">
 
-[인터넷 이미지](https://via.placeholder.com/800x600)
+![인터넷 이미지](https://via.placeholder.com/800x600)
 
 <!-- 크기 조절 -->
-<img src="https://unsplash.com/ko/%EC%82%AC%EC%A7%84/%ED%99%94%EB%B6%84%EA%B3%BC-%EA%B1%B0%EC%9A%B8%EC%9D%B4-%EC%9E%88%EB%8A%94-%ED%95%98%EC%96%80-%EB%B0%A9-PK7VhEwgjTk" alt="인터넷 이미지" width="400" height="300">
+<img src="https://via.placeholder.com/800x600" alt="인터넷 이미지" width="400" height="300">
 
 ---
 
