@@ -27,14 +27,30 @@
             border-left: 4px solid #ccc;
             padding-left: 10px;
         }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 1em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
     <div id="content"></div>
 
     <script>
-        // Markdown 파일 로드 및 렌더링
-        fetch("markdowninhtml.md") // Markdown 파일 경로
+        fetch("markdowninhtml.md")
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -42,7 +58,6 @@
                 return response.text();
             })
             .then(markdownText => {
-                // marked.js를 사용하여 Markdown을 HTML로 변환
                 document.getElementById("content").innerHTML = marked.parse(markdownText);
             })
             .catch(error => {
