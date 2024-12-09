@@ -43,17 +43,12 @@ Wikipedia: <https://www.wikipedia.org>
 
 ## 5. Images
 
-[로컬 이미지](./images/example.png)
+[로컬 이미지]
 
 <!-- 크기 조절 -->
 <img src="./tree.jpg" alt="로컬 이미지" width="400" height="300">
 
 <img src="./flower.jpg" alt="로컬 이미지" width="400" height="300">
-
-![인터넷 이미지](https://via.placeholder.com/800x600)
-
-<!-- 크기 조절 -->
-<img src="https://via.placeholder.com/800x600" alt="인터넷 이미지" width="400" height="300">
 
 ---
 
