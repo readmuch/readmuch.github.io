@@ -11,12 +11,14 @@
             line-height: 1.6;
             margin: 20px;
             padding: 20px;
+            user-select: none; /* Disable text selection */
         }
         pre {
             background: #f4f4f4;
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
+            user-select: none; /* Disable text selection for code blocks */
         }
         h1, h2, h3 {
             color: #333;
@@ -26,15 +28,16 @@
             color: #555;
             border-left: 4px solid #ccc;
             padding-left: 10px;
+            user-select: none; /* Disable text selection for blockquotes */
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- Disable right-click -->
     <div id="content"></div>
 
     <script>
         // Markdown 파일 로드 및 렌더링
-        fetch("직시시.md") // Markdown 파일 경로
+        fetch("직시.md") // Markdown 파일 경로
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
