@@ -23,16 +23,17 @@
             justify-content: center;
             gap: 20px;
             padding: 20px;
-            max-width: 540px; /* 컨테이너의 최대 너비 설정 */
-            margin: 0 auto; /* 중앙 정렬 */
+            max-width: 1200px;
+            margin: 0 auto;
         }
         .card {
-            width: calc(50% - 10px); /* 2개씩 배치하기 위해 너비 조정 */
+            width: calc(100% - 20px);
             height: 150px;
             position: relative;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #e0e0e0; /* 배경색 추가 */
         }
         .card a {
             display: flex;
@@ -44,13 +45,35 @@
             font-weight: bold;
             align-items: center;
             justify-content: center;
-            background-size: cover;
+            background-size: contain; /* cover에서 contain으로 변경 */
             background-position: center;
+            background-repeat: no-repeat; /* 반복 방지 */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
         }
         .card:hover {
             transform: scale(1.05);
             transition: 0.3s;
+        }
+
+        /* 모바일 환경 (600px 이상) */
+        @media (min-width: 600px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        /* 태블릿 환경 (900px 이상) */
+        @media (min-width: 900px) {
+            .card {
+                width: calc(33.33% - 20px);
+            }
+        }
+
+        /* 데스크톱 환경 (1200px 이상) */
+        @media (min-width: 1200px) {
+            .card {
+                width: calc(25% - 20px);
+            }
         }
     </style>
 </head>
@@ -60,20 +83,20 @@
         <p>Exploring Books, Life, Tech, and Education</p>
     </header>
     <div class="container">
-        <div class="card" style="background-image: url('images/book.jpg');">
-            <a href="book.html">Book</a>
+        <div class="card">
+            <a href="book.html" style="background-image: url('images/book.jpg');">Book</a>
         </div>
-        <div class="card" style="background-image: url('images/education.jpg');">
-            <a href="education.html">Education</a>
+        <div class="card">
+            <a href="education.html" style="background-image: url('images/education.jpg');">Education</a>
         </div>
-        <div class="card" style="background-image: url('images/life.jpg');">
-            <a href="life.html">Life</a>
+        <div class="card">
+            <a href="life.html" style="background-image: url('images/life.jpg');">Life</a>
         </div>
-        <div class="card" style="background-image: url('images/tech.jpg');">
-            <a href="tech.html">Tech</a>
+        <div class="card">
+            <a href="tech.html" style="background-image: url('images/tech.jpg');">Tech</a>
         </div>
-        <div class="card" style="background-image: url('images/mindnotes.jpg');">
-            <a href="mindnotes.html">Mind Notes</a>
+        <div class="card">
+            <a href="mindnotes.html" style="background-image: url('images/mindnotes.jpg');">Mind Notes</a>
         </div>
     </div>
 </body>

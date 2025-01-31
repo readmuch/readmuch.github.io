@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category - Book</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        header {
+            background: #4CAF50;
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 0.5rem;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            margin: 1rem 0;
+        }
+        ul li a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        ul li a:hover {
+            text-decoration: underline;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .pagination button {
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
+            border: none;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Book Category</h1>
+    </header>
+    <div class="container">
+        <h2>Book List</h2>
+        <ul id="postList">
+            <!-- Book items will be injected here dynamically -->
+        </ul>
+        <div class="pagination">
+            <button id="prevBtn" disabled>Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+    </div>
+    <script>
+        const posts = [
+            { title: "html file 내에서 MD 문서 작성하기", link: "/Education/markdowninhtml.html" },
+            { title: "markdown 파일을 html 문서내에서 패치하기", link: "/Education/MDfetchinhtml.html" },
+            { title: "가무한과 실무한", link: "/Education/infinity.html" },
+            { title: "복권에 두번 당첨될 확률", link: "/Education/lottery.html" }
+        ];
+        
+        const postsPerPage = 10;
+        let currentPage = 1;
+        
+        function displayPosts() {
+            const list = document.getElementById("postList");
+            list.innerHTML = "";
+            
+            const start = (currentPage - 1) * postsPerPage;
+            const end = start + postsPerPage;
+            const paginatedPosts = posts.slice(start, end);
+            
+            paginatedPosts.forEach(post => {
+                const li = document.createElement("li");
+                li.innerHTML = `<a href="${post.link}">${post.title}</a>`;
+                list.appendChild(li);
+            });
+            
+            document.getElementById("prevBtn").disabled = currentPage === 1;
+            document.getElementById("nextBtn").disabled = end >= posts.length;
+        }
+        
+        document.getElementById("prevBtn").addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayPosts();
+            }
+        });
+        
+        document.getElementById("nextBtn").addEventListener("click", () => {
+            if (currentPage * postsPerPage < posts.length) {
+                currentPage++;
+                displayPosts();
+            }
+        });
+        
+        displayPosts();
+    </script>
+</body>
+</html>
