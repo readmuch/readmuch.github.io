@@ -1,28 +1,75 @@
-/* 공통 스타일 */
+/* 기본 스타일 */
 body {
-    font-family: "Arial", sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-  }
-  
-  header {
-    background: linear-gradient(135deg, #4CAF50, #45a049);
-    color: white;
-    padding: 1.5rem 0;
-    text-align: center;
-  }
-  
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+p {
+  margin: 5px 0;
+  color: #666;
+}
+
+/* 컨테이너 스타일 */
+.container {
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* 카드 스타일 */
+.card {
+  width: 100%;
+  max-width: 300px; /* 카드 최대 너비 설정 */
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.card a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); /* 텍스트 가독성을 위한 그림자 */
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 반응형 디자인 */
+@media (min-width: 768px) {
+  /* 데스크탑: 2열 이상으로 배치 */
   .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-  
-  /* 애니메이션 */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 767px) {
+  /* 모바일: 1열로 배치 */
+  .container {
+    grid-template-columns: 1fr;
   }
+}
