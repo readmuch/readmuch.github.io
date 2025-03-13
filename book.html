@@ -1,130 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category - Book</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            background-color: #f9f9f9;
-        }
-        header {
-            background: #4CAF50;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 1rem;
-            background: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 0.5rem;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        ul li {
-            margin: 1rem 0;
-        }
-        ul li a {
-            text-decoration: none;
-            color: #4CAF50;
-            font-weight: bold;
-        }
-        ul li a:hover {
-            text-decoration: underline;
-        }
-        .pagination {
-            text-align: center;
-            margin-top: 1rem;
-        }
-        .pagination button {
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            border: none;
-            background: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        .pagination button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Category - Book</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="book.css">
 </head>
 <body>
-    <header>
-        <h1>Book Category</h1>
-    </header>
-    <div class="container">
-        <h2>Book List</h2>
-        <ul id="postList">
-            <!-- Book items will be injected here dynamically -->
-        </ul>
-        <div class="pagination">
-            <button id="prevBtn" disabled>Previous</button>
-            <button id="nextBtn">Next</button>
-        </div>
+  <header>
+    <h1>Book Category</h1>
+  </header>
+  <div class="container">
+    <h2>Book List</h2>
+    <ul id="postList"></ul>
+    <div class="pagination">
+      <button id="prevBtn" disabled><i class="fas fa-arrow-left"></i> Previous</button>
+      <button id="nextBtn">Next <i class="fas fa-arrow-right"></i></button>
     </div>
-    <script>
-        const posts = [
-            { title: "퓨처셀프_벤자민하디", link: "/Book/futureself.html" },
-            { title: "수학의 진짜 재미 이창후", link: "/Book/realfunmath.html" },
-            { title: "데이터는 예측하지 않는다. 김송규", link: "/Book/datanoprediction.html" },
-            { title: "유혹하는 글쓰기 - 스티븐 킹", link: "/Book/writing.html" },
-            { title: "일의 격 - 신수정", link: "/Book/work.html" },
-            { title: "건너가는 자 - 최진석", link: "Book/choijinsuk.html" },
-            { title: "창조적 행위: 존재의 방식 - 릭루빈", link: "/Book/creator.html" }
-        ];
-        
-        const postsPerPage = 10;
-        let currentPage = 1;
-        
-        function displayPosts() {
-            const list = document.getElementById("postList");
-            list.innerHTML = "";
-            
-            const start = (currentPage - 1) * postsPerPage;
-            const end = start + postsPerPage;
-            const paginatedPosts = posts.slice(start, end);
-            
-            paginatedPosts.forEach(post => {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="${post.link}">${post.title}</a>`;
-                list.appendChild(li);
-            });
-            
-            document.getElementById("prevBtn").disabled = currentPage === 1;
-            document.getElementById("nextBtn").disabled = end >= posts.length;
-        }
-        
-        document.getElementById("prevBtn").addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                displayPosts();
-            }
-        });
-        
-        document.getElementById("nextBtn").addEventListener("click", () => {
-            if (currentPage * postsPerPage < posts.length) {
-                currentPage++;
-                displayPosts();
-            }
-        });
-        
+  </div>
+
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+  <script>
+    const posts = [
+      { title: "퓨처셀프_벤자민하디", link: "/Book/futureself.html" },
+      { title: "수학의 진짜 재미 이창후", link: "/Book/realfunmath.html" },
+      { title: "데이터는 예측하지 않는다. 김송규", link: "/Book/datanoprediction.html" },
+      { title: "유혹하는 글쓰기 - 스티븐 킹", link: "/Book/writing.html" },
+      { title: "일의 격 - 신수정", link: "/Book/work.html" },
+      { title: "건너가는 자 - 최진석", link: "Book/choijinsuk.html" },
+      { title: "창조적 행위: 존재의 방식 - 릭루빈", link: "/Book/creator.html" },
+    ];
+
+    const postsPerPage = 10;
+    let currentPage = 1;
+
+    function displayPosts() {
+      const list = document.getElementById("postList");
+      while (list.firstChild) list.removeChild(list.firstChild);
+      const start = (currentPage - 1) * postsPerPage;
+      const end = Math.min(start + postsPerPage, posts.length);
+      posts.slice(start, end).forEach(post => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = post.link;
+        a.textContent = post.title;
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+      document.getElementById("prevBtn").disabled = currentPage === 1;
+      document.getElementById("nextBtn").disabled = end >= posts.length;
+    }
+
+    document.querySelector(".pagination").addEventListener("click", (e) => {
+      if (e.target.id === "prevBtn" && currentPage > 1) {
+        currentPage--;
         displayPosts();
-    </script>
+      } else if (e.target.id === "nextBtn" && currentPage * postsPerPage < posts.length) {
+        currentPage++;
+        displayPosts();
+      }
+    });
+
+    displayPosts();
+  </script>
 </body>
 </html>
