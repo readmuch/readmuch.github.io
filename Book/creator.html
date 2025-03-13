@@ -1,31 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Markdown Viewer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="creator.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 20px;
+            user-select: none; /* Disable text selection */
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            user-select: none; /* Disable text selection for code blocks */
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        blockquote {
+            font-style: italic;
+            color: #555;
+            border-left: 4px solid #ccc;
+            padding-left: 10px;
+            user-select: none; /* Disable text selection for blockquotes */
+        }
+    </style>
 </head>
-<body oncontextmenu="return false;">
-  <div id="content"><p>Loading...</p></div>
+<body oncontextmenu="return false;"> <!-- Disable right-click -->
+    <div id="content"></div>
 
-  <script>
-    marked.setOptions({ sanitize: true });
-    fetch("creator.md")
-      .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        return response.text();
-      })
-      .then(markdownText => {
-        document.getElementById("content").innerHTML = marked.parse(markdownText);
-      })
-      .catch(error => {
-        document.getElementById("content").innerHTML = 
-          `<p style="color: red;">Failed to load markdown file: ${error.message}</p>`;
-      });
-  </script>
+    <script>
+        // Markdown 파일 로드 및 렌더링
+        fetch("creator.md") // Markdown 파일 경로
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(markdownText => {
+                // marked.js를 사용하여 Markdown을 HTML로 변환
+                document.getElementById("content").innerHTML = marked.parse(markdownText);
+            })
+            .catch(error => {
+                console.error("Error loading markdown:", error);
+                document.getElementById("content").innerHTML = 
+                    `<p style="color: red;">Failed to load markdown file: ${error.message}</p>`;
+            });
+    </script>
 </body>
 </html>
