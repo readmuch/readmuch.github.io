@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category - Tech</title>
+    <title>Category - Education</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -66,7 +66,7 @@
 </head>
 <body>
     <header>
-        <h1>Tech Category</h1>
+        <h1>Bool Category</h1>
         <a href="/index.html"><i class="fas fa-home"></i>Back to Home</a>
     </header>
     <div class="container">
@@ -84,6 +84,7 @@
             { title: "허깅페이스를 활용한 이미지 생성", link: "/Tech/imagegernertion.html" },
             { title: "PMP등 커리어 방향", link: "/Tech/career.html" }
         ];
+
         
         const postsPerPage = 10;
         let currentPage = 1;
@@ -98,7 +99,7 @@
             
             paginatedPosts.forEach(post => {
                 const li = document.createElement("li");
-                li.innerHTML = <a href="${post.link}">${post.title}</a>;
+                li.innerHTML = `<a href="${post.link}">${post.title}</a>`;
                 list.appendChild(li);
             });
             
