@@ -11,12 +11,14 @@
             line-height: 1.6;
             margin: 20px;
             padding: 20px;
+            user-select: none; /* Disable text selection */
         }
         pre {
             background: #f4f4f4;
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
+            user-select: none; /* Disable text selection for code blocks */
         }
         h1, h2, h3 {
             color: #333;
@@ -26,10 +28,11 @@
             color: #555;
             border-left: 4px solid #ccc;
             padding-left: 10px;
+            user-select: none; /* Disable text selection for blockquotes */
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- Disable right-click -->
     <div id="content"></div>
 
     <script>
