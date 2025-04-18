@@ -1,11 +1,11 @@
 # 금융 산업에서의 AI를 활용한 고객 행태 분석 및 마케팅 블로그 연재 목차
 
-## 포스트 1: 예측 모델링 - 금융 고객 행동 예측의 시작
+## [포스트 1: 예측 모델링 - 금융 고객 행동 예측의 시작](https://readmuch.github.io/Tech/prediction.html)
 
 - **핵심 키워드**: **예측 모델링**, **금융 고객 행동**, **기계 학습**, **금융 마케팅**, **데이터 분석**.
 - **요약**: **예측 모델링**으로 고객의 대출 상환 가능성, 이탈 위험 등을 예측하는 방법을 소개합니다. **기계 학습** 알고리즘(랜덤 포레스트, XGBoost)을 설명하고, **금융 개인화 마케팅**을 위한 사례를 다룹니다.
 - **실제 사례**: Bank of America - AI로 고객 행동 예측 및 맞춤형 금융 상품 추천.
-  - **참고 링크**: [TJIP](https://www.tjip.com/en/news/analyze-your-customers-behaviour-to-predict-what-they-want/).
+  - **참고 링크**: [TJIP](https://www.tjip.com/en/publications/analyze-your-customers-behavior-predict-want).
 - **참고 자료**:
   - [Predictive Customer Analytics - SPD Technology](https://spd.tech/artificial-intelligence/ai-for-customer-behavior-analysis/).
   - [AI-Driven Predictive Modeling for Banking - ResearchGate](https://www.researchgate.net/publication/389164127_AI-Driven_Predictive_Modeling_for_Banking_Customer_Churn_Insights_for_the_US_Financial_Sector).
