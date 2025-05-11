@@ -5,62 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Category - Life</title>
     <style>
+        /* Base styles */
+        :root {
+            --primary-color: #4CAF50;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
+            --container-bg: #fff;
+        }
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            color: #333;
-            background-color: #f9f9f9;
+            color: var(--text-color);
+            background-color: var(--bg-color);
         }
+
         header {
-            background: #4CAF50;
+            background: var(--primary-color);
             color: #fff;
             padding: 1rem 0;
             text-align: center;
         }
+
         .container {
             max-width: 800px;
             margin: 2rem auto;
             padding: 1rem;
-            background: #fff;
+            background: var(--container-bg);
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+
         h2 {
-            border-bottom: 2px solid #4CAF50;
+            border-bottom: 2px solid var(--primary-color);
             padding-bottom: 0.5rem;
         }
+
         ul {
             list-style-type: none;
             padding: 0;
         }
+
         ul li {
             margin: 1rem 0;
         }
+
         ul li a {
             text-decoration: none;
-            color: #4CAF50;
+            color: var(--primary-color);
             font-weight: bold;
+            transition: color 0.3s ease;
         }
+
         ul li a:hover {
             text-decoration: underline;
         }
+
         .pagination {
             text-align: center;
             margin-top: 1rem;
         }
+
         .pagination button {
             padding: 0.5rem 1rem;
             margin: 0 0.5rem;
             border: none;
-            background: #4CAF50;
+            background: var(--primary-color);
             color: white;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
+
         .pagination button:disabled {
             background: #ccc;
             cursor: not-allowed;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -80,6 +108,8 @@
         </div>
     </div>
     <script>
+        // Constants
+        const POSTS_PER_PAGE = 10;
         const posts = [
             { title: "토마토 계란 볶음", link: "/Life/EasyTastyHealthyRecipes.html" },
             { title: "시원한 무국", link: "/Life/mookook.html" },
@@ -90,42 +120,75 @@
             { title: "숙주나물", link: "/Life/sukjoo.html" },
             { title: "미역국", link: "/Life/miyuk.html" }
         ];
-        
-        const postsPerPage = 10;
+
+        // State management
         let currentPage = 1;
-        
-        function displayPosts() {
-            const list = document.getElementById("postList");
-            list.innerHTML = "";
-            
-            const start = (currentPage - 1) * postsPerPage;
-            const end = start + postsPerPage;
-            const paginatedPosts = posts.slice(start, end);
-            
-            paginatedPosts.forEach(post => {
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="${post.link}">${post.title}</a>`;
-                list.appendChild(li);
-            });
-            
-            document.getElementById("prevBtn").disabled = currentPage === 1;
-            document.getElementById("nextBtn").disabled = end >= posts.length;
+
+        // DOM elements
+        const postList = document.getElementById("postList");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+
+        // Utility functions
+        const debounce = (func, wait) => {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        };
+
+        // Main functions
+        function createPostElement(post) {
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = post.link;
+            a.textContent = post.title;
+            li.appendChild(a);
+            return li;
         }
-        
-        document.getElementById("prevBtn").addEventListener("click", () => {
+
+        function displayPosts() {
+            const fragment = document.createDocumentFragment();
+            const start = (currentPage - 1) * POSTS_PER_PAGE;
+            const end = start + POSTS_PER_PAGE;
+            const paginatedPosts = posts.slice(start, end);
+
+            paginatedPosts.forEach(post => {
+                fragment.appendChild(createPostElement(post));
+            });
+
+            postList.innerHTML = "";
+            postList.appendChild(fragment);
+
+            // Update button states
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = end >= posts.length;
+        }
+
+        // Event listeners with debouncing
+        const handlePrevClick = debounce(() => {
             if (currentPage > 1) {
                 currentPage--;
                 displayPosts();
             }
-        });
-        
-        document.getElementById("nextBtn").addEventListener("click", () => {
-            if (currentPage * postsPerPage < posts.length) {
+        }, 300);
+
+        const handleNextClick = debounce(() => {
+            if (currentPage * POSTS_PER_PAGE < posts.length) {
                 currentPage++;
                 displayPosts();
             }
-        });
-        
+        }, 300);
+
+        prevBtn.addEventListener("click", handlePrevClick);
+        nextBtn.addEventListener("click", handleNextClick);
+
+        // Initial display
         displayPosts();
     </script>
 </body>
