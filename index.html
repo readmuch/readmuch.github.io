@@ -102,8 +102,6 @@
             display: block;
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
             position: relative;
             text-decoration: none;
             color: var(--text-color);
@@ -113,6 +111,16 @@
             display: flex;
             align-items: flex-end;
             transition: transform 0.3s ease;
+        }
+
+        .card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
         }
 
         .card a::before {
@@ -167,12 +175,6 @@
             }
         }
     </style>
-    <!-- Preload critical images -->
-    <link rel="preload" as="image" href="images/book.jpg">
-    <link rel="preload" as="image" href="images/education.jpg">
-    <link rel="preload" as="image" href="images/life.jpg">
-    <link rel="preload" as="image" href="images/tech.jpg">
-    <link rel="preload" as="image" href="images/mindnotes.jpg">
 </head>
 <body>
     <header>
@@ -181,27 +183,32 @@
     </header>
     <div class="container">
         <div class="card">
-            <a href="book.html" style="background-image: url('images/book.jpg');" loading="lazy">
+            <a href="book.html">
+                <img src="images/book.jpg" alt="Book Category" loading="lazy">
                 <span>Book</span>
             </a>
         </div>
         <div class="card">
-            <a href="education.html" style="background-image: url('images/education.jpg');" loading="lazy">
+            <a href="education.html">
+                <img src="images/education.jpg" alt="Education Category" loading="lazy">
                 <span>Education</span>
             </a>
         </div>
         <div class="card">
-            <a href="life.html" style="background-image: url('images/life.jpg');" loading="lazy">
+            <a href="life.html">
+                <img src="images/life.jpg" alt="Life Category" loading="lazy">
                 <span>Life</span>
             </a>
         </div>
         <div class="card">
-            <a href="tech.html" style="background-image: url('images/tech.jpg');" loading="lazy">
+            <a href="tech.html">
+                <img src="images/tech.jpg" alt="Tech Category" loading="lazy">
                 <span>Tech</span>
             </a>
         </div>
         <div class="card">
-            <a href="mindnotes.html" style="background-image: url('images/mindnotes.jpg');" loading="lazy">
+            <a href="mindnotes.html">
+                <img src="images/mindnotes.jpg" alt="Mind Notes Category" loading="lazy">
                 <span>Mind Notes</span>
             </a>
         </div>
