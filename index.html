@@ -181,30 +181,50 @@
     </header>
     <div class="container">
         <div class="card">
-            <a href="book.html" style="background-image: url('images/book.jpg');">
+            <a href="book.html" style="background-image: url('images/book.jpg');" loading="lazy">
                 <span>Book</span>
             </a>
         </div>
         <div class="card">
-            <a href="education.html" style="background-image: url('images/education.jpg');">
+            <a href="education.html" style="background-image: url('images/education.jpg');" loading="lazy">
                 <span>Education</span>
             </a>
         </div>
         <div class="card">
-            <a href="life.html" style="background-image: url('images/life.jpg');">
+            <a href="life.html" style="background-image: url('images/life.jpg');" loading="lazy">
                 <span>Life</span>
             </a>
         </div>
         <div class="card">
-            <a href="tech.html" style="background-image: url('images/tech.jpg');">
+            <a href="tech.html" style="background-image: url('images/tech.jpg');" loading="lazy">
                 <span>Tech</span>
             </a>
         </div>
         <div class="card">
-            <a href="mindnotes.html" style="background-image: url('images/mindnotes.jpg');">
+            <a href="mindnotes.html" style="background-image: url('images/mindnotes.jpg');" loading="lazy">
                 <span>Mind Notes</span>
             </a>
         </div>
     </div>
+    <script>
+        // Lazy loading implementation
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card a');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.style.backgroundImage = img.style.backgroundImage;
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.1
+            });
+
+            cards.forEach(card => observer.observe(card));
+        });
+    </script>
 </body>
 </html>
