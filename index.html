@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Interests Blog</title>
+    <meta name="description" content="Readmuch's Blog - Exploring the intersection of knowledge and creativity">
+    <meta name="keywords" content="blog, reading, education, technology, life, mind notes">
+    <title>Readmuch's Blog</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Base styles */
@@ -12,6 +14,7 @@
             --card-bg: #252526;
             --text-color: #ffffff;
             --accent-color: #007acc;
+            --border-color: rgba(255, 255, 255, 0.1);
             --card-width: 300px;
             --card-height: 220px;
             --card-aspect-ratio: 16/9;
@@ -47,143 +50,96 @@
         }
 
         header {
-            padding: 4rem 2rem;
+            background: linear-gradient(to bottom, rgba(37, 37, 38, 0.8), transparent);
+            color: var(--text-color);
+            padding: 2rem 0;
             text-align: center;
             position: relative;
             z-index: 1;
-            background: linear-gradient(to bottom, rgba(37, 37, 38, 0.8), transparent);
         }
 
         header h1 {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
             background: linear-gradient(45deg, var(--accent-color), #4ec9b0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
         }
 
         header p {
             font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 600px;
-            margin: 0 auto;
+            opacity: 0.8;
         }
 
         .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
             gap: 2rem;
-            padding: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
         .card {
             position: relative;
+            width: 100%;
+            height: var(--card-height);
             border-radius: 12px;
             overflow: hidden;
-            background: var(--card-bg);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            aspect-ratio: var(--card-aspect-ratio);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                to bottom,
-                transparent 0%,
-                rgba(0, 0, 0, 0.8) 100%
-            );
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .card:hover::before {
-            opacity: 1;
-        }
-
-        .card a {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 1.8rem;
-            font-weight: 600;
-            align-items: flex-end;
-            justify-content: flex-start;
-            padding: 2rem;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            z-index: 2;
-            transition: transform 0.3s ease;
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 122, 204, 0.15);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .card:hover a {
-            transform: scale(1.05);
+        .card a {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            font-size: 1.5rem;
+            padding: 1rem;
+            display: flex;
+            align-items: flex-end;
+            transition: transform 0.3s ease;
         }
 
-        /* Glowing effect */
-        .card::after {
+        .card a::before {
             content: '';
             position: absolute;
-            inset: -1px;
-            background: linear-gradient(45deg, var(--accent-color), transparent);
-            z-index: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            z-index: 1;
         }
 
-        .card:hover::after {
-            opacity: 0.3;
+        .card a span {
+            position: relative;
+            z-index: 2;
         }
 
-        /* Responsive design */
-        @media (max-width: 768px) {
-            header {
-                padding: 3rem 1rem;
-            }
-
-            header h1 {
-                font-size: 2.5rem;
-            }
-
-            .container {
-                padding: 1rem;
-                gap: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 2rem;
-            }
-
-            .card a {
-                font-size: 1.5rem;
-                padding: 1.5rem;
-            }
+        .card a:hover {
+            transform: scale(1.05);
         }
 
         /* Animation */
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(10px);
             }
             to {
                 opacity: 1;
@@ -191,16 +147,25 @@
             }
         }
 
-        .card {
+        .container {
             animation: fadeIn 0.6s ease-out forwards;
-            opacity: 0;
         }
 
-        .card:nth-child(1) { animation-delay: 0.1s; }
-        .card:nth-child(2) { animation-delay: 0.2s; }
-        .card:nth-child(3) { animation-delay: 0.3s; }
-        .card:nth-child(4) { animation-delay: 0.4s; }
-        .card:nth-child(5) { animation-delay: 0.5s; }
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .card {
+                height: 200px;
+            }
+        }
     </style>
     <!-- Preload critical images -->
     <link rel="preload" as="image" href="images/book.jpg">
@@ -216,39 +181,30 @@
     </header>
     <div class="container">
         <div class="card">
-            <a href="book.html" style="background-image: url('images/book.jpg');" loading="lazy">Book</a>
+            <a href="book.html" style="background-image: url('images/book.jpg');">
+                <span>Book</span>
+            </a>
         </div>
         <div class="card">
-            <a href="education.html" style="background-image: url('images/education.jpg');" loading="lazy">Education</a>
+            <a href="education.html" style="background-image: url('images/education.jpg');">
+                <span>Education</span>
+            </a>
         </div>
         <div class="card">
-            <a href="life.html" style="background-image: url('images/life.jpg');" loading="lazy">Life</a>
+            <a href="life.html" style="background-image: url('images/life.jpg');">
+                <span>Life</span>
+            </a>
         </div>
         <div class="card">
-            <a href="tech.html" style="background-image: url('images/tech.jpg');" loading="lazy">Tech</a>
+            <a href="tech.html" style="background-image: url('images/tech.jpg');">
+                <span>Tech</span>
+            </a>
         </div>
         <div class="card">
-            <a href="mindnotes.html" style="background-image: url('images/mindnotes.jpg');" loading="lazy">Mind Notes</a>
+            <a href="mindnotes.html" style="background-image: url('images/mindnotes.jpg');">
+                <span>Mind Notes</span>
+            </a>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.card a');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.style.backgroundImage = img.style.backgroundImage;
-                        observer.unobserve(img);
-                    }
-                });
-            }, {
-                rootMargin: '50px 0px',
-                threshold: 0.1
-            });
-
-            cards.forEach(card => observer.observe(card));
-        });
-    </script>
 </body>
 </html>
