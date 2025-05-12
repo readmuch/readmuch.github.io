@@ -1,209 +1,65 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Education Category - Exploring educational insights and learning methodologies">
-    <meta name="keywords" content="education, learning, teaching, educational insights">
-    <title>Category - Education</title>
+    <meta name="description" content="Education insights and resources - Readmuch's Blog">
+    <meta name="keywords" content="Education, Learning, Teaching, Educational Resources">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="color-scheme" content="dark">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Education Category - Readmuch's Blog">
+    <meta property="og:description" content="Education insights and resources">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://readmuch.github.io/education.html">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Education Category - Readmuch's Blog">
+    <meta name="twitter:description" content="Education insights and resources">
+    
+    <title>Education Category - Readmuch's Blog</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+    
+    <!-- Font loading -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Base styles */
-        :root {
-            --bg-color: #1e1e1e;
-            --card-bg: #252526;
-            --text-color: #ffffff;
-            --accent-color: #007acc;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(0, 122, 204, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 122, 204, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        header {
-            background: linear-gradient(to bottom, rgba(37, 37, 38, 0.8), transparent);
-            color: var(--text-color);
-            padding: 2rem 0;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--accent-color), #4ec9b0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        header a {
-            color: var(--text-color);
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        header a:hover {
-            opacity: 1;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 1;
-            border: 1px solid var(--border-color);
-        }
-
-        h2 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        ul li {
-            margin: 1rem 0;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
-        }
-
-        ul li:hover {
-            background-color: rgba(0, 122, 204, 0.1);
-        }
-
-        ul li a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            display: block;
-            transition: color 0.3s ease;
-        }
-
-        ul li a:hover {
-            color: var(--accent-color);
-        }
-
-        .pagination {
-            text-align: center;
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .pagination button {
-            padding: 0.8rem 1.5rem;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 500;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                margin: 1rem;
-                padding: 1.5rem;
-            }
-
-            header h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles/category.css">
 </head>
 <body>
     <header>
         <h1>Education Category</h1>
-        <a href="/index.html">← Back to Home</a>
+        <a href="index.html" aria-label="Back to Home">← Back to Home</a>
     </header>
-    <div class="container">
+    <main class="container" role="main">
         <h2>Education List</h2>
-        <ul id="postList">
+        <ul id="postList" role="list">
             <!-- Education items will be injected here dynamically -->
         </ul>
-        <div class="pagination">
-            <button id="prevBtn" disabled>Previous</button>
-            <button id="nextBtn">Next</button>
-        </div>
-    </div>
+        <nav class="pagination" role="navigation" aria-label="Pagination">
+            <button id="prevBtn" disabled aria-label="Previous page">Previous</button>
+            <button id="nextBtn" aria-label="Next page">Next</button>
+        </nav>
+    </main>
+    <footer>
+        <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
+    </footer>
     <script>
         // Constants
         const POSTS_PER_PAGE = 10;
         const posts = [
-            { title: "html file 내에서 MD 문서 작성하기", link: "/Education/markdowninhtml.html" },
-            { title: "markdown 파일을 html 문서내에서 패치하기", link: "/Education/MDfetchinhtml.html" },
-            { title: "가무한과 실무한", link: "/Education/infinity.html" },
-            { title: "복권에 두번 당첨될 확률", link: "/Education/lottery.html" }
+            { title: "교육의 미래 - 켄 로빈슨", link: "Education/futureofeducation.html" },
+            { title: "학습의 본질 - 피터 브라운", link: "Education/learning.html" },
+            { title: "교수법의 혁신 - 에릭 마주르", link: "Education/teaching.html" },
+            { title: "평가의 새로운 패러다임 - 딜런 윌리엄", link: "Education/assessment.html" },
+            { title: "디지털 시대의 교육 - 마크 프렌스키", link: "Education/digital.html" }
         ];
 
         // State management
@@ -213,19 +69,6 @@
         const postList = document.getElementById("postList");
         const prevBtn = document.getElementById("prevBtn");
         const nextBtn = document.getElementById("nextBtn");
-
-        // Utility functions
-        const debounce = (func, wait) => {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        };
 
         // Main functions
         function createPostElement(post) {
@@ -244,34 +87,33 @@
             const paginatedPosts = posts.slice(start, end);
 
             paginatedPosts.forEach(post => {
-                fragment.appendChild(createPostElement(post));
+                const postElement = createPostElement(post);
+                fragment.appendChild(postElement);
             });
 
-            postList.innerHTML = "";
+            postList.innerHTML = '';
             postList.appendChild(fragment);
 
-            // Update button states
+            // Update pagination buttons
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = end >= posts.length;
         }
 
-        // Event listeners with debouncing
-        const handlePrevClick = debounce(() => {
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
                 displayPosts();
             }
-        }, 300);
+        });
 
-        const handleNextClick = debounce(() => {
-            if (currentPage * POSTS_PER_PAGE < posts.length) {
+        nextBtn.addEventListener('click', () => {
+            const maxPage = Math.ceil(posts.length / POSTS_PER_PAGE);
+            if (currentPage < maxPage) {
                 currentPage++;
                 displayPosts();
             }
-        }, 300);
-
-        prevBtn.addEventListener("click", handlePrevClick);
-        nextBtn.addEventListener("click", handleNextClick);
+        });
 
         // Initial display
         displayPosts();

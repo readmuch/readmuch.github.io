@@ -3,211 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Category - Book</title>
+    <meta name="description" content="Book reviews and literary discussions - Readmuch's Blog">
+    <meta name="keywords" content="Book Reviews, Literature, Reading, Book Discussion">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="color-scheme" content="dark">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Book Category - Readmuch's Blog">
+    <meta property="og:description" content="Book reviews and literary discussions">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://readmuch.github.io/book.html">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Book Category - Readmuch's Blog">
+    <meta name="twitter:description" content="Book reviews and literary discussions">
+    
+    <title>Book Category - Readmuch's Blog</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+    
+    <!-- Font loading -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Base styles */
-        :root {
-            --bg-color: #1e1e1e;
-            --card-bg: #252526;
-            --text-color: #ffffff;
-            --accent-color: #007acc;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(0, 122, 204, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 122, 204, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        header {
-            background: linear-gradient(to bottom, rgba(37, 37, 38, 0.8), transparent);
-            color: var(--text-color);
-            padding: 2rem 0;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--accent-color), #4ec9b0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        header a {
-            color: var(--text-color);
-            text-decoration: none;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-
-        header a:hover {
-            opacity: 1;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: var(--card-bg);
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 1;
-            border: 1px solid var(--border-color);
-        }
-
-        h2 {
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        ul li {
-            margin: 1rem 0;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
-        }
-
-        ul li:hover {
-            background-color: rgba(0, 122, 204, 0.1);
-        }
-
-        ul li a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            display: block;
-            transition: color 0.3s ease;
-        }
-
-        ul li a:hover {
-            color: var(--accent-color);
-        }
-
-        .pagination {
-            text-align: center;
-            margin-top: 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .pagination button {
-            padding: 0.8rem 1.5rem;
-            border: 1px solid var(--border-color);
-            background: var(--card-bg);
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 500;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-        }
-
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container {
-                margin: 1rem;
-                padding: 1.5rem;
-            }
-
-            header h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles/category.css">
 </head>
 <body>
     <header>
         <h1>Book Category</h1>
-        <a href="/index.html">← Back to Home</a>
+        <a href="index.html" aria-label="Back to Home">← Back to Home</a>
     </header>
-    <div class="container">
+    <main class="container" role="main">
         <h2>Book List</h2>
-        <ul id="postList">
+        <ul id="postList" role="list">
             <!-- Book items will be injected here dynamically -->
         </ul>
-        <div class="pagination">
-            <button id="prevBtn" disabled>Previous</button>
-            <button id="nextBtn">Next</button>
-        </div>
-    </div>
+        <nav class="pagination" role="navigation" aria-label="Pagination">
+            <button id="prevBtn" disabled aria-label="Previous page">Previous</button>
+            <button id="nextBtn" aria-label="Next page">Next</button>
+        </nav>
+    </main>
+    <footer>
+        <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
+    </footer>
     <script>
         // Constants
         const POSTS_PER_PAGE = 10;
         const posts = [
-           { title: "퓨처셀프 - 벤자민하디", link: "/Book/futureself.html" },
-           { title: "수학의 진짜 재미 - 이창후", link: "/Book/realfunmath.html" },
-           { title: "데이터는 예측하지 않는다. - 김송규", link: "/Book/datanoprediction.html" },
-           { title: "유혹하는 글쓰기 - 스티븐 킹", link: "/Book/writing.html" },
-           { title: "일의 격 - 신수정", link: "/Book/work.html" },
+           { title: "퓨처셀프 - 벤자민하디", link: "Book/futureself.html" },
+           { title: "수학의 진짜 재미 - 이창후", link: "Book/realfunmath.html" },
+           { title: "데이터는 예측하지 않는다. - 김송규", link: "Book/datanoprediction.html" },
+           { title: "유혹하는 글쓰기 - 스티븐 킹", link: "Book/writing.html" },
+           { title: "일의 격 - 신수정", link: "Book/work.html" },
            { title: "건너가는 자 - 최진석", link: "Book/choijinsuk.html" },
-           { title: "창조적 행위: 존재의 방식 - 릭루빈", link: "/Book/creator.html" },
-           { title: "도파민네이션 - 에나 램키", link: "/Book/dopaminenation.html" },           
-           { title: "내면소통 - 김주환", link: "/Book/mindcommunication.html" },
-           { title: "내가 틀릴 수도 있습니다. - 비욘 나티코 린데블라드", link: "/Book/Icanbewrong.html" }
+           { title: "창조적 행위: 존재의 방식 - 릭루빈", link: "Book/creator.html" },
+           { title: "도파민네이션 - 에나 램키", link: "Book/dopaminenation.html" },           
+           { title: "내면소통 - 김주환", link: "Book/mindcommunication.html" },
+           { title: "내가 틀릴 수도 있습니다. - 비욘 나티코 린데블라드", link: "Book/Icanbewrong.html" }
         ];
 
         // State management
@@ -248,34 +105,33 @@
             const paginatedPosts = posts.slice(start, end);
 
             paginatedPosts.forEach(post => {
-                fragment.appendChild(createPostElement(post));
+                const postElement = createPostElement(post);
+                fragment.appendChild(postElement);
             });
 
-            postList.innerHTML = "";
+            postList.innerHTML = '';
             postList.appendChild(fragment);
 
-            // Update button states
+            // Update pagination buttons
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = end >= posts.length;
         }
 
-        // Event listeners with debouncing
-        const handlePrevClick = debounce(() => {
+        // Event listeners
+        prevBtn.addEventListener('click', () => {
             if (currentPage > 1) {
                 currentPage--;
                 displayPosts();
             }
-        }, 300);
+        });
 
-        const handleNextClick = debounce(() => {
-            if (currentPage * POSTS_PER_PAGE < posts.length) {
+        nextBtn.addEventListener('click', () => {
+            const maxPage = Math.ceil(posts.length / POSTS_PER_PAGE);
+            if (currentPage < maxPage) {
                 currentPage++;
                 displayPosts();
             }
-        }, 300);
-
-        prevBtn.addEventListener("click", handlePrevClick);
-        nextBtn.addEventListener("click", handleNextClick);
+        });
 
         // Initial display
         displayPosts();

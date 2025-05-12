@@ -1,0 +1,203 @@
+:root {
+    --background-color: #1e1e1e;
+    --card-background: #2d2d2d;
+    --text-color: #ffffff;
+    --accent-color: #4a9eff;
+    --hover-color: #357abd;
+    --card-hover-color: #3d3d3d;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --card-hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --card-border-radius: 12px;
+    --card-padding: 20px;
+    --card-spacing: 30px;
+    --card-transition: all 0.3s ease;
+    --card-scale: 1.02;
+    --card-opacity: 0.9;
+    --card-blur: 2px;
+    --card-brightness: 0.9;
+    --card-saturate: 1.1;
+    --card-hue-rotate: 5deg;
+    --card-contrast: 1.1;
+    --card-sepia: 0.1;
+    --card-invert: 0.05;
+    --card-grayscale: 0.1;
+    --card-blend-mode: overlay;
+    --card-mix-blend-mode: multiply;
+    --card-backdrop-filter: blur(5px);
+    --card-backdrop-brightness: 0.9;
+    --card-backdrop-contrast: 1.1;
+    --card-backdrop-saturate: 1.1;
+    --card-backdrop-sepia: 0.1;
+    --card-backdrop-invert: 0.05;
+    --card-backdrop-grayscale: 0.1;
+    --card-backdrop-blend-mode: overlay;
+    --card-backdrop-mix-blend-mode: multiply;
+    --card-backdrop-opacity: 0.9;
+    --card-backdrop-filter-transition: all 0.3s ease;
+    --card-backdrop-filter-hover: blur(8px);
+    --card-backdrop-filter-hover-brightness: 0.95;
+    --card-backdrop-filter-hover-contrast: 1.15;
+    --card-backdrop-filter-hover-saturate: 1.15;
+    --card-backdrop-filter-hover-sepia: 0.15;
+    --card-backdrop-filter-hover-invert: 0.1;
+    --card-backdrop-filter-hover-grayscale: 0.15;
+    --card-backdrop-filter-hover-blend-mode: overlay;
+    --card-backdrop-filter-hover-mix-blend-mode: multiply;
+    --card-backdrop-filter-hover-opacity: 0.95;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #4a9eff 0%, #357abd 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header p {
+    font-size: 1.2rem;
+    color: #a0a0a0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--card-spacing);
+    flex: 1;
+}
+
+.card {
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    transition: var(--card-transition);
+    position: relative;
+    aspect-ratio: 3/2;
+    box-shadow: var(--card-shadow);
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(var(--card-scale));
+    box-shadow: var(--card-hover-shadow);
+    background: var(--card-hover-color);
+}
+
+.card a {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: var(--text-color);
+    position: relative;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--card-transition);
+}
+
+.card:hover img {
+    filter: brightness(var(--card-brightness)) 
+            saturate(var(--card-saturate)) 
+            hue-rotate(var(--card-hue-rotate)) 
+            contrast(var(--card-contrast)) 
+            sepia(var(--card-sepia)) 
+            invert(var(--card-invert)) 
+            grayscale(var(--card-grayscale));
+    mix-blend-mode: var(--card-blend-mode);
+}
+
+.card span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: var(--card-transition);
+}
+
+.card:hover span {
+    transform: translateY(-5px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    margin-top: 2rem;
+}
+
+footer p {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    .container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .card {
+        aspect-ratio: 16/9;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 1.5rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .card span {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+} 
