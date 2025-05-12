@@ -3,38 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Readmuch's Blog - Exploring the intersection of knowledge and creativity">
-    <meta name="keywords" content="blog, reading, education, technology, life, mind notes">
+    <meta name="description" content="Readmuch's Blog - 지식과 창의성의 교차점을 탐구하는 블로그">
+    <meta name="keywords" content="블로그, 독서, 교육, 기술, 삶, 마음노트">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="color-scheme" content="dark">
     <title>Readmuch's Blog</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="images/book.jpg" as="image">
+    <link rel="preload" href="images/education.jpg" as="image">
+    <link rel="preload" href="images/life.jpg" as="image">
+    <link rel="preload" href="images/tech.jpg" as="image">
+    <link rel="preload" href="images/mindnotes.jpg" as="image">
+    
+    <!-- Font loading -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        /* Base styles */
+        /* CSS Custom Properties */
         :root {
+            /* Colors */
             --bg-color: #1e1e1e;
             --card-bg: #252526;
             --text-color: #ffffff;
             --accent-color: #007acc;
             --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-start: #007acc;
+            --gradient-end: #4ec9b0;
+            
+            /* Dimensions */
             --card-width: 300px;
             --card-height: 220px;
-            --card-aspect-ratio: 16/9;
+            --container-max-width: 1200px;
+            --header-height: 200px;
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            
+            /* Typography */
+            --font-size-base: 1rem;
+            --font-size-lg: 1.2rem;
+            --font-size-xl: 1.5rem;
+            --font-size-2xl: 2rem;
+            --font-size-3xl: 2.5rem;
+            
+            /* Effects */
+            --transition-speed: 0.3s;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
-        * {
+        /* Reset & Base Styles */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
             min-height: 100vh;
             position: relative;
+            overflow-x: hidden;
         }
 
+        /* Background Effects */
         body::before {
             content: '';
             position: fixed;
@@ -49,53 +93,64 @@
             z-index: 0;
         }
 
+        /* Header Styles */
         header {
             background: linear-gradient(to bottom, rgba(37, 37, 38, 0.8), transparent);
             color: var(--text-color);
-            padding: 2rem 0;
+            padding: var(--spacing-lg) 0;
             text-align: center;
             position: relative;
             z-index: 1;
+            min-height: var(--header-height);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         header h1 {
-            font-size: 2.5rem;
+            font-size: var(--font-size-3xl);
             font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--accent-color), #4ec9b0);
+            margin-bottom: var(--spacing-sm);
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-fill-color: transparent;
         }
 
         header p {
-            font-size: 1.2rem;
+            font-size: var(--font-size-lg);
             opacity: 0.8;
         }
 
+        /* Container & Grid */
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            max-width: var(--container-max-width);
+            margin: var(--spacing-lg) auto;
+            padding: 0 var(--spacing-sm);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(var(--card-width), 1fr));
-            gap: 2rem;
+            gap: var(--spacing-lg);
             position: relative;
             z-index: 1;
         }
 
+        /* Card Styles */
         .card {
             position: relative;
             width: 100%;
             height: var(--card-height);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-speed) ease,
+                        box-shadow var(--transition-speed) ease;
+            background-color: var(--card-bg);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-md);
         }
 
         .card a {
@@ -106,11 +161,11 @@
             text-decoration: none;
             color: var(--text-color);
             font-weight: 600;
-            font-size: 1.5rem;
-            padding: 1rem;
+            font-size: var(--font-size-xl);
+            padding: var(--spacing-sm);
             display: flex;
             align-items: flex-end;
-            transition: transform 0.3s ease;
+            transition: transform var(--transition-speed) ease;
         }
 
         .card img {
@@ -143,7 +198,12 @@
             transform: scale(1.05);
         }
 
-        /* Animation */
+        .card a:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -159,19 +219,30 @@
             animation: fadeIn 0.6s ease-out forwards;
         }
 
-        /* Responsive design */
+        /* Responsive Design */
         @media (max-width: 768px) {
+            :root {
+                --card-height: 180px;
+                --font-size-3xl: 2rem;
+                --font-size-xl: 1.2rem;
+            }
+
             .container {
                 grid-template-columns: 1fr;
-                padding: 1rem;
+                padding: var(--spacing-sm);
             }
 
-            header h1 {
-                font-size: 2rem;
+            header {
+                min-height: 150px;
             }
+        }
 
-            .card {
-                height: 200px;
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
             }
         }
     </style>
@@ -179,59 +250,39 @@
 <body>
     <header>
         <h1>Readmuch's Blog</h1>
-        <p>Exploring the intersection of knowledge and creativity</p>
+        <p>지식과 창의성의 교차점을 탐구하는 블로그</p>
     </header>
-    <div class="container">
-        <div class="card">
-            <a href="book.html">
-                <img src="images/book.jpg" alt="Book Category" loading="lazy">
+    <main class="container" role="main">
+        <article class="card">
+            <a href="book.html" aria-label="Book Category">
+                <img src="images/book.jpg" alt="Book Category" loading="lazy" width="300" height="220" decoding="async">
                 <span>Book</span>
             </a>
-        </div>
-        <div class="card">
-            <a href="education.html">
-                <img src="images/education.jpg" alt="Education Category" loading="lazy">
+        </article>
+        <article class="card">
+            <a href="education.html" aria-label="Education Category">
+                <img src="images/education.jpg" alt="Education Category" loading="lazy" width="300" height="220" decoding="async">
                 <span>Education</span>
             </a>
-        </div>
-        <div class="card">
-            <a href="life.html">
-                <img src="images/life.jpg" alt="Life Category" loading="lazy">
+        </article>
+        <article class="card">
+            <a href="life.html" aria-label="Life Category">
+                <img src="images/life.jpg" alt="Life Category" loading="lazy" width="300" height="220" decoding="async">
                 <span>Life</span>
             </a>
-        </div>
-        <div class="card">
-            <a href="tech.html">
-                <img src="images/tech.jpg" alt="Tech Category" loading="lazy">
+        </article>
+        <article class="card">
+            <a href="tech.html" aria-label="Tech Category">
+                <img src="images/tech.jpg" alt="Tech Category" loading="lazy" width="300" height="220" decoding="async">
                 <span>Tech</span>
             </a>
-        </div>
-        <div class="card">
-            <a href="mindnotes.html">
-                <img src="images/mindnotes.jpg" alt="Mind Notes Category" loading="lazy">
+        </article>
+        <article class="card">
+            <a href="mindnotes.html" aria-label="Mind Notes Category">
+                <img src="images/mindnotes.jpg" alt="Mind Notes Category" loading="lazy" width="300" height="220" decoding="async">
                 <span>Mind Notes</span>
             </a>
-        </div>
-    </div>
-    <script>
-        // Lazy loading implementation
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.card a');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.style.backgroundImage = img.style.backgroundImage;
-                        observer.unobserve(img);
-                    }
-                });
-            }, {
-                rootMargin: '50px 0px',
-                threshold: 0.1
-            });
-
-            cards.forEach(card => observer.observe(card));
-        });
-    </script>
+        </article>
+    </main>
 </body>
 </html>
