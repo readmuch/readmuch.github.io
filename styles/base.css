@@ -17,10 +17,13 @@
     --card-border-radius: 12px;
     --card-padding: 20px;
     --card-spacing: 30px;
+    --container-padding: 1rem;
+    --header-padding: 2rem 1rem;
     
     /* Transitions */
     --card-transition: all 0.3s ease;
     --card-scale: 1.02;
+    --card-hover-lift: -5px;
     
     /* Typography */
     --font-family: 'Space Grotesk', sans-serif;
@@ -28,6 +31,103 @@
     --font-size-large: 1.2rem;
     --font-size-xl: 2.5rem;
     --line-height: 1.6;
+    
+    /* Grid */
+    --grid-columns: repeat(auto-fit, minmax(280px, 1fr));
+    --grid-gap: 30px;
+}
+
+/* Responsive CSS Variables */
+@media (min-width: 1200px) {
+    :root {
+        --card-spacing: 2rem;
+        --container-padding: 2rem;
+        --header-padding: 3rem 2rem;
+        --font-size-xl: 3rem;
+        --font-size-large: 1.3rem;
+        --grid-columns: repeat(4, 1fr);
+        --grid-gap: 2rem;
+        --card-hover-lift: -8px;
+        --card-scale: 1.03;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    :root {
+        --card-spacing: 1.8rem;
+        --font-size-xl: 2.8rem;
+        --grid-columns: repeat(3, 1fr);
+        --grid-gap: 1.8rem;
+        --card-hover-lift: -6px;
+        --card-scale: 1.02;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    :root {
+        --card-spacing: 1.5rem;
+        --container-padding: 1.5rem;
+        --header-padding: 2.5rem 1.5rem;
+        --font-size-xl: 2.5rem;
+        --font-size-large: 1.1rem;
+        --grid-columns: repeat(2, 1fr);
+        --grid-gap: 1.5rem;
+        --card-hover-lift: -6px;
+        --card-scale: 1.02;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 767px) {
+    :root {
+        --card-spacing: 1.2rem;
+        --font-size-xl: 2.2rem;
+        --grid-columns: repeat(2, 1fr);
+        --grid-gap: 1.2rem;
+        --card-hover-lift: -3px;
+        --card-scale: 1.01;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 599px) {
+    :root {
+        --card-spacing: 1rem;
+        --container-padding: 0.8rem;
+        --header-padding: 1.8rem 0.8rem;
+        --font-size-xl: 2rem;
+        --font-size-large: 0.95rem;
+        --grid-columns: 1fr;
+        --grid-gap: 1rem;
+        --card-hover-lift: -3px;
+        --card-scale: 1.01;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 479px) {
+    :root {
+        --card-spacing: 0.8rem;
+        --container-padding: 0.5rem;
+        --header-padding: 1.5rem 0.5rem;
+        --font-size-xl: 1.8rem;
+        --font-size-large: 0.9rem;
+        --grid-columns: 1fr;
+        --grid-gap: 0.8rem;
+        --card-hover-lift: -3px;
+        --card-scale: 1.01;
+    }
+}
+
+@media (max-width: 319px) {
+    :root {
+        --card-spacing: 0.6rem;
+        --container-padding: 0.3rem;
+        --header-padding: 1.2rem 0.3rem;
+        --font-size-xl: 1.6rem;
+        --font-size-large: 0.85rem;
+        --grid-columns: 1fr;
+        --grid-gap: 0.6rem;
+        --card-hover-lift: -2px;
+        --card-scale: 1.005;
+    }
 }
 
 /* Reset and Base Styles */
@@ -45,6 +145,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    font-size: var(--font-size-base);
 }
 
 /* Typography */
@@ -71,7 +172,11 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 var(--container-padding);
+    display: grid;
+    grid-template-columns: var(--grid-columns);
+    gap: var(--grid-gap);
+    flex: 1;
 }
 
 .text-center {
@@ -80,4 +185,22 @@ a:hover {
 
 .muted {
     color: var(--muted-text);
+}
+
+/* Focus styles for accessibility */
+a:focus,
+button:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+::-moz-selection {
+    background-color: var(--accent-color);
+    color: white;
 }

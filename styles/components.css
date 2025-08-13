@@ -1,7 +1,7 @@
 /* Header Component */
 header {
     text-align: center;
-    padding: 2rem 1rem;
+    padding: var(--header-padding);
     background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
     margin-bottom: 2rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -48,10 +48,11 @@ header a:hover {
     position: relative;
     aspect-ratio: 3/2;
     box-shadow: var(--card-shadow);
+    min-height: 200px;
 }
 
 .card:hover {
-    transform: translateY(-5px) scale(var(--card-scale));
+    transform: translateY(var(--card-hover-lift)) scale(var(--card-scale));
     box-shadow: var(--card-hover-shadow);
     background: var(--card-hover-color);
 }
@@ -154,6 +155,7 @@ footer p {
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    min-width: 100px;
 }
 
 .pagination button:hover:not(:disabled) {
@@ -163,4 +165,99 @@ footer p {
 .pagination button:disabled {
     background: var(--muted-text);
     cursor: not-allowed;
+}
+
+/* Responsive adjustments for components */
+
+/* Large screens - enhance hover effects */
+@media (min-width: 1200px) {
+    .card span {
+        padding: 1.2rem;
+        font-size: 1.3rem;
+    }
+    
+    .post-list li {
+        padding: 1.2rem;
+    }
+    
+    .pagination button {
+        padding: 0.7rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Medium screens - moderate hover effects */
+@media (min-width: 768px) and (max-width: 1199px) {
+    .card span {
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+}
+
+/* Small screens - subtle hover effects */
+@media (max-width: 767px) {
+    .card span {
+        padding: 0.8rem;
+        font-size: 1rem;
+    }
+    
+    .post-list li:hover {
+        transform: translateX(3px);
+    }
+    
+    .pagination {
+        gap: 0.8rem;
+    }
+    
+    .pagination button {
+        padding: 0.6rem 1rem;
+        min-width: 90px;
+    }
+}
+
+/* Touch devices - reduce hover effects */
+@media (hover: none) and (pointer: coarse) {
+    .card:hover {
+        transform: none;
+    }
+    
+    .card:hover img {
+        filter: none;
+    }
+    
+    .card:hover span {
+        transform: none;
+    }
+    
+    .post-list li:hover {
+        transform: none;
+    }
+    
+    /* Add active states for touch */
+    .card:active {
+        transform: scale(0.98);
+    }
+    
+    .post-list li:active {
+        background: var(--hover-color);
+    }
+    
+    .pagination button:active {
+        transform: scale(0.95);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .card {
+        border: 2px solid var(--accent-color);
+    }
+    
+    .card span {
+        background: rgba(0, 0, 0, 0.9);
+    }
+    
+    .post-list li {
+        border: 1px solid var(--accent-color);
+    }
 }
