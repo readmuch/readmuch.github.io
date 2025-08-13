@@ -1,6 +1,6 @@
 /**
  * Enhanced Pagination Module
- * Handles post listing and pagination functionality with multiple styles
+ * Handles post listing and pagination functionality with responsive numbered style
  */
 class Pagination {
     constructor(containerId, posts, postsPerPage = 10, options = {}) {
@@ -10,22 +10,49 @@ class Pagination {
         this.currentPage = 1;
         this.totalPages = Math.ceil(this.posts.length / this.postsPerPage);
         
-        // Pagination options
+        // Pagination options with responsive defaults
         this.options = {
-            style: options.style || 'simple', // 'simple', 'numbered', 'compact'
-            showPageInfo: options.showPageInfo !== false,
-            showPageNumbers: options.showPageNumbers !== false,
-            maxPageNumbers: options.maxPageNumbers || 5,
+            style: 'numbered',
+            showPageInfo: true,
+            showPageNumbers: true,
+            maxPageNumbers: this.getResponsiveMaxPageNumbers(),
             ...options
         };
         
         this.init();
     }
 
+    getResponsiveMaxPageNumbers() {
+        const width = window.innerWidth;
+        if (width >= 1200) return 5;      // Desktop
+        if (width >= 768) return 4;       // Tablet
+        if (width >= 480) return 3;       // Mobile large
+        return 2;                         // Mobile small
+    }
+
     init() {
         this.renderPosts();
         this.renderPagination();
         this.updatePaginationButtons();
+        
+        // Listen for window resize to adjust pagination
+        window.addEventListener('resize', this.debounce(() => {
+            this.options.maxPageNumbers = this.getResponsiveMaxPageNumbers();
+            this.renderPagination();
+            this.updatePaginationButtons();
+        }, 250));
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 
     renderPosts() {
@@ -52,36 +79,8 @@ class Pagination {
         // Clear existing content
         paginationContainer.innerHTML = '';
 
-        switch (this.options.style) {
-            case 'numbered':
-                this.renderNumberedPagination(paginationContainer);
-                break;
-            case 'compact':
-                this.renderCompactPagination(paginationContainer);
-                break;
-            default:
-                this.renderSimplePagination(paginationContainer);
-        }
-    }
-
-    renderSimplePagination(container) {
-        // Previous button
-        const prevBtn = this.createButton('Previous', () => this.previousPage());
-        prevBtn.id = 'prevBtn';
-        container.appendChild(prevBtn);
-
-        // Page info (optional)
-        if (this.options.showPageInfo) {
-            const pageInfo = document.createElement('span');
-            pageInfo.className = 'page-info';
-            pageInfo.textContent = `Page ${this.currentPage} of ${this.totalPages}`;
-            container.appendChild(pageInfo);
-        }
-
-        // Next button
-        const nextBtn = this.createButton('Next', () => this.nextPage());
-        nextBtn.id = 'nextBtn';
-        container.appendChild(nextBtn);
+        // Always use numbered style with responsive adjustments
+        this.renderNumberedPagination(paginationContainer);
     }
 
     renderNumberedPagination(container) {
@@ -89,6 +88,7 @@ class Pagination {
         const prevBtn = this.createButton('←', () => this.previousPage());
         prevBtn.id = 'prevBtn';
         prevBtn.className = 'pagination-btn prev-btn';
+        prevBtn.setAttribute('aria-label', 'Previous page');
         container.appendChild(prevBtn);
 
         // Page numbers
@@ -101,26 +101,7 @@ class Pagination {
         const nextBtn = this.createButton('→', () => this.nextPage());
         nextBtn.id = 'nextBtn';
         nextBtn.className = 'pagination-btn next-btn';
-        container.appendChild(nextBtn);
-    }
-
-    renderCompactPagination(container) {
-        // Previous button
-        const prevBtn = this.createButton('‹', () => this.previousPage());
-        prevBtn.id = 'prevBtn';
-        prevBtn.className = 'pagination-btn compact';
-        container.appendChild(prevBtn);
-
-        // Page indicator
-        const pageIndicator = document.createElement('span');
-        pageIndicator.className = 'page-indicator';
-        pageIndicator.textContent = `${this.currentPage}/${this.totalPages}`;
-        container.appendChild(pageIndicator);
-
-        // Next button
-        const nextBtn = this.createButton('›', () => this.nextPage());
-        nextBtn.id = 'nextBtn';
-        nextBtn.className = 'pagination-btn compact';
+        nextBtn.setAttribute('aria-label', 'Next page');
         container.appendChild(nextBtn);
     }
 
@@ -128,10 +109,30 @@ class Pagination {
         const pageNumbersContainer = document.createElement('div');
         pageNumbersContainer.className = 'page-numbers';
 
-        const startPage = Math.max(1, this.currentPage - Math.floor(this.options.maxPageNumbers / 2));
-        const endPage = Math.min(this.totalPages, startPage + this.options.maxPageNumbers - 1);
+        const maxPageNumbers = this.options.maxPageNumbers;
+        const totalPages = this.totalPages;
+        const currentPage = this.currentPage;
 
-        // First page
+        // Calculate which page numbers to show
+        let startPage, endPage;
+
+        if (totalPages <= maxPageNumbers) {
+            // Show all pages if total is less than or equal to max
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            // Calculate range around current page
+            const halfMax = Math.floor(maxPageNumbers / 2);
+            startPage = Math.max(1, currentPage - halfMax);
+            endPage = Math.min(totalPages, startPage + maxPageNumbers - 1);
+
+            // Adjust if we're near the end
+            if (endPage - startPage + 1 < maxPageNumbers) {
+                startPage = Math.max(1, endPage - maxPageNumbers + 1);
+            }
+        }
+
+        // First page and ellipsis
         if (startPage > 1) {
             const firstBtn = this.createPageButton(1);
             pageNumbersContainer.appendChild(firstBtn);
@@ -139,6 +140,7 @@ class Pagination {
                 const ellipsis = document.createElement('span');
                 ellipsis.className = 'page-ellipsis';
                 ellipsis.textContent = '...';
+                ellipsis.setAttribute('aria-hidden', 'true');
                 pageNumbersContainer.appendChild(ellipsis);
             }
         }
@@ -146,21 +148,23 @@ class Pagination {
         // Page numbers
         for (let i = startPage; i <= endPage; i++) {
             const pageBtn = this.createPageButton(i);
-            if (i === this.currentPage) {
+            if (i === currentPage) {
                 pageBtn.classList.add('active');
+                pageBtn.setAttribute('aria-current', 'page');
             }
             pageNumbersContainer.appendChild(pageBtn);
         }
 
-        // Last page
-        if (endPage < this.totalPages) {
-            if (endPage < this.totalPages - 1) {
+        // Last page and ellipsis
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
                 const ellipsis = document.createElement('span');
                 ellipsis.className = 'page-ellipsis';
                 ellipsis.textContent = '...';
+                ellipsis.setAttribute('aria-hidden', 'true');
                 pageNumbersContainer.appendChild(ellipsis);
             }
-            const lastBtn = this.createPageButton(this.totalPages);
+            const lastBtn = this.createPageButton(totalPages);
             pageNumbersContainer.appendChild(lastBtn);
         }
 
@@ -171,6 +175,7 @@ class Pagination {
         const button = document.createElement('button');
         button.className = 'page-number-btn';
         button.textContent = pageNumber;
+        button.setAttribute('aria-label', `Page ${pageNumber}`);
         button.addEventListener('click', () => this.goToPage(pageNumber));
         return button;
     }
@@ -197,22 +202,12 @@ class Pagination {
         const activeBtn = document.querySelector('.page-number-btn.active');
         if (activeBtn) {
             activeBtn.classList.remove('active');
+            activeBtn.removeAttribute('aria-current');
         }
-        const currentPageBtn = document.querySelector(`.page-number-btn[data-page="${this.currentPage}"]`);
+        const currentPageBtn = document.querySelector(`.page-number-btn[aria-label="Page ${this.currentPage}"]`);
         if (currentPageBtn) {
             currentPageBtn.classList.add('active');
-        }
-
-        // Update page indicator
-        const pageIndicator = document.querySelector('.page-indicator');
-        if (pageIndicator) {
-            pageIndicator.textContent = `${this.currentPage}/${this.totalPages}`;
-        }
-
-        // Update page info
-        const pageInfo = document.querySelector('.page-info');
-        if (pageInfo) {
-            pageInfo.textContent = `Page ${this.currentPage} of ${this.totalPages}`;
+            currentPageBtn.setAttribute('aria-current', 'page');
         }
     }
 
@@ -221,6 +216,7 @@ class Pagination {
             this.currentPage--;
             this.renderPosts();
             this.updatePaginationButtons();
+            this.scrollToTop();
         }
     }
 
@@ -229,6 +225,7 @@ class Pagination {
             this.currentPage++;
             this.renderPosts();
             this.updatePaginationButtons();
+            this.scrollToTop();
         }
     }
 
@@ -237,12 +234,22 @@ class Pagination {
             this.currentPage = page;
             this.renderPosts();
             this.updatePaginationButtons();
+            this.scrollToTop();
         }
     }
 
-    // Method to change pagination style dynamically
+    scrollToTop() {
+        // Smooth scroll to top of the post list
+        const container = this.container.closest('.category-container') || this.container.closest('main');
+        if (container) {
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Method to change pagination style dynamically (kept for compatibility)
     changeStyle(newStyle) {
-        this.options.style = newStyle;
+        // Always use numbered style for consistency
+        this.options.style = 'numbered';
         this.renderPagination();
         this.updatePaginationButtons();
     }

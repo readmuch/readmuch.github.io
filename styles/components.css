@@ -139,7 +139,7 @@ footer p {
     text-decoration: none;
 }
 
-/* Enhanced Pagination Styles */
+/* Enhanced Pagination Styles - Numbered Only */
 
 /* Base pagination container */
 .pagination {
@@ -152,7 +152,7 @@ footer p {
     flex-wrap: wrap;
 }
 
-/* Basic pagination buttons */
+/* Navigation buttons (Previous/Next) */
 .pagination button {
     padding: 0.5rem 1rem;
     background: var(--accent-color);
@@ -161,9 +161,12 @@ footer p {
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
-    min-width: 100px;
-    font-size: 0.9rem;
+    min-width: 50px;
+    font-size: 1rem;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .pagination button:hover:not(:disabled) {
@@ -177,24 +180,20 @@ footer p {
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
+    opacity: 0.6;
 }
 
-/* Page info text */
-.page-info {
-    color: var(--muted-text);
-    font-size: 0.9rem;
-    margin: 0 1rem;
-    white-space: nowrap;
-}
-
-/* Numbered pagination styles */
+/* Page numbers container */
 .page-numbers {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     margin: 0 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
+/* Individual page number buttons */
 .page-number-btn {
     padding: 0.4rem 0.8rem;
     background: var(--card-background);
@@ -205,12 +204,17 @@ footer p {
     transition: all 0.3s ease;
     min-width: 40px;
     font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .page-number-btn:hover {
     background: var(--accent-color);
     color: white;
     border-color: var(--accent-color);
+    transform: translateY(-1px);
 }
 
 .page-number-btn.active {
@@ -218,30 +222,19 @@ footer p {
     color: white;
     border-color: var(--accent-color);
     font-weight: 600;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Ellipsis for truncated page numbers */
 .page-ellipsis {
     color: var(--muted-text);
     font-size: 0.9rem;
     padding: 0 0.5rem;
-}
-
-/* Compact pagination */
-.pagination-btn.compact {
-    min-width: 50px;
-    padding: 0.5rem;
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.page-indicator {
-    color: var(--muted-text);
-    font-size: 0.9rem;
-    margin: 0 1rem;
     font-weight: 500;
 }
 
-/* Responsive pagination adjustments */
+/* Responsive adjustments */
 @media (min-width: 1200px) {
     .pagination {
         gap: 1.5rem;
@@ -249,19 +242,25 @@ footer p {
     }
     
     .pagination button {
-        padding: 0.8rem 1.5rem;
-        min-width: 120px;
-        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+        min-width: 60px;
+        font-size: 1.1rem;
+    }
+    
+    .page-numbers {
+        gap: 0.8rem;
+        margin: 0 1.5rem;
     }
     
     .page-number-btn {
-        padding: 0.5rem 1rem;
-        min-width: 45px;
+        padding: 0.6rem 1rem;
+        min-width: 50px;
         font-size: 1rem;
     }
     
-    .page-info, .page-indicator {
+    .page-ellipsis {
         font-size: 1rem;
+        padding: 0 0.8rem;
     }
 }
 
@@ -272,14 +271,20 @@ footer p {
     }
     
     .pagination button {
-        padding: 0.7rem 1.3rem;
-        min-width: 110px;
-        font-size: 0.95rem;
+        padding: 0.7rem 1rem;
+        min-width: 55px;
+        font-size: 1rem;
+    }
+    
+    .page-numbers {
+        gap: 0.6rem;
+        margin: 0 1.2rem;
     }
     
     .page-number-btn {
-        padding: 0.4rem 0.9rem;
-        min-width: 42px;
+        padding: 0.5rem 0.9rem;
+        min-width: 45px;
+        font-size: 0.95rem;
     }
 }
 
@@ -287,30 +292,28 @@ footer p {
     .pagination {
         gap: 0.8rem;
         margin-top: 2rem;
-        flex-direction: row;
-        justify-content: center;
     }
     
     .pagination button {
-        padding: 0.6rem 1rem;
-        min-width: 90px;
-        font-size: 0.9rem;
+        padding: 0.6rem 0.9rem;
+        min-width: 50px;
+        font-size: 0.95rem;
     }
     
     .page-numbers {
-        gap: 0.3rem;
-        margin: 0 0.5rem;
+        gap: 0.4rem;
+        margin: 0 0.8rem;
     }
     
     .page-number-btn {
-        padding: 0.3rem 0.6rem;
-        min-width: 35px;
-        font-size: 0.8rem;
+        padding: 0.4rem 0.7rem;
+        min-width: 38px;
+        font-size: 0.85rem;
     }
     
-    .page-info, .page-indicator {
-        font-size: 0.8rem;
-        margin: 0 0.5rem;
+    .page-ellipsis {
+        font-size: 0.85rem;
+        padding: 0 0.4rem;
     }
 }
 
@@ -318,7 +321,7 @@ footer p {
     .pagination {
         flex-direction: column;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.8rem;
     }
     
     .pagination button {
@@ -330,11 +333,13 @@ footer p {
     .page-numbers {
         order: -1;
         margin: 0.5rem 0;
+        gap: 0.3rem;
     }
     
-    .page-info, .page-indicator {
-        order: -1;
-        margin: 0.5rem 0;
+    .page-number-btn {
+        padding: 0.5rem 0.8rem;
+        min-width: 35px;
+        font-size: 0.8rem;
     }
 }
 
@@ -353,12 +358,14 @@ footer p {
         background: var(--card-background);
         color: var(--text-color);
         border-color: var(--muted-text);
+        transform: none;
     }
     
     .page-number-btn:active {
         background: var(--accent-color);
         color: white;
         border-color: var(--accent-color);
+        transform: scale(0.95);
     }
 }
 
@@ -374,6 +381,26 @@ footer p {
     
     .page-number-btn.active {
         border-width: 3px;
+    }
+}
+
+/* Focus styles for accessibility */
+.pagination button:focus,
+.page-number-btn:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .pagination button,
+    .page-number-btn {
+        transition: none;
+    }
+    
+    .pagination button:hover,
+    .page-number-btn:hover {
+        transform: none;
     }
 }
 

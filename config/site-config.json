@@ -20,16 +20,19 @@
     "maxPageNumbers": 5,
     "responsive": {
       "mobile": {
-        "style": "compact",
-        "showPageNumbers": false
+        "style": "numbered",
+        "showPageNumbers": true,
+        "maxPageNumbers": 3
       },
       "tablet": {
-        "style": "simple",
-        "showPageInfo": true
+        "style": "numbered",
+        "showPageNumbers": true,
+        "maxPageNumbers": 4
       },
       "desktop": {
         "style": "numbered",
-        "showPageNumbers": true
+        "showPageNumbers": true,
+        "maxPageNumbers": 5
       }
     }
   },
