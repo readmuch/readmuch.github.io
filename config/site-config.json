@@ -58,8 +58,8 @@
         { "title": "공감은 지능이다 - 자밀자키", "link": "Book/TheWarforKindness.html" },
         { "title": "듀얼브레인 - 이선몰릭", "link": "Book/dualbrain.html" },
         { "title": "고전이 답했다 마땅히 살아야 할 삶에 대하여 - 고명환", "link": "Book/gojun.html" },
-        { "title": "미술 - 아트", "link": "Book/art.html" },
-        { "title": "고전이 답했다 2 - 고명환", "link": "Book/gojun2.html" }
+        { "title": "뇌가 힘들 땐 미술관에 가는 게 좋다. - 수전 매그새먼", "link": "Book/art.html" },
+        { "title": "고전이 답했다 마땅히 가져야 할 부에 대하여 - 고명환", "link": "Book/gojun2.html" }
       ]
     },
     {
@@ -69,7 +69,12 @@
       "image": "images/education.jpg",
       "alt": "Education Category - Insights and resources about learning and teaching",
       "file": "education.html",
-      "posts": []
+      "posts": [
+        { "title": "html file 내에서 MD 문서 작성하기", "link": "Education/markdowninhtml.html" },
+        { "title": "markdown 파일을 html 문서내에서 패치하기", "link": "Education/MDfetchinhtml.html" },
+        { "title": "가무한과 실무한", "link": "Education/infinity.html" },
+        { "title": "복권에 두번 당첨될 확률", "link": "Education/lottery.html" }
+      ]
     },
     {
       "id": "life",
@@ -78,7 +83,16 @@
       "image": "images/life.jpg",
       "alt": "Lifestyle Category - Personal experiences and life lessons",
       "file": "life.html",
-      "posts": []
+      "posts": [
+        { "title": "토마토 계란 볶음", "link": "Life/EasyTastyHealthyRecipes.html" },
+        { "title": "시원한 무국", "link": "Life/mookook.html" },
+        { "title": "멸치볶음", "link": "Life/myeolchi.html" },
+        { "title": "카레", "link": "Life/care.html" },
+        { "title": "순두부국", "link": "Life/soondooboo.html" },
+        { "title": "시금치나물", "link": "Life/sigmchi.html" },
+        { "title": "숙주나물", "link": "Life/sukjoo.html" },
+        { "title": "미역국", "link": "Life/miyuk.html" }
+      ]
     },
     {
       "id": "tech",
@@ -87,7 +101,12 @@
       "image": "images/tech.jpg",
       "alt": "Technology Category - Technology trends and innovations",
       "file": "tech.html",
-      "posts": []
+      "posts": [
+        { "title": "허깅페이스를 활용한 이미지 생성", "link": "Tech/imagegernertion.html" },
+        { "title": "PMP등 커리어 방향", "link": "Tech/career.html" },
+        { "title": "금융 산업에서의 AI를 활용한 고객 행태 분석 및 마케팅 방법론", "link": "Tech/AIinFinance.html" },
+        { "title": "예측 모델링 - 금융 고객 행동 예측의 시작", "link": "Tech/prediction.html" }
+      ]
     },
     {
       "id": "mindnotes",
@@ -96,7 +115,13 @@
       "image": "images/mindnotes.jpg",
       "alt": "Mind Notes Category - Thoughts and reflections on various topics",
       "file": "mindnotes.html",
-      "posts": []
+      "posts": [
+        { "title": "독서모임", "link": "MindNotes/bookclub.html" },
+        { "title": "직시", "link": "MindNotes/직시.html" },
+        { "title": "책이 좋은 이유", "link": "MindNotes/책이좋은점.html" },
+        { "title": "회복탄력성", "link": "MindNotes/happiness.html" },
+        { "title": "1장. 초짜 팀장, 떨려도 괜찮아", "link": "MindNotes/leadership1.html" }
+      ]
     }
   ]
 }
