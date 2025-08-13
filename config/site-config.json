@@ -12,6 +12,27 @@
       "url": "https://readmuch.goatcounter.com"
     }
   },
+  "pagination": {
+    "postsPerPage": 10,
+    "style": "numbered",
+    "showPageInfo": true,
+    "showPageNumbers": true,
+    "maxPageNumbers": 5,
+    "responsive": {
+      "mobile": {
+        "style": "compact",
+        "showPageNumbers": false
+      },
+      "tablet": {
+        "style": "simple",
+        "showPageInfo": true
+      },
+      "desktop": {
+        "style": "numbered",
+        "showPageNumbers": true
+      }
+    }
+  },
   "categories": [
     {
       "id": "book",
@@ -72,8 +93,5 @@
       "file": "mindnotes.html",
       "posts": []
     }
-  ],
-  "pagination": {
-    "postsPerPage": 10
-  }
+  ]
 }
