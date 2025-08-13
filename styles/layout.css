@@ -1,0 +1,89 @@
+/* Layout Components */
+
+/* Main Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--card-spacing);
+    flex: 1;
+}
+
+/* Category Page Layout */
+.category-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    flex: 1;
+}
+
+.category-container h2 {
+    margin-bottom: 2rem;
+    color: var(--accent-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    .container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .card {
+        aspect-ratio: 16/9;
+    }
+    
+    .category-container {
+        padding: 0 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 1.5rem 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .card span {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+    
+    .pagination {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .pagination button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .card:hover {
+        transform: none;
+    }
+    
+    .pagination {
+        display: none;
+    }
+    
+    .visitor-counter {
+        display: none;
+    }
+}

@@ -1,0 +1,166 @@
+/* Header Component */
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: var(--font-size-xl);
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--hover-color) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header p {
+    font-size: var(--font-size-large);
+    color: var(--muted-text);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+header a {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+header a:hover {
+    background: var(--hover-color);
+    color: white;
+}
+
+/* Card Component */
+.card {
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    transition: var(--card-transition);
+    position: relative;
+    aspect-ratio: 3/2;
+    box-shadow: var(--card-shadow);
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(var(--card-scale));
+    box-shadow: var(--card-hover-shadow);
+    background: var(--card-hover-color);
+}
+
+.card a {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: var(--text-color);
+    position: relative;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--card-transition);
+}
+
+.card:hover img {
+    filter: brightness(0.9) saturate(1.1) contrast(1.1);
+}
+
+.card span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    font-size: var(--font-size-large);
+    font-weight: 500;
+    transition: var(--card-transition);
+}
+
+.card:hover span {
+    transform: translateY(-5px);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer Component */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+    margin-top: 2rem;
+}
+
+footer p {
+    color: var(--muted-text);
+    font-size: 0.9rem;
+}
+
+/* Visitor Counter */
+.visitor-counter {
+    text-align: center;
+    margin: 2em 0;
+    font-size: 0.9em;
+    color: var(--muted-text);
+}
+
+/* Post List */
+.post-list {
+    list-style: none;
+    padding: 0;
+}
+
+.post-list li {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--card-background);
+    border-radius: var(--card-border-radius);
+    transition: var(--card-transition);
+}
+
+.post-list li:hover {
+    background: var(--card-hover-color);
+    transform: translateX(5px);
+}
+
+.post-list a {
+    display: block;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.pagination button {
+    padding: 0.5rem 1rem;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background: var(--hover-color);
+}
+
+.pagination button:disabled {
+    background: var(--muted-text);
+    cursor: not-allowed;
+}

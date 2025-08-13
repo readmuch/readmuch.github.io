@@ -1,0 +1,83 @@
+/* CSS Custom Properties */
+:root {
+    /* Colors */
+    --background-color: #1e1e1e;
+    --card-background: #2d2d2d;
+    --text-color: #ffffff;
+    --accent-color: #4a9eff;
+    --hover-color: #357abd;
+    --card-hover-color: #3d3d3d;
+    --muted-text: #a0a0a0;
+    
+    /* Shadows */
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --card-hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    
+    /* Spacing */
+    --card-border-radius: 12px;
+    --card-padding: 20px;
+    --card-spacing: 30px;
+    
+    /* Transitions */
+    --card-transition: all 0.3s ease;
+    --card-scale: 1.02;
+    
+    /* Typography */
+    --font-family: 'Space Grotesk', sans-serif;
+    --font-size-base: 1rem;
+    --font-size-large: 1.2rem;
+    --font-size-xl: 2.5rem;
+    --line-height: 1.6;
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: var(--line-height);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--hover-color);
+}
+
+/* Utility Classes */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.muted {
+    color: var(--muted-text);
+}
