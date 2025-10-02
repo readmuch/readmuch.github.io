@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Life experiences and personal insights - Readmuch's Blog">
-    <meta name="keywords" content="Life, Personal Development, Lifestyle, Life Lessons">
+    <meta name="description" content="Life - Readmuch's Blog">
+    <meta name="keywords" content="Life Hacks, Daily Life, Tips, Lifestyle">
     <meta name="theme-color" content="#1e1e1e">
     <meta name="color-scheme" content="dark">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Life Category - Readmuch's Blog">
-    <meta property="og:description" content="Life experiences and personal insights">
+    <meta property="og:description" content="Life hacks and daily tips">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://readmuch.github.io/life.html">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Life Category - Readmuch's Blog">
-    <meta name="twitter:description" content="Life experiences and personal insights">
+    <meta name="twitter:description" content="Life hacks and daily tips">
     
     <title>Life Category - Readmuch's Blog</title>
     
@@ -39,13 +39,13 @@
 </head>
 <body>
     <header>
-        <h1>Lifestyle Category</h1>
+        <h1>Book Category</h1>
         <a href="index.html" aria-label="Back to Home">← Back to Home</a>
     </header>
     <main class="container" role="main">
-        <h2>Lifestyle List</h2>
+        <h2>Book List</h2>
         <ul id="postList" role="list">
-            <!-- Lifestyle items will be injected here dynamically -->
+            <!-- Book items will be injected here dynamically -->
         </ul>
         <nav class="pagination" role="navigation" aria-label="Pagination">
             <!-- Pagination will be rendered here by JavaScript -->
@@ -55,83 +55,27 @@
         <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
     </footer>
     <script>
-        // Constants
-        const POSTS_PER_PAGE = 10;
-        const posts = [
-            { title: "토마토 계란 볶음", link: "/Life/EasyTastyHealthyRecipes.html" },
-            { title: "시원한 무국", link: "/Life/mookook.html" },
-            { title: "멸치볶음", link: "/Life/myeolchi.html" },
-            { title: "카레", link: "/Life/care.html" },
-            { title: "순두부국", link: "/Life/soondooboo.html" },
-            { title: "시금치나물", link: "/Life/sigmchi.html" },
-            { title: "숙주나물", link: "/Life/sukjoo.html" },
-            { title: "미역국", link: "/Life/miyuk.html" }
-        ];
-
-
-        // State management
-        let currentPage = 1;
-
-        // DOM elements
-        const postList = document.getElementById("postList");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
-
-        // Utility functions
-        const debounce = (func, wait) => {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-        };
-
-        // Main functions
-        function createPostElement(post) {
-            const li = document.createElement("li");
-            const a = document.createElement("a");
-            a.href = post.link;
-            a.textContent = post.title;
-            li.appendChild(a);
-            return li;
-        }
-
-        function displayPosts() {
-            const fragment = document.createDocumentFragment();
-            const start = (currentPage - 1) * POSTS_PER_PAGE;
-            const end = start + POSTS_PER_PAGE;
-            const paginatedPosts = posts.slice(start, end);
-
-            paginatedPosts.forEach(post => {
-                const postElement = createPostElement(post);
-                fragment.appendChild(postElement);
-            });
-
-            postList.innerHTML = '';
-            postList.appendChild(fragment);
-
-            // Update pagination buttons
-            prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = end >= posts.length;
-        }
-
-        // Event listeners
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                displayPosts();
-            }
-        });
-
-        nextBtn.addEventListener('click', () => {
-            const maxPage = Math.ceil(posts.length / POSTS_PER_PAGE);
-            if (currentPage < maxPage) {
-                currentPage++;
-                displayPosts();
+        // Initialize the page using modular structure
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Load site configuration
+                const config = new SiteConfig();
+                await config.load();
+                
+                // Get life category data
+                const lifeCategory = config.getCategory('life');
+                
+                if (lifeCategory && lifeCategory.posts) {
+                    // Initialize pagination with data from config
+                    const paginationOptions = config.getPagination();
+                    new Pagination('postList', lifeCategory.posts, paginationOptions.postsPerPage, paginationOptions);
+                } else {
+                    console.error('life category data not found');
+                    document.getElementById('postList').innerHTML = '<p>No posts found.</p>';
+                }
+            } catch (error) {
+                console.error('Failed to initialize life page:', error);
+                document.getElementById('postList').innerHTML = '<p>Error loading posts.</p>';
             }
         });
     </script>
