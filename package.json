@@ -1,0 +1,26 @@
+{
+  "name": "readmuch-blog",
+  "version": "1.0.0",
+  "description": "Readmuch's personal blog - Exploring the intersection of knowledge and creativity",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js --watch",
+    "serve": "npx http-server . -p 3000 -o",
+    "start": "npm run build && npm run serve"
+  },
+  "keywords": [
+    "blog",
+    "personal",
+    "static-site",
+    "github-pages"
+  ],
+  "author": "Readmuch",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

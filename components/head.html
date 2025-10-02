@@ -1,0 +1,34 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="{{description}}">
+<meta name="keywords" content="{{keywords}}">
+<meta name="theme-color" content="#1e1e1e">
+<meta name="color-scheme" content="dark">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="{{ogTitle}}">
+<meta property="og:description" content="{{ogDescription}}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ogUrl}}">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{twitterTitle}}">
+<meta name="twitter:description" content="{{twitterDescription}}">
+
+<title>{{pageTitle}}</title>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="images/favicon.png">
+
+<!-- Preload critical assets -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+{{#each preloadImages}}
+<link rel="preload" href="{{this}}" as="image">
+{{/each}}
+
+<!-- Font loading -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- External CSS -->
+<link rel="stylesheet" href="{{cssFile}}">

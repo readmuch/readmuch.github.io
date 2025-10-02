@@ -32,6 +32,10 @@
     
     <!-- External CSS -->
     <link rel="stylesheet" href="styles/category.css">
+    
+    <!-- Load configuration and pagination modules -->
+    <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
 </head>
 <body>
     <header>
@@ -44,8 +48,7 @@
             <!-- Lifestyle items will be injected here dynamically -->
         </ul>
         <nav class="pagination" role="navigation" aria-label="Pagination">
-            <button id="prevBtn" disabled aria-label="Previous page">Previous</button>
-            <button id="nextBtn" aria-label="Next page">Next</button>
+            <!-- Pagination will be rendered here by JavaScript -->
         </nav>
     </main>
     <footer>
@@ -62,8 +65,7 @@
             { title: "순두부국", link: "/Life/soondooboo.html" },
             { title: "시금치나물", link: "/Life/sigmchi.html" },
             { title: "숙주나물", link: "/Life/sukjoo.html" },
-            { title: "미역국", link: "/Life/miyuk.html" },
-            { title: "야미야미 덮밥", link: "/Life/dubbab.html" }
+            { title: "미역국", link: "/Life/miyuk.html" }
         ];
 
 
@@ -132,9 +134,6 @@
                 displayPosts();
             }
         });
-
-        // Initial display
-        displayPosts();
     </script>
 </body>
 </html>

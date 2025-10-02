@@ -32,6 +32,10 @@
     
     <!-- External CSS -->
     <link rel="stylesheet" href="styles/category.css">
+    
+    <!-- Load configuration and pagination modules -->
+    <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
 </head>
 <body>
     <header>
@@ -44,79 +48,36 @@
             <!-- Mind Notes items will be injected here dynamically -->
         </ul>
         <nav class="pagination" role="navigation" aria-label="Pagination">
-            <button id="prevBtn" disabled aria-label="Previous page">Previous</button>
-            <button id="nextBtn" aria-label="Next page">Next</button>
+            <!-- Pagination will be rendered here by JavaScript -->
         </nav>
     </main>
     <footer>
         <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
     </footer>
     <script>
-        // Constants
-        const POSTS_PER_PAGE = 10;
-        const posts = [
-            { title: "독서모임", link: "/MindNotes/bookclub.html" },
-            { title: "직시", link: "/MindNotes/직시.html" },
-            { title: "책이 좋은 이유", link: "/MindNotes/책이좋은점.html" },
-            { title: "회복탄력성", link: "/MindNotes/happiness.html" },
-            { title: "1장. 초짜 팀장, 떨려도 괜찮아", link: "/MindNotes/leadership1.html" }
-        ];
-
-        // State management
-        let currentPage = 1;
-
-        // DOM elements
-        const postList = document.getElementById("postList");
-        const prevBtn = document.getElementById("prevBtn");
-        const nextBtn = document.getElementById("nextBtn");
-
-        // Main functions
-        function createPostElement(post) {
-            const li = document.createElement("li");
-            const a = document.createElement("a");
-            a.href = post.link;
-            a.textContent = post.title;
-            li.appendChild(a);
-            return li;
-        }
-
-        function displayPosts() {
-            const fragment = document.createDocumentFragment();
-            const start = (currentPage - 1) * POSTS_PER_PAGE;
-            const end = start + POSTS_PER_PAGE;
-            const paginatedPosts = posts.slice(start, end);
-
-            paginatedPosts.forEach(post => {
-                const postElement = createPostElement(post);
-                fragment.appendChild(postElement);
-            });
-
-            postList.innerHTML = '';
-            postList.appendChild(fragment);
-
-            // Update pagination buttons
-            prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = end >= posts.length;
-        }
-
-        // Event listeners
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                displayPosts();
+        // Initialize the page using modular structure
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Load site configuration
+                const config = new SiteConfig();
+                await config.load();
+                
+                // Get mindnotes category data
+                const mindnotesCategory = config.getCategory('mindnotes');
+                
+                if (mindnotesCategory && mindnotesCategory.posts) {
+                    // Initialize pagination with data from config
+                    const paginationOptions = config.getPagination();
+                    new Pagination('postList', mindnotesCategory.posts, paginationOptions.postsPerPage, paginationOptions);
+                } else {
+                    console.error('Mind Notes category data not found');
+                    document.getElementById('postList').innerHTML = '<p>No posts found.</p>';
+                }
+            } catch (error) {
+                console.error('Failed to initialize mindnotes page:', error);
+                document.getElementById('postList').innerHTML = '<p>Error loading posts.</p>';
             }
         });
-
-        nextBtn.addEventListener('click', () => {
-            const maxPage = Math.ceil(posts.length / POSTS_PER_PAGE);
-            if (currentPage < maxPage) {
-                currentPage++;
-                displayPosts();
-            }
-        });
-
-        // Initial display
-        displayPosts();
     </script>
 </body>
 </html>
