@@ -1,26 +1,3 @@
-<!-- Visitor counter display -->
-<div style="text-align: center; margin: 2em 0; font-size: 0.9em; color: #888;">
-    <span id="visitor-count">방문자 수: 로딩 중...</span>
-</div>
-
 <footer>
     <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
 </footer>
-
-<!-- GoatCounter tracking code -->
-<script data-goatcounter="https://readmuch.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-
-<!-- Display visitor count -->
-<script>
-    // Update visitor count display
-    fetch('https://readmuch.goatcounter.com/counter/export.json')
-        .then(response => response.json())
-        .then(data => {
-            const totalVisitors = data.total;
-            document.getElementById('visitor-count').textContent = `방문자 수: ${totalVisitors.toLocaleString()}`;
-        })
-        .catch(error => {
-            document.getElementById('visitor-count').textContent = '방문자 수: 확인 불가';
-        });
-</script>

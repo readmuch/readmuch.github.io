@@ -301,10 +301,6 @@
         display: none;
     }
     
-    .visitor-counter {
-        display: none;
-    }
-    
     .container {
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;

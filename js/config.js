@@ -31,10 +31,6 @@ class SiteConfig {
         return this.config.categories.find(cat => cat.id === categoryId);
     }
 
-    getAnalytics() {
-        return this.config.analytics;
-    }
-
     getPagination() {
         return this.config.pagination;
     }

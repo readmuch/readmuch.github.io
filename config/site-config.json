@@ -6,12 +6,6 @@
     "author": "Readmuch",
     "year": "2024"
   },
-  "analytics": {
-    "goatcounter": {
-      "id": "readmuch",
-      "url": "https://readmuch.goatcounter.com"
-    }
-  },
   "pagination": {
     "postsPerPage": 10,
     "style": "numbered",

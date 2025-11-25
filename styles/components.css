@@ -106,14 +106,6 @@ footer p {
     font-size: 0.9rem;
 }
 
-/* Visitor Counter */
-.visitor-counter {
-    text-align: center;
-    margin: 2em 0;
-    font-size: 0.9em;
-    color: var(--muted-text);
-}
-
 /* Post List */
 .post-list {
     list-style: none;
