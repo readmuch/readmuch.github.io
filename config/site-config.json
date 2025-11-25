@@ -39,24 +39,25 @@
       "alt": "Book Category - A collection of book reviews and literary discussions",
       "file": "book.html",
       "posts": [
-        { "title": "퓨처셀프 - 벤자민하디", "link": "Book/futureself.html" },
-        { "title": "수학의 진짜 재미 - 이창후", "link": "Book/realfunmath.html" },
-        { "title": "데이터는 예측하지 않는다. - 김송규", "link": "Book/datanoprediction.html" },
-        { "title": "유혹하는 글쓰기 - 스티븐 킹", "link": "Book/writing.html" },
-        { "title": "일의 격 - 신수정", "link": "Book/work.html" },
-        { "title": "건너가는 자 - 최진석", "link": "Book/choijinsuk.html" },
-        { "title": "창조적 행위: 존재의 방식 - 릭루빈", "link": "Book/creator.html" },
-        { "title": "도파민네이션 - 에나 램키", "link": "Book/dopaminenation.html" },
-        { "title": "내면소통 - 김주환", "link": "Book/mindcommunication.html" },
-        { "title": "내가 틀릴 수도 있습니다. - 비욘 나티코 린데블라드", "link": "Book/Icanbewrong.html" },
-        { "title": "공감은 지능이다 - 자밀자키", "link": "Book/TheWarforKindness.html" },
-        { "title": "듀얼브레인 - 이선몰릭", "link": "Book/dualbrain.html" },
-        { "title": "고전이 답했다 마땅히 살아야 할 삶에 대하여 - 고명환", "link": "Book/gojun.html" },
-        { "title": "뇌가 힘들 땐 미술관에 가는 게 좋다. - 수전 매그새먼", "link": "Book/art.html" },
-        { "title": "고전이 답했다 마땅히 가져야 할 부에 대하여 - 고명환", "link": "Book/bu.html" }
-        { "title": "편안함의 습격 - 마이클 이스터", "link": "Book/comfortcrisis.html" },
-        { "title": "뇌가 힘들 땐 미술관에 가는 게 좋다. - 수전 매그새먼", "link": "Book/misul.html" },
-        {"title": "나는 왜 마음 놓고 쉬지 못할까 - 김은영", "link": "Book/suim.html" }
+        { "title": "Future Self", "link": "Book/futureself.html" },
+        { "title": "Real Fun Math", "link": "Book/realfunmath.html" },
+        { "title": "Data, Not Prediction", "link": "Book/datanoprediction.html" },
+        { "title": "Writing", "link": "Book/writing.html" },
+        { "title": "Work", "link": "Book/work.html" },
+        { "title": "Crossing Over", "link": "Book/choijinsuk.html" },
+        { "title": "Creator", "link": "Book/creator.html" },
+        { "title": "Dopamine Nation", "link": "Book/dopaminenation.html" },
+        { "title": "Mind Communication", "link": "Book/mindcommunication.html" },
+        { "title": "I Can Be Wrong", "link": "Book/Icanbewrong.html" },
+        { "title": "The War for Kindness", "link": "Book/TheWarforKindness.html" },
+        { "title": "Dual Brain", "link": "Book/dualbrain.html" },
+        { "title": "Gojun", "link": "Book/gojun.html" },
+        { "title": "Art", "link": "Book/art.html" },
+        { "title": "Bu", "link": "Book/bu.html" },
+        { "title": "Gojun 2", "link": "Book/gojun2.html" },
+        { "title": "Comfort Crisis", "link": "Book/comfortcrisis.html" },
+        { "title": "Misul", "link": "Book/misul.html" },
+        { "title": "Suim", "link": "Book/suim.html" }
       ]
     },
     {
@@ -67,10 +68,10 @@
       "alt": "Education Category - Insights and resources about learning and teaching",
       "file": "education.html",
       "posts": [
-        { "title": "html file 내에서 MD 문서 작성하기", "link": "Education/markdowninhtml.html" },
-        { "title": "markdown 파일을 html 문서내에서 패치하기", "link": "Education/MDfetchinhtml.html" },
-        { "title": "가무한과 실무한", "link": "Education/infinity.html" },
-        { "title": "복권에 두번 당첨될 확률", "link": "Education/lottery.html" }
+        { "title": "Markdown in HTML", "link": "Education/markdowninhtml.html" },
+        { "title": "Fetch Markdown into HTML", "link": "Education/MDfetchinhtml.html" },
+        { "title": "Infinity", "link": "Education/infinity.html" },
+        { "title": "Lottery", "link": "Education/lottery.html" }
       ]
     },
     {
@@ -81,15 +82,15 @@
       "alt": "Lifestyle Category - Personal experiences and life lessons",
       "file": "life.html",
       "posts": [
-        { "title": "토마토 계란 볶음", "link": "Life/EasyTastyHealthyRecipes.html" },
-        { "title": "시원한 무국", "link": "Life/mookook.html" },
-        { "title": "멸치볶음", "link": "Life/myeolchi.html" },
-        { "title": "카레", "link": "Life/care.html" },
-        { "title": "순두부국", "link": "Life/soondooboo.html" },
-        { "title": "시금치나물", "link": "Life/sigmchi.html" },
-        { "title": "숙주나물", "link": "Life/sukjoo.html" },
-        { "title": "미역국", "link": "Life/miyuk.html" },
-        { "title": "야미야미 덮밥", "link": "/Life/dubbab.html" }
+        { "title": "Easy Tasty Healthy Recipes", "link": "Life/EasyTastyHealthyRecipes.html" },
+        { "title": "Mookook", "link": "Life/mookook.html" },
+        { "title": "Myeolchi", "link": "Life/myeolchi.html" },
+        { "title": "Curry", "link": "Life/care.html" },
+        { "title": "Soondooboo", "link": "Life/soondooboo.html" },
+        { "title": "Spinach Namul", "link": "Life/sigmchi.html" },
+        { "title": "Bean Sprout Soup", "link": "Life/sukjoo.html" },
+        { "title": "Seaweed Soup", "link": "Life/miyuk.html" },
+        { "title": "Dubbab", "link": "Life/dubbab.html" }
       ]
     },
     {
@@ -100,10 +101,11 @@
       "alt": "Technology Category - Technology trends and innovations",
       "file": "tech.html",
       "posts": [
-        { "title": "허깅페이스를 활용한 이미지 생성", "link": "Tech/imagegernertion.html" },
-        { "title": "PMP등 커리어 방향", "link": "Tech/career.html" },
-        { "title": "금융 산업에서의 AI를 활용한 고객 행태 분석 및 마케팅 방법론", "link": "Tech/AIinFinance.html" },
-        { "title": "예측 모델링 - 금융 고객 행동 예측의 시작", "link": "Tech/prediction.html" }
+        { "title": "Image Generation", "link": "Tech/imagegernertion.html" },
+        { "title": "PMP Career Direction", "link": "Tech/career.html" },
+        { "title": "AI in Finance", "link": "Tech/AIinFinance.html" },
+        { "title": "Prediction Model", "link": "Tech/predictioin.html" },
+        { "title": "Stablecoin", "link": "Tech/stablecoin.html" }
       ]
     },
     {
@@ -114,11 +116,11 @@
       "alt": "Mind Notes Category - Thoughts and reflections on various topics",
       "file": "mindnotes.html",
       "posts": [
-        { "title": "독서모임", "link": "MindNotes/bookclub.html" },
-        { "title": "직시", "link": "MindNotes/직시.html" },
-        { "title": "책이 좋은 이유", "link": "MindNotes/책이좋은점.html" },
-        { "title": "회복탄력성", "link": "MindNotes/happiness.html" },
-        { "title": "1장. 초짜 팀장, 떨려도 괜찮아", "link": "MindNotes/leadership1.html" }
+        { "title": "Book Club", "link": "MindNotes/bookclub.html" },
+        { "title": "Jiksi", "link": "MindNotes/%EC%A7%81%EC%8B%9C.html" },
+        { "title": "Why Books Are Good", "link": "MindNotes/%EC%B1%85%EC%9D%B4%EC%A2%8B%EC%9D%80%EC%A0%90.html" },
+        { "title": "Happiness", "link": "MindNotes/happiness.html" },
+        { "title": "Leadership 1", "link": "MindNotes/leadership1.html" }
       ]
     }
   ]
