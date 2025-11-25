@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="styles/category.css">
     
     <!-- Load configuration and pagination modules -->
+    <script src="js/postTitleLoader.js"></script>
     <script src="js/config.js"></script>
     <script src="js/pagination.js"></script>
 </head>
@@ -66,9 +67,10 @@
                 const mindnotesCategory = config.getCategory('mindnotes');
                 
                 if (mindnotesCategory && mindnotesCategory.posts) {
-                    // Initialize pagination with data from config
+                    // Initialize pagination with data from config (markdown H1 overrides titles)
                     const paginationOptions = config.getPagination();
-                    new Pagination('postList', mindnotesCategory.posts, paginationOptions.postsPerPage, paginationOptions);
+                    const postsWithMarkdownTitles = await loadPostsWithMarkdownTitles(mindnotesCategory.posts);
+                    new Pagination('postList', postsWithMarkdownTitles, paginationOptions.postsPerPage, paginationOptions);
                 } else {
                     console.error('Mind Notes category data not found');
                     document.getElementById('postList').innerHTML = '<p>No posts found.</p>';
