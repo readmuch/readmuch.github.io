@@ -32,10 +32,6 @@
     
     <!-- External CSS -->
     <link rel="stylesheet" href="styles/category.css">
-    
-    <!-- Load configuration and pagination modules -->
-    <script src="js/config.js"></script>
-    <script src="js/pagination.js"></script>
 </head>
 <body>
     <header>
@@ -54,28 +50,28 @@
     <footer>
         <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
     </footer>
+    <!-- 스크립트는 body 끝에 위치 -->
+    <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
     <script>
-        // Initialize the page using modular structure
         document.addEventListener('DOMContentLoaded', async function() {
             try {
-                // Load site configuration
+                // SiteConfig와 Pagination이 정의되어 있는지 확인
+                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function') {
+                    throw new Error('SiteConfig 또는 Pagination 클래스가 정의되어 있지 않습니다. js/config.js와 js/pagination.js를 확인하세요.');
+                }
                 const config = new SiteConfig();
                 await config.load();
-                
-                // Get book category data
                 const bookCategory = config.getCategory('book');
-                
-                if (bookCategory && bookCategory.posts) {
-                    // Initialize pagination with data from config
+                if (bookCategory && Array.isArray(bookCategory.posts) && bookCategory.posts.length > 0) {
                     const paginationOptions = config.getPagination();
                     new Pagination('postList', bookCategory.posts, paginationOptions.postsPerPage, paginationOptions);
                 } else {
-                    console.error('Book category data not found');
-                    document.getElementById('postList').innerHTML = '<p>No posts found.</p>';
+                    document.getElementById('postList').innerHTML = '<li>등록된 책이 없습니다.</li>';
                 }
             } catch (error) {
+                document.getElementById('postList').innerHTML = '<li>책 목록을 불러오는 중 오류가 발생했습니다.</li>';
                 console.error('Failed to initialize book page:', error);
-                document.getElementById('postList').innerHTML = '<p>Error loading posts.</p>';
             }
         });
     </script>
