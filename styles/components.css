@@ -1,492 +1,147 @@
-/* Header Component */
+/* Header */
 header {
-    text-align: center;
-    padding: var(--header-padding);
-    background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    backdrop-filter: blur(12px);
+    background: rgba(15, 17, 21, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 header h1 {
-    font-size: var(--font-size-xl);
-    margin-bottom: 0.5rem;
-    background: linear-gradient(135deg, var(--accent-color) 0%, var(--hover-color) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-header p {
-    font-size: var(--font-size-large);
-    color: var(--muted-text);
-    max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
 }
 
 header a {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background: var(--accent-color);
-    color: white;
-    border-radius: 6px;
-    transition: background-color 0.3s ease;
+    color: var(--accent);
+    font-weight: 600;
 }
 
-header a:hover {
-    background: var(--hover-color);
-    color: white;
-}
-
-/* Card Component */
-.card {
-    background: var(--card-background);
-    border-radius: var(--card-border-radius);
-    overflow: hidden;
-    transition: var(--card-transition);
-    position: relative;
-    aspect-ratio: 3/2;
-    box-shadow: var(--card-shadow);
-    min-height: 200px;
-}
-
-.card:hover {
-    transform: translateY(var(--card-hover-lift)) scale(var(--card-scale));
-    box-shadow: var(--card-hover-shadow);
-    background: var(--card-hover-color);
-}
-
-.card a {
-    display: block;
-    height: 100%;
-    text-decoration: none;
-    color: var(--text-color);
-    position: relative;
-}
-
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: var(--card-transition);
-}
-
-.card:hover img {
-    filter: brightness(0.9) saturate(1.1) contrast(1.1);
-}
-
-.card span {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    font-size: var(--font-size-large);
-    font-weight: 500;
-    transition: var(--card-transition);
-}
-
-.card:hover span {
-    transform: translateY(-5px);
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Footer Component */
+/* Footer */
 footer {
     text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
-    margin-top: 2rem;
+    padding: 24px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(15, 17, 21, 0.7);
 }
 
 footer p {
-    color: var(--muted-text);
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* Search bar */
+.search-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.search-bar input[type="search"] {
+    width: 320px;
+    max-width: 100%;
+    padding: 12px 14px;
+    background: #0d1016;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text);
+    border-radius: 12px;
+    transition: border 150ms ease, box-shadow 150ms ease;
+}
+
+.search-bar input[type="search"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(46, 196, 182, 0.25);
+}
+
+/* Post list as responsive cards */
+#postList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--gap);
+}
+
+#postList li {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: var(--shadow);
+    transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
+}
+
+#postList li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24);
+    border-color: rgba(46, 196, 182, 0.4);
+}
+
+#postList a {
+    color: #f8fbff;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+#postList .meta {
+    margin-top: 6px;
+    color: var(--muted);
     font-size: 0.9rem;
 }
 
-/* Post List */
-.post-list {
-    list-style: none;
-    padding: 0;
-}
-
-.post-list li {
-    margin-bottom: 1rem;
-    padding: 1rem;
-    background: var(--card-background);
-    border-radius: var(--card-border-radius);
-    transition: var(--card-transition);
-}
-
-.post-list li:hover {
-    background: var(--card-hover-color);
-    transform: translateX(5px);
-}
-
-.post-list a {
-    display: block;
-    color: var(--text-color);
-    text-decoration: none;
-}
-
-/* Enhanced Pagination Styles - Numbered Only */
-
-/* Base pagination container */
+/* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    margin-top: 2rem;
-    padding: 1rem 0;
+    gap: 8px;
+    margin-top: 24px;
     flex-wrap: wrap;
 }
 
-/* Navigation buttons (Previous/Next) */
-.pagination button {
-    padding: 0.5rem 1rem;
-    background: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 50px;
-    font-size: 1rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.pagination button:hover:not(:disabled) {
-    background: var(--hover-color);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.pagination button:disabled {
-    background: var(--muted-text);
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-    opacity: 0.6;
-}
-
-/* Page numbers container */
-.page-numbers {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-/* Individual page number buttons */
+.pagination-btn,
 .page-number-btn {
-    padding: 0.4rem 0.8rem;
-    background: var(--card-background);
-    color: var(--text-color);
-    border: 1px solid var(--muted-text);
-    border-radius: 4px;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #0d1016;
+    color: var(--text);
     cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 40px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.page-number-btn:hover {
-    background: var(--accent-color);
-    color: white;
-    border-color: var(--accent-color);
-    transform: translateY(-1px);
+    transition: all 120ms ease;
 }
 
 .page-number-btn.active {
-    background: var(--accent-color);
-    color: white;
-    border-color: var(--accent-color);
-    font-weight: 600;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    background: var(--accent);
+    color: #041012;
+    border-color: var(--accent);
 }
 
-/* Ellipsis for truncated page numbers */
-.page-ellipsis {
-    color: var(--muted-text);
-    font-size: 0.9rem;
-    padding: 0 0.5rem;
-    font-weight: 500;
+.pagination-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
-/* Responsive adjustments */
-@media (min-width: 1200px) {
-    .pagination {
-        gap: 1.5rem;
-        margin-top: 3rem;
+/* Small screens tweaks */
+@media (max-width: 599px) {
+    header {
+        padding: 14px 20px;
     }
-    
-    .pagination button {
-        padding: 0.8rem 1.2rem;
-        min-width: 60px;
-        font-size: 1.1rem;
+    .search-bar {
+        justify-content: stretch;
     }
-    
-    .page-numbers {
-        gap: 0.8rem;
-        margin: 0 1.5rem;
-    }
-    
-    .page-number-btn {
-        padding: 0.6rem 1rem;
-        min-width: 50px;
-        font-size: 1rem;
-    }
-    
-    .page-ellipsis {
-        font-size: 1rem;
-        padding: 0 0.8rem;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1199px) {
-    .pagination {
-        gap: 1.2rem;
-        margin-top: 2.5rem;
-    }
-    
-    .pagination button {
-        padding: 0.7rem 1rem;
-        min-width: 55px;
-        font-size: 1rem;
-    }
-    
-    .page-numbers {
-        gap: 0.6rem;
-        margin: 0 1.2rem;
-    }
-    
-    .page-number-btn {
-        padding: 0.5rem 0.9rem;
-        min-width: 45px;
-        font-size: 0.95rem;
-    }
-}
-
-@media (max-width: 767px) {
-    .pagination {
-        gap: 0.8rem;
-        margin-top: 2rem;
-    }
-    
-    .pagination button {
-        padding: 0.6rem 0.9rem;
-        min-width: 50px;
-        font-size: 0.95rem;
-    }
-    
-    .page-numbers {
-        gap: 0.4rem;
-        margin: 0 0.8rem;
-    }
-    
-    .page-number-btn {
-        padding: 0.4rem 0.7rem;
-        min-width: 38px;
-        font-size: 0.85rem;
-    }
-    
-    .page-ellipsis {
-        font-size: 0.85rem;
-        padding: 0 0.4rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .pagination {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.8rem;
-    }
-    
-    .pagination button {
+    .search-bar input[type="search"] {
         width: 100%;
-        max-width: 200px;
-        padding: 0.7rem 1rem;
     }
-    
-    .page-numbers {
-        order: -1;
-        margin: 0.5rem 0;
-        gap: 0.3rem;
-    }
-    
-    .page-number-btn {
-        padding: 0.5rem 0.8rem;
-        min-width: 35px;
-        font-size: 0.8rem;
-    }
-}
-
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-    .pagination button:hover {
-        transform: none;
-        box-shadow: none;
-    }
-    
-    .pagination button:active {
-        transform: scale(0.95);
-    }
-    
-    .page-number-btn:hover {
-        background: var(--card-background);
-        color: var(--text-color);
-        border-color: var(--muted-text);
-        transform: none;
-    }
-    
-    .page-number-btn:active {
-        background: var(--accent-color);
-        color: white;
-        border-color: var(--accent-color);
-        transform: scale(0.95);
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .pagination button {
-        border: 2px solid var(--accent-color);
-    }
-    
-    .page-number-btn {
-        border: 2px solid var(--accent-color);
-    }
-    
-    .page-number-btn.active {
-        border-width: 3px;
-    }
-}
-
-/* Focus styles for accessibility */
-.pagination button:focus,
-.page-number-btn:focus {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 2px;
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .pagination button,
-    .page-number-btn {
-        transition: none;
-    }
-    
-    .pagination button:hover,
-    .page-number-btn:hover {
-        transform: none;
-    }
-}
-
-/* Responsive adjustments for components */
-
-/* Large screens - enhance hover effects */
-@media (min-width: 1200px) {
-    .card span {
-        padding: 1.2rem;
-        font-size: 1.3rem;
-    }
-    
-    .post-list li {
-        padding: 1.2rem;
-    }
-    
-    .pagination button {
-        padding: 0.7rem 1.5rem;
-        font-size: 1rem;
-    }
-}
-
-/* Medium screens - moderate hover effects */
-@media (min-width: 768px) and (max-width: 1199px) {
-    .card span {
-        padding: 1rem;
-        font-size: 1.1rem;
-    }
-}
-
-/* Small screens - subtle hover effects */
-@media (max-width: 767px) {
-    .card span {
-        padding: 0.8rem;
-        font-size: 1rem;
-    }
-    
-    .post-list li:hover {
-        transform: translateX(3px);
-    }
-    
-    .pagination {
-        gap: 0.8rem;
-    }
-    
-    .pagination button {
-        padding: 0.6rem 1rem;
-        min-width: 90px;
-    }
-}
-
-/* Touch devices - reduce hover effects */
-@media (hover: none) and (pointer: coarse) {
-    .card:hover {
-        transform: none;
-    }
-    
-    .card:hover img {
-        filter: none;
-    }
-    
-    .card:hover span {
-        transform: none;
-    }
-    
-    .post-list li:hover {
-        transform: none;
-    }
-    
-    /* Add active states for touch */
-    .card:active {
-        transform: scale(0.98);
-    }
-    
-    .post-list li:active {
-        background: var(--hover-color);
-    }
-    
-    .pagination button:active {
-        transform: scale(0.95);
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .card {
-        border: 2px solid var(--accent-color);
-    }
-    
-    .card span {
-        background: rgba(0, 0, 0, 0.9);
-    }
-    
-    .post-list li {
-        border: 1px solid var(--accent-color);
+    #postList {
+        grid-template-columns: 1fr;
     }
 }

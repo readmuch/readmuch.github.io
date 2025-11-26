@@ -2,27 +2,3 @@
 @import 'base.css';
 @import 'components.css';
 @import 'layout.css';
-
-/* Category-specific styles */
-.category-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    flex: 1;
-}
-
-.category-container h2 {
-    margin-bottom: 2rem;
-    color: var(--accent-color);
-    font-size: 1.8rem;
-}
-
-/* Post list specific styles */
-.post-list li {
-    border-left: 3px solid var(--accent-color);
-    padding-left: 1.5rem;
-}
-
-.post-list li:hover {
-    border-left-color: var(--hover-color);
-} 
