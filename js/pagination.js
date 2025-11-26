@@ -6,9 +6,11 @@ class Pagination {
     constructor(containerId, posts, postsPerPage = 10, options = {}) {
         this.container = document.getElementById(containerId);
         this.posts = posts;
+        this.filteredPosts = posts;
         this.postsPerPage = postsPerPage;
         this.currentPage = 1;
-        this.totalPages = Math.ceil(this.posts.length / this.postsPerPage);
+        this.searchTerm = '';
+        this.totalPages = this.computeTotalPages();
         
         // Pagination options with responsive defaults
         this.options = {
@@ -20,6 +22,11 @@ class Pagination {
         };
         
         this.init();
+    }
+
+    computeTotalPages() {
+        const count = Array.isArray(this.filteredPosts) ? this.filteredPosts.length : 0;
+        return Math.max(1, Math.ceil(count / this.postsPerPage));
     }
 
     getResponsiveMaxPageNumbers() {
@@ -58,10 +65,18 @@ class Pagination {
     renderPosts() {
         const startIndex = (this.currentPage - 1) * this.postsPerPage;
         const endIndex = startIndex + this.postsPerPage;
-        const currentPosts = this.posts.slice(startIndex, endIndex);
+        const source = Array.isArray(this.filteredPosts) ? this.filteredPosts : [];
+        const currentPosts = source.slice(startIndex, endIndex);
 
         this.container.innerHTML = '';
-        
+
+        if (currentPosts.length === 0) {
+            const li = document.createElement('li');
+            li.textContent = 'No posts found.';
+            this.container.appendChild(li);
+            return;
+        }
+
         currentPosts.forEach(post => {
             const li = document.createElement('li');
             const a = document.createElement('a');
@@ -250,6 +265,19 @@ class Pagination {
     changeStyle(newStyle) {
         // Always use numbered style for consistency
         this.options.style = 'numbered';
+        this.renderPagination();
+        this.updatePaginationButtons();
+    }
+
+    setFilter(term) {
+        this.searchTerm = (term || '').toLowerCase();
+        this.filteredPosts = this.posts.filter(post =>
+            typeof post.title === 'string' &&
+            post.title.toLowerCase().includes(this.searchTerm)
+        );
+        this.currentPage = 1;
+        this.totalPages = this.computeTotalPages();
+        this.renderPosts();
         this.renderPagination();
         this.updatePaginationButtons();
     }

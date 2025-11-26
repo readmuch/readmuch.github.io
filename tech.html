@@ -45,6 +45,10 @@
     </header>
     <main class="container" role="main">
         <h2>Technology List</h2>
+        <div class="search-bar">
+            <label for="postSearch" class="sr-only">Search posts</label>
+            <input type="search" id="postSearch" placeholder="Search posts" aria-label="Search posts">
+        </div>
         <ul id="postList" role="list">
             <!-- Technology items will be injected here dynamically -->
         </ul>
@@ -70,7 +74,14 @@
                     // Initialize pagination with data from config (markdown H1 overrides titles)
                     const paginationOptions = config.getPagination();
                     const postsWithMarkdownTitles = await loadPostsWithMarkdownTitles(techCategory.posts);
-                    new Pagination('postList', postsWithMarkdownTitles, paginationOptions.postsPerPage, paginationOptions);
+                    const pagination = new Pagination('postList', postsWithMarkdownTitles, paginationOptions.postsPerPage, paginationOptions);
+
+                    const searchInput = document.getElementById('postSearch');
+                    if (searchInput) {
+                        searchInput.addEventListener('input', (event) => {
+                            pagination.setFilter(event.target.value);
+                        });
+                    }
                 } else {
                     console.error('Tech category data not found');
                     document.getElementById('postList').innerHTML = '<p>No posts found.</p>';
