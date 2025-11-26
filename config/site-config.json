@@ -39,6 +39,8 @@
       "alt": "Book Category - A collection of book reviews and literary discussions",
       "file": "book.html",
       "posts": [
+        { "title": "Jensen Huang Thinking Machine", "link": "Book/jensenhwang.html" },
+        { "title": "Mind Becomes Destiny", "link": "Book/maum.html" },
         { "title": "Future Self", "link": "Book/futureself.html" },
         { "title": "Real Fun Math", "link": "Book/realfunmath.html" },
         { "title": "Data, Not Prediction", "link": "Book/datanoprediction.html" },
