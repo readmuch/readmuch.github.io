@@ -7,6 +7,7 @@
     <meta name="keywords" content="Technology, Innovation, Tech Trends, Digital Transformation">
     <meta name="theme-color" content="#f8f8f8">
     <meta name="color-scheme" content="light">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Tech Category - Readmuch's Blog">
@@ -79,8 +80,8 @@
                 if (techCategory && techCategory.posts) {
                     // Initialize pagination with data from config (markdown H1 overrides titles)
                     const paginationOptions = config.getPagination();
-                    const postsWithMarkdownTitles = await loadPostsWithMarkdownTitles(techCategory.posts);
-                    const pagination = new Pagination('postList', postsWithMarkdownTitles, paginationOptions.postsPerPage, paginationOptions);
+                    const postsWithMarkdownMeta = await loadPostsWithMarkdownMeta(techCategory.posts, { badge: 'Tech' });
+                    const pagination = new Pagination('postList', postsWithMarkdownMeta, paginationOptions.postsPerPage, paginationOptions);
 
                     const searchInput = document.getElementById('postSearch');
                     if (searchInput) {

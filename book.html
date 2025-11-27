@@ -7,6 +7,7 @@
     <meta name="keywords" content="Book Reviews, Literature, Reading, Book Discussion">
     <meta name="theme-color" content="#f8f8f8">
     <meta name="color-scheme" content="light">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Book Category - Readmuch's Blog">
@@ -68,16 +69,16 @@
         document.addEventListener('DOMContentLoaded', async function() {
             try {
                 // SiteConfig?� Pagination???�의?�어 ?�는지 ?�인
-                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownTitles !== 'function') {
-                    throw new Error('SiteConfig �? Pagination �? loadPostsWithMarkdownTitles�? �의?�어 �??�는지 �??�세??. js/config.js, js/pagination.js, js/postTitleLoader.js�? �인?�세??');
+                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
+                    throw new Error('SiteConfig 또는 Pagination 또는 loadPostsWithMarkdownMeta가 필요한 상태입니다. js/config.js, js/pagination.js, js/postTitleLoader.js를 확인해주세요.');
                 }
                 const config = new SiteConfig();
                 await config.load();
                 const bookCategory = config.getCategory('book');
                 if (bookCategory && Array.isArray(bookCategory.posts) && bookCategory.posts.length > 0) {
                     const paginationOptions = config.getPagination();
-                    const postsWithMarkdownTitles = await loadPostsWithMarkdownTitles(bookCategory.posts);
-                    const pagination = new Pagination('postList', postsWithMarkdownTitles, paginationOptions.postsPerPage, paginationOptions);
+                    const postsWithMarkdownMeta = await loadPostsWithMarkdownMeta(bookCategory.posts, { badge: 'Book' });
+                    const pagination = new Pagination('postList', postsWithMarkdownMeta, paginationOptions.postsPerPage, paginationOptions);
 
                     const searchInput = document.getElementById('postSearch');
                     if (searchInput) {

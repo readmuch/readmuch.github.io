@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Readmuch's Blog - Exploring the intersection of knowledge and creativity">
     <meta name="keywords" content="Book, Education, Technology, Life, Mindnotes">
-    <meta name="theme-color" content="#1e1e1e">
-    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#f8f8f8">
+    <meta name="color-scheme" content="light">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Readmuch's Blog">
@@ -36,48 +37,70 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- External CSS -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/category.css">
 </head>
 <body>
     <header>
-        <h1>Readmuch's Blog</h1>
-        <p>Exploring the intersection of knowledge and creativity</p>
+        <div class="brand">Readmuch's Blog</div>
+        <nav class="tab-nav" aria-label="Categories">
+            <a class="tab active" href="index.html">All Posts</a>
+            <a class="tab" href="book.html">Book</a>
+            <a class="tab" href="education.html">Education</a>
+            <a class="tab" href="life.html">Life</a>
+            <a class="tab" href="tech.html">Tech</a>
+            <a class="tab" href="mindnotes.html">Mind Notes</a>
+        </nav>
+        <div class="header-actions">
+            <label for="postSearch" class="sr-only">Search posts</label>
+            <input type="search" id="postSearch" class="search-input" placeholder="Search posts" aria-label="Search posts">
+        </div>
     </header>
-    <main class="container" role="main" aria-label="Blog Categories">
-        <article class="card">
-            <a href="book.html" aria-label="Book Category">
-                <img src="images/book.jpg" alt="Book Category - A collection of book reviews and literary discussions" loading="lazy" width="300" height="220" decoding="async">
-                <span>Book</span>
-            </a>
-        </article>
-        <article class="card">
-            <a href="education.html" aria-label="Education Category">
-                <img src="images/education.jpg" alt="Education Category - Insights and resources about learning and teaching" loading="lazy" width="300" height="220" decoding="async">
-                <span>Education</span>
-            </a>
-        </article>
-        <article class="card">
-            <a href="life.html" aria-label="Lifestyle Category">
-                <img src="images/life.jpg" alt="Lifestyle Category - Personal experiences and life lessons" loading="lazy" width="300" height="220" decoding="async">
-                <span>Lifestyle</span>
-            </a>
-        </article>
-        <article class="card">
-            <a href="tech.html" aria-label="Technology Category">
-                <img src="images/tech.jpg" alt="Technology Category - Technology trends and innovations" loading="lazy" width="300" height="220" decoding="async">
-                <span>Technology</span>
-            </a>
-        </article>
-        <article class="card">
-            <a href="mindnotes.html" aria-label="Mind Notes Category">
-                <img src="images/mindnotes.jpg" alt="Mind Notes Category - Thoughts and reflections on various topics" loading="lazy" width="300" height="220" decoding="async">
-                <span>Mind Notes</span>
-            </a>
-        </article>
+    <main class="container category-container" role="main">
+        <h2>All Posts</h2>
+        <ul id="postList" role="list">
+            <!-- Posts will be injected here dynamically -->
+        </ul>
+        <nav class="pagination" role="navigation" aria-label="Pagination">
+            <!-- Pagination will be rendered here by JavaScript -->
+        </nav>
     </main>
     
     <footer>
         <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
     </footer>
+    <script src="js/postTitleLoader.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
+                    throw new Error('SiteConfig, Pagination, loadPostsWithMarkdownMeta 확인이 필요합니다.');
+                }
+                const config = new SiteConfig();
+                await config.load();
+                const allCategories = config.get().categories || [];
+                const flattened = allCategories.flatMap(cat =>
+                    (cat.posts || []).map(post => ({
+                        ...post,
+                        badge: cat.title || cat.id || ''
+                    }))
+                );
+                const paginationOptions = config.getPagination();
+                const postsWithMeta = await loadPostsWithMarkdownMeta(flattened);
+                const pagination = new Pagination('postList', postsWithMeta, paginationOptions.postsPerPage, paginationOptions);
+
+                const searchInput = document.getElementById('postSearch');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (event) => {
+                        pagination.setFilter(event.target.value);
+                    });
+                }
+            } catch (error) {
+                document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
+                console.error('Failed to initialize home page:', error);
+            }
+        });
+    </script>
 </body>
 </html>

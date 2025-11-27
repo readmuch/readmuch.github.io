@@ -1,12 +1,29 @@
 // Utility to replace post titles with the first H1 found in their markdown files
 (function() {
-    const titleCache = new Map();
+    const cache = new Map();
 
-    async function fetchMarkdownTitle(post) {
-        if (!post || !post.link) return post?.title || '';
+    function extractFirstParagraph(text) {
+        const lines = text.split(/\r?\n/);
+        let collecting = [];
+        for (const line of lines) {
+            if (/^\s*#/.test(line)) continue; // skip headings
+            if (line.trim() === '') {
+                if (collecting.length > 0) break;
+                continue;
+            }
+            collecting.push(line.trim());
+            if (collecting.join(' ').length >= 200) break;
+        }
+        const paragraph = collecting.join(' ');
+        if (!paragraph) return '';
+        return paragraph.length > 220 ? paragraph.slice(0, 220).trim() + '…' : paragraph;
+    }
 
-        if (titleCache.has(post.link)) {
-            return titleCache.get(post.link);
+    async function fetchMarkdownMeta(post) {
+        if (!post || !post.link) return { title: post?.title || '', excerpt: post?.excerpt || '' };
+
+        if (cache.has(post.link)) {
+            return cache.get(post.link);
         }
 
         const mdPath = post.link.replace(/\.html?$/i, '.md');
@@ -18,29 +35,44 @@
             }
 
             const text = await response.text();
-            const match = text.match(/^\s*#\s+(.+?)\s*$/m);
-            const title = match ? match[1].trim() : post.title;
-            titleCache.set(post.link, title);
-            return title;
+            const titleMatch = text.match(/^\s*#\s+(.+?)\s*$/m);
+            const title = titleMatch ? titleMatch[1].trim() : post.title;
+            const excerpt = extractFirstParagraph(text);
+            const meta = { title, excerpt };
+            cache.set(post.link, meta);
+            return meta;
         } catch (error) {
-            console.error('Failed to load markdown title:', mdPath, error);
-            titleCache.set(post.link, post.title);
-            return post.title;
+            console.error('Failed to load markdown meta:', mdPath, error);
+            const fallback = { title: post.title, excerpt: post.excerpt || '' };
+            cache.set(post.link, fallback);
+            return fallback;
         }
     }
 
-    async function loadPostsWithMarkdownTitles(posts) {
+    async function loadPostsWithMarkdownMeta(posts, defaults = {}) {
         if (!Array.isArray(posts)) {
             return [];
         }
 
         return Promise.all(
-            posts.map(async post => ({
-                ...post,
-                title: await fetchMarkdownTitle(post)
-            }))
+            posts.map(async post => {
+                const meta = await fetchMarkdownMeta(post);
+                return {
+                    ...post,
+                    title: meta.title,
+                    excerpt: post.excerpt || meta.excerpt || '',
+                    badge: post.badge || defaults.badge || ''
+                };
+            })
         );
     }
 
+    // Backward compatibility: returns only titles
+    async function loadPostsWithMarkdownTitles(posts) {
+        const withMeta = await loadPostsWithMarkdownMeta(posts);
+        return withMeta.map(p => ({ ...p }));
+    }
+
+    window.loadPostsWithMarkdownMeta = loadPostsWithMarkdownMeta;
     window.loadPostsWithMarkdownTitles = loadPostsWithMarkdownTitles;
 })();
