@@ -16,15 +16,18 @@ header {
 
 .brand-block {
     display: flex;
-    align-items: baseline;
-    gap: 8px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
     flex-wrap: wrap;
     grid-column: 1 / -1;
+    text-align: center;
 }
 
 .brand-title {
     font-weight: 800;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     letter-spacing: 0.01em;
     color: #0f0f0f;
 }
@@ -32,6 +35,7 @@ header {
 .brand-subtitle {
     color: #5b5b5b;
     font-size: 0.98rem;
+    text-align: center;
 }
 
 .tab-nav {
