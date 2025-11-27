@@ -19,6 +19,15 @@
         return paragraph.length > 220 ? paragraph.slice(0, 220).trim() + '…' : paragraph;
     }
 
+    function extractDate(text) {
+        const match = text.match(/\b(20\d{2}|19\d{2})[./-](\d{1,2})[./-](\d{1,2})\b/);
+        if (match) {
+            const [year, month, day] = [match[1], match[2].padStart(2, '0'), match[3].padStart(2, '0')];
+            return `${year}-${month}-${day}`;
+        }
+        return '';
+    }
+
     async function fetchMarkdownMeta(post) {
         if (!post || !post.link) return { title: post?.title || '', excerpt: post?.excerpt || '' };
 
@@ -38,12 +47,13 @@
             const titleMatch = text.match(/^\s*#\s+(.+?)\s*$/m);
             const title = titleMatch ? titleMatch[1].trim() : post.title;
             const excerpt = extractFirstParagraph(text);
-            const meta = { title, excerpt };
+            const detectedDate = extractDate(text);
+            const meta = { title, excerpt, date: post.date || detectedDate || '' };
             cache.set(post.link, meta);
             return meta;
         } catch (error) {
             console.error('Failed to load markdown meta:', mdPath, error);
-            const fallback = { title: post.title, excerpt: post.excerpt || '' };
+            const fallback = { title: post.title, excerpt: post.excerpt || '', date: post.date || '' };
             cache.set(post.link, fallback);
             return fallback;
         }
@@ -61,6 +71,7 @@
                     ...post,
                     title: meta.title,
                     excerpt: post.excerpt || meta.excerpt || '',
+                    date: post.date || meta.date || '',
                     badge: post.badge || defaults.badge || ''
                 };
             })
