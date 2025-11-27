@@ -79,10 +79,57 @@ class Pagination {
 
         currentPosts.forEach(post => {
             const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = post.link;
-            a.textContent = post.title;
-            li.appendChild(a);
+            li.className = 'post-card';
+
+            const badgeText = post.badge || '';
+            const dateText = post.date || '';
+            const hasMeta = badgeText.trim() !== '' || dateText.trim() !== '';
+            let metaRow = null;
+            if (hasMeta) {
+                metaRow = document.createElement('div');
+                metaRow.className = 'post-card__meta';
+
+                if (badgeText.trim() !== '') {
+                    const badge = document.createElement('span');
+                    badge.className = 'post-card__badge';
+                    badge.textContent = badgeText;
+                    metaRow.appendChild(badge);
+                } else {
+                    const spacer = document.createElement('span');
+                    spacer.className = 'post-card__badge';
+                    spacer.style.visibility = 'hidden';
+                    metaRow.appendChild(spacer);
+                }
+
+                const date = document.createElement('span');
+                date.textContent = dateText;
+                metaRow.appendChild(date);
+            }
+
+            const titleLink = document.createElement('a');
+            titleLink.href = post.link;
+            titleLink.className = 'post-card__title';
+            titleLink.textContent = post.title;
+
+            const excerpt = document.createElement('p');
+            excerpt.className = 'post-card__excerpt';
+            excerpt.textContent = post.excerpt || '';
+
+            const footer = document.createElement('div');
+            footer.className = 'post-card__footer';
+            footer.textContent = post.author || '';
+
+            if (metaRow) {
+                li.appendChild(metaRow);
+            }
+            li.appendChild(titleLink);
+            if (excerpt.textContent.trim() !== '') {
+                li.appendChild(excerpt);
+            }
+            if (footer.textContent.trim() !== '') {
+                li.appendChild(footer);
+            }
+
             this.container.appendChild(li);
         });
     }
@@ -271,10 +318,11 @@ class Pagination {
 
     setFilter(term) {
         this.searchTerm = (term || '').toLowerCase();
-        this.filteredPosts = this.posts.filter(post =>
-            typeof post.title === 'string' &&
-            post.title.toLowerCase().includes(this.searchTerm)
-        );
+        this.filteredPosts = this.posts.filter(post => {
+            const title = typeof post.title === 'string' ? post.title.toLowerCase() : '';
+            const excerpt = typeof post.excerpt === 'string' ? post.excerpt.toLowerCase() : '';
+            return title.includes(this.searchTerm) || excerpt.includes(this.searchTerm);
+        });
         this.currentPage = 1;
         this.totalPages = this.computeTotalPages();
         this.renderPosts();

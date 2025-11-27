@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Thoughts and reflections on various topics - Readmuch's Blog">
     <meta name="keywords" content="Mind Notes, Reflections, Thoughts, Personal Insights">
-    <meta name="theme-color" content="#1e1e1e">
-    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#f8f8f8">
+    <meta name="color-scheme" content="light">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Mind Notes Category - Readmuch's Blog">
@@ -40,15 +40,21 @@
 </head>
 <body>
     <header>
-        <h1>Mind Notes Category</h1>
-        <a href="index.html" aria-label="Back to Home">Back to Home</a>
-    </header>
-    <main class="container" role="main">
-        <h2>Mind Notes List</h2>
-        <div class="search-bar">
+        <div class="brand"><a href="index.html">Readmuch</a></div>
+        <nav class="tab-nav" aria-label="Categories">
+            <a class="tab" href="book.html">Book</a>
+            <a class="tab" href="education.html">Education</a>
+            <a class="tab" href="life.html">Life</a>
+            <a class="tab" href="tech.html">Tech</a>
+            <a class="tab active" href="mindnotes.html">Mind Notes</a>
+        </nav>
+        <div class="header-actions">
             <label for="postSearch" class="sr-only">Search posts</label>
-            <input type="search" id="postSearch" placeholder="Search posts" aria-label="Search posts">
+            <input type="search" id="postSearch" class="search-input" placeholder="Search posts" aria-label="Search posts">
         </div>
+    </header>
+    <main class="container category-container" role="main">
+        <h2>Mind Notes Posts</h2>
         <ul id="postList" role="list">
             <!-- Mind Notes items will be injected here dynamically -->
         </ul>
