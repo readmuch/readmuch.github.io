@@ -85,7 +85,8 @@
                     // Initialize pagination with data from config (markdown H1 overrides titles)
                     const paginationOptions = config.getPagination();
                     const postsWithMarkdownMeta = await loadPostsWithMarkdownMeta(techCategory.posts, { badge: 'Tech' });
-                    const pagination = new Pagination('postList', postsWithMarkdownMeta, paginationOptions.postsPerPage, paginationOptions);
+                    const sorted = postsWithMarkdownMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                    const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
 
                     const searchInput = document.getElementById('postSearch');
                     if (searchInput) {

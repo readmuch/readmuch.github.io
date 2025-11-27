@@ -91,7 +91,8 @@
                 );
                 const paginationOptions = config.getPagination();
                 const postsWithMeta = await loadPostsWithMarkdownMeta(flattened);
-                const pagination = new Pagination('postList', postsWithMeta, paginationOptions.postsPerPage, paginationOptions);
+                const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
 
                 const searchInput = document.getElementById('postSearch');
                 if (searchInput) {
