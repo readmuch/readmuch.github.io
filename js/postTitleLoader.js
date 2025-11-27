@@ -1,6 +1,7 @@
 // Utility to replace post titles with the first H1 found in their markdown files
 (function() {
     const cache = new Map();
+    let fileDatesPromise = null;
 
     function extractFirstParagraph(text) {
         const lines = text.split(/\r?\n/);
@@ -28,6 +29,14 @@
         return '';
     }
 
+    async function loadFileDates() {
+        if (fileDatesPromise) return fileDatesPromise;
+        fileDatesPromise = fetch('config/file-dates.json')
+            .then(res => res.ok ? res.json() : {})
+            .catch(() => ({}));
+        return fileDatesPromise;
+    }
+
     async function fetchMarkdownMeta(post) {
         if (!post || !post.link) return { title: post?.title || '', excerpt: post?.excerpt || '' };
 
@@ -38,6 +47,7 @@
         const mdPath = post.link.replace(/\.html?$/i, '.md');
 
         try {
+            const fileDates = await loadFileDates();
             const response = await fetch(mdPath);
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
@@ -48,7 +58,8 @@
             const title = titleMatch ? titleMatch[1].trim() : post.title;
             const excerpt = extractFirstParagraph(text);
             const detectedDate = extractDate(text);
-            const meta = { title, excerpt, date: post.date || detectedDate || '' };
+            const creationDate = fileDates[mdPath] || '';
+            const meta = { title, excerpt, date: creationDate || detectedDate || post.date || '' };
             cache.set(post.link, meta);
             return meta;
         } catch (error) {
