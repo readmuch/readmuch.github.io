@@ -107,6 +107,7 @@
       "alt": "Technology Category - Technology trends and innovations",
       "file": "tech.html",
       "posts": [
+        { "title": "Capital Markets CRM Lessons", "link": "Tech/crm-capital-markets.html" },
         { "title": "Image Generation", "link": "Tech/imagegernertion.html" },
         { "title": "PMP Career Direction", "link": "Tech/career.html" },
         { "title": "AI in Finance", "link": "Tech/AIinFinance.html" },
