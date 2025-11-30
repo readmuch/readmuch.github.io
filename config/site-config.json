@@ -39,6 +39,7 @@
       "alt": "Book Category - A collection of book reviews and literary discussions",
       "file": "book.html",
       "posts": [
+        { "title": "100% Brain Utilization", "link": "Book/brain100.html" },
         { "title": "Jensen Huang Thinking Machine", "link": "Book/jensenhwang.html" },
         { "title": "Mind Becomes Destiny", "link": "Book/maum.html" },
         { "title": "Future Self", "link": "Book/futureself.html" },
