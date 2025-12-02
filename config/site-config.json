@@ -108,6 +108,7 @@
       "alt": "Technology Category - Technology trends and innovations",
       "file": "tech.html",
       "posts": [
+        { "title": "OpenAI Dropout Six Lessons", "link": "Tech/openai-dropout-six-lessons.html" },
         { "title": "4 Truths Shaping AI 2025", "link": "Tech/ai-four-truths-2025.html" },
         { "title": "Capital Markets CRM Lessons", "link": "Tech/crm-capital-markets.html" },
         { "title": "Image Generation", "link": "Tech/imagegernertion.html" },
