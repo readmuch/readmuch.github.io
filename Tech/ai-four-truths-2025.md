@@ -1,4 +1,6 @@
-# 2025년 AI 업계의 판도를 바꾸는 4가지 놀라운 진실
+# 2025년 AI 업계의 4가지 진실
+
+
 [원문 링크](https://www.deeplearning.ai/the-batch/issue-329/?fbclid=IwdGRjcAOXl9VjbGNrA5eXwGV4dG4DYWVtAjExAHNydGMGYXBwX2lkDDM1MDY4NTUzMTcyOAABHgjaBgPtkdVwm9HMYtJ6hYpGkRXBZNmF28CQmpm2_BwWpSj_gFiiemBcWGdi_aem_B09uu58DC66tTecq34xYjw)
 
 ## 서론

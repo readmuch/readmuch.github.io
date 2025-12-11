@@ -1,4 +1,7 @@
-﻿# 고등학교 중퇴 후 OpenAI 입사: AI 시대의 학습과 성공에 대한 6가지 파격적인 교훈
+﻿# 고등학교 중퇴 후 OpenAI 입사
+
+
+AI 시대의 학습과 성공에 대한 6가지 파격적인 교훈
 
 [영상 링크](https://youtu.be/vq5WhoPCWQ8?si=moEVDtbxtQzNn_1y)
 
