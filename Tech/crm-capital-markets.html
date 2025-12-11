@@ -3,54 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM 실패와 자본 시장</title>
+    <title>CRM ?��??�� ??? ?��?</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
-            font-family: "Noto Sans KR", "Pretendard", Arial, sans-serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 20px;
             padding: 20px;
-            background: #f8f9fb;
-            color: #1d1d1f;
-        }
-        main {
-            max-width: 820px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.08);
-            padding: 32px;
-        }
-        h1, h2, h3 {
-            color: #0f172a;
-            letter-spacing: -0.02em;
-        }
-        a {
-            color: #0d6efd;
         }
         pre {
-            background: #0f172a;
-            color: #e2e8f0;
-            padding: 12px 14px;
-            border-radius: 8px;
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
             overflow-x: auto;
         }
+        h1, h2, h3 {
+            color: #333;
+        }
         blockquote {
-            border-left: 4px solid #2563eb;
-            padding-left: 14px;
-            margin-left: 0;
-            color: #334155;
-            background: #f1f5f9;
+            font-style: italic;
+            color: #555;
+            border-left: 4px solid #ccc;
+            padding-left: 10px;
         }
     </style>
 </head>
 <body>
-    <main id="content" aria-live="polite"></main>
+    <div id="content"></div>
+
     <script>
         fetch("crm-capital-markets.md")
             .then(response => {
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
                 return response.text();
             })
             .then(markdownText => {
@@ -59,7 +46,7 @@
             .catch(error => {
                 console.error("Error loading markdown:", error);
                 document.getElementById("content").innerHTML =
-                    `<p style="color: red;">마크다운 파일을 불러오지 못했습니다: ${error.message}</p>`;
+                    `<p style="color: red;">Failed to load markdown file: ${error.message}</p>`;
             });
     </script>
 </body>

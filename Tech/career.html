@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +11,12 @@
             line-height: 1.6;
             margin: 20px;
             padding: 20px;
-            user-select: none; /* Disable text selection */
         }
         pre {
             background: #f4f4f4;
             padding: 10px;
             border-radius: 5px;
             overflow-x: auto;
-            user-select: none; /* Disable text selection for code blocks */
         }
         h1, h2, h3 {
             color: #333;
@@ -28,16 +26,14 @@
             color: #555;
             border-left: 4px solid #ccc;
             padding-left: 10px;
-            user-select: none; /* Disable text selection for blockquotes */
         }
     </style>
 </head>
-<body oncontextmenu="return false;"> <!-- Disable right-click -->
+<body>
     <div id="content"></div>
 
     <script>
-        // Markdown 파일 로드 및 렌더링
-        fetch("career.md") // Markdown 파일 경로
+        fetch("career.md")
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -45,12 +41,11 @@
                 return response.text();
             })
             .then(markdownText => {
-                // marked.js를 사용하여 Markdown을 HTML로 변환
                 document.getElementById("content").innerHTML = marked.parse(markdownText);
             })
             .catch(error => {
                 console.error("Error loading markdown:", error);
-                document.getElementById("content").innerHTML = 
+                document.getElementById("content").innerHTML =
                     `<p style="color: red;">Failed to load markdown file: ${error.message}</p>`;
             });
     </script>
