@@ -215,7 +215,7 @@ footer p {
         grid-template-columns: 1fr;
         grid-template-rows: auto auto auto;
         gap: 8px;
-        padding: 12px 20px;
+        padding: 10px 16px;
         position: sticky;
     }
     .tab-nav {
@@ -228,6 +228,9 @@ footer p {
         grid-column: 1;
     }
     #postList {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .post-card {
+        min-height: auto;
     }
 }
