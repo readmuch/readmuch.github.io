@@ -2,7 +2,7 @@
 # 마크다운 파일 문법
 
 ## 1. 글쓰기
-글자크기는  의 갯수로 구분한다. 
+글자크기는 # 의 갯수로 구분한다. 
 
 ## 2. 목록만들기
 - **Investor's Risk Appetite**: For instance, 12–25% is a common range.
