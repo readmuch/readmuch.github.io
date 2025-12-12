@@ -1,4 +1,4 @@
-// Utility to replace post titles with the first H1 found in their markdown files
+﻿// Utility to replace post titles with the first H1 found in their markdown files
 (function() {
     const cache = new Map();
     let fileDatesPromise = null;
@@ -17,7 +17,7 @@
         }
         const paragraph = collecting.join(' ');
         if (!paragraph) return '';
-        return paragraph.length > 220 ? paragraph.slice(0, 220).trim() + '…' : paragraph;
+        return paragraph.length > 220 ? paragraph.slice(0, 220).trim() + '...' : paragraph;
     }
 
     function extractDate(text) {
@@ -98,3 +98,5 @@
     window.loadPostsWithMarkdownMeta = loadPostsWithMarkdownMeta;
     window.loadPostsWithMarkdownTitles = loadPostsWithMarkdownTitles;
 })();
+
+

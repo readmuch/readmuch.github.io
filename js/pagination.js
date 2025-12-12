@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Enhanced Pagination Module
  * Handles post listing and pagination functionality with responsive numbered style
  */
@@ -147,7 +147,7 @@ class Pagination {
 
     renderNumberedPagination(container) {
         // Previous button
-        const prevBtn = this.createButton('←', () => this.previousPage());
+        const prevBtn = this.createButton('Prev', () => this.previousPage());
         prevBtn.id = 'prevBtn';
         prevBtn.className = 'pagination-btn prev-btn';
         prevBtn.setAttribute('aria-label', 'Previous page');
@@ -160,7 +160,7 @@ class Pagination {
         }
 
         // Next button
-        const nextBtn = this.createButton('→', () => this.nextPage());
+        const nextBtn = this.createButton('Next', () => this.nextPage());
         nextBtn.id = 'nextBtn';
         nextBtn.className = 'pagination-btn next-btn';
         nextBtn.setAttribute('aria-label', 'Next page');
@@ -333,3 +333,4 @@ class Pagination {
 
 // Export for use in other modules
 window.Pagination = Pagination;
+
