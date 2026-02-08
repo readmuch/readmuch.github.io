@@ -48,6 +48,7 @@
 
         try {
             const fileDates = await loadFileDates();
+            // Try to fetch the markdown content
             const response = await fetch(mdPath);
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
@@ -59,7 +60,26 @@
             const excerpt = extractFirstParagraph(text);
             const detectedDate = extractDate(text);
             const creationDate = fileDates[mdPath] || '';
-            const meta = { title, excerpt, date: creationDate || detectedDate || post.date || '' };
+            // Determine whether a standalone HTML exists for this post; if not, point to post.html loader
+            let resolvedLink = post.link;
+            try {
+                const headResp = await fetch(post.link, { method: 'HEAD' });
+                if (!headResp.ok) {
+                    resolvedLink = `post.html?src=${encodeURIComponent(mdPath)}`;
+                }
+            } catch (e) {
+                // HEAD might fail due to server restrictions; fallback to attempting GET
+                try {
+                    const getResp = await fetch(post.link, { method: 'GET' });
+                    if (!getResp.ok) {
+                        resolvedLink = `post.html?src=${encodeURIComponent(mdPath)}`;
+                    }
+                } catch (e2) {
+                    resolvedLink = `post.html?src=${encodeURIComponent(mdPath)}`;
+                }
+            }
+
+            const meta = { title, excerpt, date: creationDate || detectedDate || post.date || '', resolvedLink };
             cache.set(post.link, meta);
             return meta;
         } catch (error) {
@@ -83,7 +103,8 @@
                     title: meta.title,
                     excerpt: post.excerpt || meta.excerpt || '',
                     date: post.date || meta.date || '',
-                    badge: post.badge || defaults.badge || ''
+                    badge: post.badge || defaults.badge || '',
+                    link: meta.resolvedLink || post.link
                 };
             })
         );

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Post - Readmuch's Blog</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" href="styles/category.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <div class="brand-block">
+            <a href="index.html" class="brand-title">Readmuch's Blog</a>
+        </div>
+        <nav class="tab-nav" aria-label="Categories" id="siteNav">
+            <a class="tab" href="index.html">All Posts</a>
+        </nav>
+    </header>
+
+    <main class="container article-container" role="main">
+        <article id="postArticle">
+            <header>
+                <h1 id="postTitle">Loading…</h1>
+                <div id="postMeta" class="post-meta"></div>
+            </header>
+            <section id="postContent"></section>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+    (async function() {
+        // Render site nav from config
+        try {
+            const cfg = new SiteConfig();
+            await cfg.load();
+            const nav = document.getElementById('siteNav');
+            cfg.get().categories.forEach(cat => {
+                const a = document.createElement('a');
+                a.className = 'tab';
+                a.href = cat.file;
+                a.textContent = cat.title;
+                nav.appendChild(a);
+            });
+        } catch (e) {
+            console.error('Failed to load site config for nav', e);
+        }
+
+        // Parse ?src=... parameter
+        const params = new URLSearchParams(location.search);
+        const src = params.get('src');
+        if (!src) {
+            document.getElementById('postTitle').textContent = 'Post not found';
+            document.getElementById('postContent').textContent = 'No source specified.';
+            return;
+        }
+
+        try {
+            const res = await fetch(src);
+            if (!res.ok) throw new Error('Not found');
+            const md = await res.text();
+            // Extract title
+            const titleMatch = md.match(/^\s*#\s+(.+?)\s*$/m);
+            const title = titleMatch ? titleMatch[1].trim() : '';
+            document.getElementById('postTitle').textContent = title || 'Untitled';
+
+            // Render markdown to HTML
+            const html = marked.parse(md);
+            document.getElementById('postContent').innerHTML = html;
+
+            // Optional: set meta (date) from file-dates.json
+            try {
+                const dates = await fetch('config/file-dates.json').then(r => r.json());
+                const date = dates[src] || '';
+                if (date) document.getElementById('postMeta').textContent = date;
+            } catch (e) {}
+
+        } catch (err) {
+            document.getElementById('postTitle').textContent = 'Failed to load post';
+            document.getElementById('postContent').textContent = '' + err;
+            console.error(err);
+        }
+    })();
+    </script>
+</body>
+</html>
