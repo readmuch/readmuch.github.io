@@ -1,6 +1,7 @@
 {
   "site": {
     "name": "Readmuch's Blog",
+    "shortName": "Readmuch",
     "description": "Exploring the intersection of knowledge and creativity",
     "url": "https://readmuch.github.io",
     "author": "Readmuch",

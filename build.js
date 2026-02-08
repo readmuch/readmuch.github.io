@@ -200,7 +200,7 @@ class BlogBuilder {
 <body>
     <header>
         <div class="brand-block">
-            <span class="brand-title">${this.config.site.name}</span>
+            <a href="index.html" class="brand-title">${this.config.site.shortName || this.config.site.name}</a>
             <span class="brand-subtitle">${this.config.site.description}</span>
         </div>
         <nav class="tab-nav" aria-label="Categories">

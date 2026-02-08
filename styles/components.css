@@ -32,6 +32,18 @@ header {
     color: #0f0f0f;
 }
 
+/* Brand title as link when used as an anchor */
+.brand-title a,
+.brand-title:link,
+.brand-title:visited {
+    color: inherit;
+    text-decoration: none;
+}
+
+.brand-title:hover {
+    text-decoration: underline;
+}
+
 .brand-subtitle {
     color: #5b5b5b;
     font-size: 1.1rem;
@@ -173,6 +185,28 @@ footer p {
     align-items: center;
     gap: 10px;
     color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* Back link used on individual post pages */
+.back-link {
+    display: inline-block;
+    color: #4a4a4a;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.back-link:hover {
+    background: #111;
+    color: #fff;
+    border-color: rgba(0,0,0,0.08);
+}
+
+/* Small helper to align brand block on category pages */
+.brand-block .brand-subtitle {
     font-size: 0.95rem;
 }
 
