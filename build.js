@@ -13,12 +13,71 @@ class BlogBuilder {
     }
 
     async init() {
+        // Auto-generate site-config.json from markdown files if needed
+        this.autoGenerateConfig();
+        
         // Load configuration
         const configPath = path.join(__dirname, 'config', 'site-config.json');
         this.config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
         
         // Load templates
         await this.loadTemplates();
+    }
+
+    autoGenerateConfig() {
+        const configPath = path.join(__dirname, 'config', 'site-config.json');
+        let config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        
+        // Categories to scan for markdown files
+        const categoryDirs = [
+            { dir: 'Book', id: 'book' },
+            { dir: 'Education', id: 'education' },
+            { dir: 'Life', id: 'life' },
+            { dir: 'Tech', id: 'tech' },
+            { dir: 'MindNotes', id: 'mindnotes' }
+        ];
+
+        categoryDirs.forEach(({ dir, id }) => {
+            const categoryPath = path.join(__dirname, dir);
+            const category = config.categories.find(cat => cat.id === id);
+            
+            if (!category) return;
+
+            // Get all markdown files in the category directory
+            const files = fs.readdirSync(categoryPath)
+                .filter(file => file.endsWith('.md'))
+                .map(file => {
+                    const mdPath = path.join(categoryPath, file);
+                    const mdContent = fs.readFileSync(mdPath, 'utf8');
+                    
+                    // Extract title from H1
+                    const titleMatch = mdContent.match(/^\s*#\s+(.+?)\s*$/m);
+                    const title = titleMatch ? titleMatch[1].trim() : file.replace('.md', '');
+                    
+                    // Create HTML filename (remove .md and add .html)
+                    const htmlFile = file.replace('.md', '.html');
+                    
+                    return {
+                        title: title,
+                        link: `${dir}/${htmlFile}`,
+                        basename: htmlFile
+                    };
+                });
+
+            // Merge with existing posts (update existing, add new ones)
+            const existingPosts = category.posts || [];
+            const existingBasenames = new Set(existingPosts.map(p => p.link.split('/')[1]));
+            
+            const newPosts = files.filter(f => !existingBasenames.has(f.basename));
+            
+            if (newPosts.length > 0) {
+                console.log(`📝 Found ${newPosts.length} new post(s) in ${dir}/: ${newPosts.map(p => p.title).join(', ')}`);
+                category.posts = [...existingPosts, ...newPosts];
+            }
+        });
+
+        // Save updated config
+        fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     }
 
     async loadTemplates() {
