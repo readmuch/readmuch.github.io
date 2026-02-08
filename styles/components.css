@@ -268,3 +268,12 @@ footer p {
         min-height: auto;
     }
 }
+
+/* Post content copy protection */
+#postContent {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
