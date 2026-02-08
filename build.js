@@ -26,7 +26,10 @@ class BlogBuilder {
 
     autoGenerateConfig() {
         const configPath = path.join(__dirname, 'config', 'site-config.json');
+        const datesPath = path.join(__dirname, 'config', 'file-dates.json');
+        
         let config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        let fileDates = JSON.parse(fs.readFileSync(datesPath, 'utf8'));
         
         // Categories to scan for markdown files
         const categoryDirs = [
@@ -36,6 +39,8 @@ class BlogBuilder {
             { dir: 'Tech', id: 'tech' },
             { dir: 'MindNotes', id: 'mindnotes' }
         ];
+
+        let newPostsAdded = false;
 
         categoryDirs.forEach(({ dir, id }) => {
             const categoryPath = path.join(__dirname, dir);
@@ -54,13 +59,24 @@ class BlogBuilder {
                     const titleMatch = mdContent.match(/^\s*#\s+(.+?)\s*$/m);
                     const title = titleMatch ? titleMatch[1].trim() : file.replace('.md', '');
                     
+                    // Extract date from markdown content
+                    const dateMatch = mdContent.match(/\b(20\d{2}|19\d{2})[./-](\d{1,2})[./-](\d{1,2})\b/);
+                    let date = '';
+                    if (dateMatch) {
+                        const [year, month, day] = [dateMatch[1], dateMatch[2].padStart(2, '0'), dateMatch[3].padStart(2, '0')];
+                        date = `${year}-${month}-${day}`;
+                    }
+                    
                     // Create HTML filename (remove .md and add .html)
                     const htmlFile = file.replace('.md', '.html');
+                    const mdKey = `${dir}/${file}`;
                     
                     return {
                         title: title,
                         link: `${dir}/${htmlFile}`,
-                        basename: htmlFile
+                        basename: htmlFile,
+                        mdKey: mdKey,
+                        date: date
                     };
                 });
 
@@ -72,12 +88,26 @@ class BlogBuilder {
             
             if (newPosts.length > 0) {
                 console.log(`📝 Found ${newPosts.length} new post(s) in ${dir}/: ${newPosts.map(p => p.title).join(', ')}`);
+                
+                // Add new posts to config
                 category.posts = [...existingPosts, ...newPosts];
+                
+                // Add dates to file-dates.json
+                newPosts.forEach(post => {
+                    const defaultDate = new Date().toISOString().split('T')[0];
+                    fileDates[post.mdKey] = post.date || defaultDate;
+                });
+                
+                newPostsAdded = true;
             }
         });
 
-        // Save updated config
+        // Save updated config and dates
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+        if (newPostsAdded) {
+            fs.writeFileSync(datesPath, JSON.stringify(fileDates, null, 2));
+            console.log('📅 Updated file-dates.json with new post dates');
+        }
     }
 
     async loadTemplates() {
