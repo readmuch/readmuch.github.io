@@ -67,49 +67,110 @@ class BlogBuilder {
     }
 
     generateIndexPage() {
-        const headData = {
-            description: this.config.site.description,
-            keywords: 'Book, Education, Technology, Life, Mindnotes',
-            ogTitle: this.config.site.name,
-            ogDescription: this.config.site.description,
-            ogUrl: this.config.site.url,
-            twitterTitle: this.config.site.name,
-            twitterDescription: this.config.site.description,
-            pageTitle: this.config.site.name,
-            cssFile: 'styles/main.css',
-            preloadImages: this.config.categories.map(cat => cat.image)
-        };
-
-        const headerData = {
-            title: this.config.site.name,
-            subtitle: this.config.site.description,
-            showBackLink: false
-        };
-
-        const head = this.renderTemplate('head', headData);
-        const header = this.renderTemplate('header', headerData);
-        const footer = this.renderTemplate('footer', {});
-
-        // Generate category cards
-        const categoryCards = this.config.categories.map(category => `
-        <article class="card">
-            <a href="${category.file}" aria-label="${category.title} Category">
-                <img src="${category.image}" alt="${category.alt}" loading="lazy" width="300" height="220" decoding="async">
-                <span>${category.title}</span>
-            </a>
-        </article>`).join('\n        ');
-
         const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
-    ${head}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="${this.config.site.description}">
+    <meta name="keywords" content="Book, Education, Technology, Life, Mindnotes">
+    <meta name="theme-color" content="#f8f8f8">
+    <meta name="color-scheme" content="light">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="${this.config.site.name}">
+    <meta property="og:description" content="${this.config.site.description}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="${this.config.site.url}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${this.config.site.name}">
+    <meta name="twitter:description" content="${this.config.site.description}">
+    
+    <title>${this.config.site.name}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="images/book.jpg" as="image">
+    <link rel="preload" href="images/education.jpg" as="image">
+    <link rel="preload" href="images/life.jpg" as="image">
+    <link rel="preload" href="images/tech.jpg" as="image">
+    <link rel="preload" href="images/mindnotes.jpg" as="image">
+    
+    <!-- Font loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles/category.css">
 </head>
 <body>
-    ${header}
-    <main class="container" role="main" aria-label="Blog Categories">
-        ${categoryCards}
+    <header>
+        <div class="brand-block">
+            <span class="brand-title">${this.config.site.name}</span>
+            <span class="brand-subtitle">${this.config.site.description}</span>
+        </div>
+        <nav class="tab-nav" aria-label="Categories">
+            <a class="tab" href="index.html">All Posts</a>
+            ${this.config.categories.map(cat => `<a class="tab" href="${cat.file}">${cat.title}</a>`).join('\n            ')}
+        </nav>
+        <div class="header-actions">
+            <label for="postSearch" class="sr-only">Search posts</label>
+            <input type="search" id="postSearch" class="search-input" placeholder="Search posts" aria-label="Search posts">
+        </div>
+    </header>
+    <main class="container category-container" role="main">
+        <h2>All Posts</h2>
+        <ul id="postList" role="list">
+            <!-- Posts will be injected here dynamically -->
+        </ul>
+        <nav class="pagination" role="navigation" aria-label="Pagination">
+            <!-- Pagination will be rendered here by JavaScript -->
+        </nav>
     </main>
-    ${footer}
+    
+    <footer>
+        <p>&copy; ${this.config.site.year} ${this.config.site.name}. All rights reserved.</p>
+    </footer>
+    <script src="js/postTitleLoader.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
+                    throw new Error('SiteConfig, Pagination, loadPostsWithMarkdownMeta 확인이 필요합니다.');
+                }
+                const config = new SiteConfig();
+                await config.load();
+                const allCategories = config.get().categories || [];
+                const flattened = allCategories.flatMap(cat =>
+                    (cat.posts || []).map(post => ({
+                        ...post,
+                        badge: cat.title || cat.id || ''
+                    }))
+                );
+                const paginationOptions = config.getPagination();
+                const postsWithMeta = await loadPostsWithMarkdownMeta(flattened);
+                const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+
+                const searchInput = document.getElementById('postSearch');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (event) => {
+                        pagination.setFilter(event.target.value);
+                    });
+                }
+            } catch (error) {
+                document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
+                console.error('Failed to initialize home page:', error);
+            }
+        });
+    </script>
 </body>
 </html>`;
 
@@ -123,36 +184,51 @@ class BlogBuilder {
             throw new Error(`Category ${categoryId} not found`);
         }
 
-        const headData = {
-            description: category.description,
-            keywords: `${category.title}, Blog, Readmuch`,
-            ogTitle: `${category.title} Category - ${this.config.site.name}`,
-            ogDescription: category.description,
-            ogUrl: `${this.config.site.url}/${category.file}`,
-            twitterTitle: `${category.title} Category - ${this.config.site.name}`,
-            twitterDescription: category.description,
-            pageTitle: `${category.title} Category - ${this.config.site.name}`,
-            cssFile: 'styles/category.css',
-            preloadImages: []
-        };
-
-        const headerData = {
-            title: `${category.title} Category`,
-            subtitle: category.description,
-            showBackLink: true
-        };
-
-        const head = this.renderTemplate('head', headData);
-        const header = this.renderTemplate('header', headerData);
-        const footer = this.renderTemplate('footer', {});
-
         const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
-    ${head}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="${category.description}">
+    <meta name="keywords" content="${category.title}, Blog, Readmuch">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="color-scheme" content="dark">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="${category.title} Category - ${this.config.site.name}">
+    <meta property="og:description" content="${category.description}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="${this.config.site.url}/${category.file}">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${category.title} Category - ${this.config.site.name}">
+    <meta name="twitter:description" content="${category.description}">
+
+    <title>${category.title} Category - ${this.config.site.name}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+
+    <!-- Font loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles/category.css">
+
 </head>
 <body>
-    ${header}
+    <header>
+        <h1>${category.title} Category</h1>
+        <p>${category.description}</p>
+        
+        <a href="index.html" aria-label="Back to Home">Back to Home</a>
+        
+    </header>
+
     <main class="category-container" role="main">
         <h2>${category.title} List</h2>
         <ul id="postList" class="post-list" role="list">
@@ -163,17 +239,37 @@ class BlogBuilder {
             <button id="nextBtn" aria-label="Next page">Next</button>
         </nav>
     </main>
-    ${footer}
+    <footer>
+        <p>&copy; ${this.config.site.year} ${this.config.site.name}. All rights reserved.</p>
+    </footer>
+
+    <script src="js/postTitleLoader.js"></script>
     <script src="js/config.js"></script>
     <script src="js/pagination.js"></script>
     <script>
         // Initialize category page
         (async function() {
-            const config = new SiteConfig();
-            await config.load();
-            
-            const category = config.getCategory('${categoryId}');
-            const pagination = new Pagination('postList', category.posts, ${this.config.pagination.postsPerPage});
+            try {
+                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
+                    throw new Error('Required functions not found');
+                }
+                
+                const config = new SiteConfig();
+                await config.load();
+                
+                const category = config.getCategory('${categoryId}');
+                if (!category || !category.posts) {
+                    throw new Error('Category or posts not found');
+                }
+                
+                const paginationOptions = config.getPagination();
+                const postsWithMeta = await loadPostsWithMarkdownMeta(category.posts);
+                const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+            } catch (error) {
+                document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
+                console.error('Failed to initialize category page:', error);
+            }
         })();
     </script>
 </body>
