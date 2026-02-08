@@ -1,301 +1,331 @@
 {
-    "site": {
-        "name": "Readmuch's Blog",
-        "description": "Exploring the intersection of knowledge and creativity",
-        "url": "https://readmuch.github.io",
-        "author": "Readmuch",
-        "year": "2024"
-    },
-    "pagination": {
-        "postsPerPage": 10,
+  "site": {
+    "name": "Readmuch's Blog",
+    "description": "Exploring the intersection of knowledge and creativity",
+    "url": "https://readmuch.github.io",
+    "author": "Readmuch",
+    "year": "2024"
+  },
+  "pagination": {
+    "postsPerPage": 10,
+    "style": "numbered",
+    "showPageInfo": true,
+    "showPageNumbers": true,
+    "maxPageNumbers": 5,
+    "responsive": {
+      "mobile": {
         "style": "numbered",
-        "showPageInfo": true,
         "showPageNumbers": true,
-        "maxPageNumbers": 5,
-        "responsive": {
-            "mobile": {
-                "style": "numbered",
-                "showPageNumbers": true,
-                "maxPageNumbers": 3
-            },
-            "tablet": {
-                "style": "numbered",
-                "showPageNumbers": true,
-                "maxPageNumbers": 4
-            },
-            "desktop": {
-                "style": "numbered",
-                "showPageNumbers": true,
-                "maxPageNumbers": 5
-            }
+        "maxPageNumbers": 3
+      },
+      "tablet": {
+        "style": "numbered",
+        "showPageNumbers": true,
+        "maxPageNumbers": 4
+      },
+      "desktop": {
+        "style": "numbered",
+        "showPageNumbers": true,
+        "maxPageNumbers": 5
+      }
+    }
+  },
+  "categories": [
+    {
+      "id": "book",
+      "title": "Book",
+      "description": "Book reviews and literary discussions",
+      "image": "images/book.jpg",
+      "alt": "Book Category - A collection of book reviews and literary discussions",
+      "file": "book.html",
+      "posts": [
+        {
+          "title": "100% Brain Utilization",
+          "link": "Book/brain100.html"
+        },
+        {
+          "title": "Jensen Huang Thinking Machine",
+          "link": "Book/jensenhwang.html"
+        },
+        {
+          "title": "Mind Becomes Destiny",
+          "link": "Book/maum.html"
+        },
+        {
+          "title": "Future Self",
+          "link": "Book/futureself.html"
+        },
+        {
+          "title": "Real Fun Math",
+          "link": "Book/realfunmath.html"
+        },
+        {
+          "title": "Data, Not Prediction",
+          "link": "Book/datanoprediction.html"
+        },
+        {
+          "title": "Writing",
+          "link": "Book/writing.html"
+        },
+        {
+          "title": "Work",
+          "link": "Book/work.html"
+        },
+        {
+          "title": "Crossing Over",
+          "link": "Book/choijinsuk.html"
+        },
+        {
+          "title": "Creator",
+          "link": "Book/creator.html"
+        },
+        {
+          "title": "Dopamine Nation",
+          "link": "Book/dopaminenation.html"
+        },
+        {
+          "title": "Mind Communication",
+          "link": "Book/mindcommunication.html"
+        },
+        {
+          "title": "I Can Be Wrong",
+          "link": "Book/Icanbewrong.html"
+        },
+        {
+          "title": "The War for Kindness",
+          "link": "Book/TheWarforKindness.html"
+        },
+        {
+          "title": "Dual Brain",
+          "link": "Book/dualbrain.html"
+        },
+        {
+          "title": "Gojun",
+          "link": "Book/gojun.html"
+        },
+        {
+          "title": "Art",
+          "link": "Book/art.html"
+        },
+        {
+          "title": "Palantir Era",
+          "link": "Book/palantir.html"
+        },
+        {
+          "title": "Bu",
+          "link": "Book/bu.html"
+        },
+        {
+          "title": "Gojun 2",
+          "link": "Book/gojun2.html"
+        },
+        {
+          "title": "Comfort Crisis",
+          "link": "Book/comfortcrisis.html"
+        },
+        {
+          "title": "Misul",
+          "link": "Book/misul.html"
+        },
+        {
+          "title": "Suim",
+          "link": "Book/suim.html"
         }
+      ]
     },
-    "categories": [
+    {
+      "id": "education",
+      "title": "Education",
+      "description": "Insights and resources about learning and teaching",
+      "image": "images/education.jpg",
+      "alt": "Education Category - Insights and resources about learning and teaching",
+      "file": "education.html",
+      "posts": [
         {
-            "id": "book",
-            "title": "Book",
-            "description": "Book reviews and literary discussions",
-            "image": "images/book.jpg",
-            "alt": "Book Category - A collection of book reviews and literary discussions",
-            "file": "book.html",
-            "posts": [
-                {
-                    "title": "100% Brain Utilization",
-                    "link": "Book/brain100.html"
-                },
-                {
-                    "title": "Jensen Huang Thinking Machine",
-                    "link": "Book/jensenhwang.html"
-                },
-                {
-                    "title": "Mind Becomes Destiny",
-                    "link": "Book/maum.html"
-                },
-                {
-                    "title": "Future Self",
-                    "link": "Book/futureself.html"
-                },
-                {
-                    "title": "Real Fun Math",
-                    "link": "Book/realfunmath.html"
-                },
-                {
-                    "title": "Data, Not Prediction",
-                    "link": "Book/datanoprediction.html"
-                },
-                {
-                    "title": "Writing",
-                    "link": "Book/writing.html"
-                },
-                {
-                    "title": "Work",
-                    "link": "Book/work.html"
-                },
-                {
-                    "title": "Crossing Over",
-                    "link": "Book/choijinsuk.html"
-                },
-                {
-                    "title": "Creator",
-                    "link": "Book/creator.html"
-                },
-                {
-                    "title": "Dopamine Nation",
-                    "link": "Book/dopaminenation.html"
-                },
-                {
-                    "title": "Mind Communication",
-                    "link": "Book/mindcommunication.html"
-                },
-                {
-                    "title": "I Can Be Wrong",
-                    "link": "Book/Icanbewrong.html"
-                },
-                {
-                    "title": "The War for Kindness",
-                    "link": "Book/TheWarforKindness.html"
-                },
-                {
-                    "title": "Dual Brain",
-                    "link": "Book/dualbrain.html"
-                },
-                {
-                    "title": "Gojun",
-                    "link": "Book/gojun.html"
-                },
-                {
-                    "title": "Art",
-                    "link": "Book/art.html"
-                },
-                {
-                    "title": "Palantir Era",
-                    "link": "Book/palantir.html"
-                },
-                {
-                    "title": "Bu",
-                    "link": "Book/bu.html"
-                },
-                {
-                    "title": "Gojun 2",
-                    "link": "Book/gojun2.html"
-                },
-                {
-                    "title": "Comfort Crisis",
-                    "link": "Book/comfortcrisis.html"
-                },
-                {
-                    "title": "Misul",
-                    "link": "Book/misul.html"
-                },
-                {
-                    "title": "Suim",
-                    "link": "Book/suim.html"
-                }
-            ]
+          "title": "Markdown in HTML",
+          "link": "Education/markdowninhtml.html"
         },
         {
-            "id": "education",
-            "title": "Education",
-            "description": "Insights and resources about learning and teaching",
-            "image": "images/education.jpg",
-            "alt": "Education Category - Insights and resources about learning and teaching",
-            "file": "education.html",
-            "posts": [
-                {
-                    "title": "Markdown in HTML",
-                    "link": "Education/markdowninhtml.html"
-                },
-                {
-                    "title": "Fetch Markdown into HTML",
-                    "link": "Education/MDfetchinhtml.html"
-                },
-                {
-                    "title": "Infinity",
-                    "link": "Education/infinity.html"
-                },
-                {
-                    "title": "Lottery",
-                    "link": "Education/lottery.html"
-                }
-            ]
+          "title": "Fetch Markdown into HTML",
+          "link": "Education/MDfetchinhtml.html"
         },
         {
-            "id": "life",
-            "title": "Lifestyle",
-            "description": "Personal experiences and life lessons",
-            "image": "images/life.jpg",
-            "alt": "Lifestyle Category - Personal experiences and life lessons",
-            "file": "life.html",
-            "posts": [
-                {
-                    "title": "Easy Tasty Healthy Recipes",
-                    "link": "Life/EasyTastyHealthyRecipes.html"
-                },
-                {
-                    "title": "Mookook",
-                    "link": "Life/mookook.html"
-                },
-                {
-                    "title": "Myeolchi",
-                    "link": "Life/myeolchi.html"
-                },
-                {
-                    "title": "Curry",
-                    "link": "Life/care.html"
-                },
-                {
-                    "title": "Soondooboo",
-                    "link": "Life/soondooboo.html"
-                },
-                {
-                    "title": "Spinach Namul",
-                    "link": "Life/sigmchi.html"
-                },
-                {
-                    "title": "Bean Sprout Soup",
-                    "link": "Life/sukjoo.html"
-                },
-                {
-                    "title": "Seaweed Soup",
-                    "link": "Life/miyuk.html"
-                },
-                {
-                    "title": "Dubbab",
-                    "link": "Life/dubbab.html"
-                },
-                {
-                    "title": "Aehobak Namul",
-                    "link": "Life/aehobak.html"
-                },
-                {
-                    "title": "Jinmichae Bokkeum",
-                    "link": "Life/jinmichae.html"
-                },
-                {
-                    "title": "Altari Kimchi",
-                    "link": "Life/altarikimchi.html"
-                }
-            ]
+          "title": "Infinity",
+          "link": "Education/infinity.html"
         },
         {
-            "id": "tech",
-            "title": "Technology",
-            "description": "Technology trends and innovations",
-            "image": "images/tech.jpg",
-            "alt": "Technology Category - Technology trends and innovations",
-            "file": "tech.html",
-            "posts": [
-                {
-                    "title": "Google AlphaEvolve",
-                    "link": "Tech/alhpha_evolve.html"
-                },
-                {
-                    "title": "AgentEvolver Self-Learning AI",
-                    "link": "Tech/agent-evolver-three-innovations.html"
-                },
-                {
-                    "title": "OpenAI Dropout Six Lessons",
-                    "link": "Tech/openai-dropout-six-lessons.html"
-                },
-                {
-                    "title": "4 Truths Shaping AI 2025",
-                    "link": "Tech/ai-four-truths-2025.html"
-                },
-                {
-                    "title": "Capital Markets CRM Lessons",
-                    "link": "Tech/crm-capital-markets.html"
-                },
-                {
-                    "title": "Image Generation",
-                    "link": "Tech/imagegernertion.html"
-                },
-                {
-                    "title": "PMP Career Direction",
-                    "link": "Tech/career.html"
-                },
-                {
-                    "title": "AI in Finance",
-                    "link": "Tech/AIinFinance.html"
-                },
-                {
-                    "title": "Prediction Model",
-                    "link": "Tech/predictioin.html"
-                },
-                {
-                    "title": "Stablecoin",
-                    "link": "Tech/stablecoin.html"
-                }
-            ]
-        },
-        {
-            "id": "mindnotes",
-            "title": "Mind Notes",
-            "description": "Thoughts and reflections on various topics",
-            "image": "images/mindnotes.jpg",
-            "alt": "Mind Notes Category - Thoughts and reflections on various topics",
-            "file": "mindnotes.html",
-            "posts": [
-                {
-                    "title": "Book Club",
-                    "link": "MindNotes/bookclub.html"
-                },
-                {
-                    "title": "Jiksi",
-                    "link": "MindNotes/%EC%A7%81%EC%8B%9C.html"
-                },
-                {
-                    "title": "Why Books Are Good",
-                    "link": "MindNotes/%EC%B1%85%EC%9D%B4%EC%A2%8B%EC%9D%80%EC%A0%90.html"
-                },
-                {
-                    "title": "Happiness",
-                    "link": "MindNotes/happiness.html"
-                },
-                {
-                    "title": "Leadership 1",
-                    "link": "MindNotes/leadership1.html"
-                }
-            ]
+          "title": "Lottery",
+          "link": "Education/lottery.html"
         }
-    ]
+      ]
+    },
+    {
+      "id": "life",
+      "title": "Lifestyle",
+      "description": "Personal experiences and life lessons",
+      "image": "images/life.jpg",
+      "alt": "Lifestyle Category - Personal experiences and life lessons",
+      "file": "life.html",
+      "posts": [
+        {
+          "title": "Easy Tasty Healthy Recipes",
+          "link": "Life/EasyTastyHealthyRecipes.html"
+        },
+        {
+          "title": "Mookook",
+          "link": "Life/mookook.html"
+        },
+        {
+          "title": "Myeolchi",
+          "link": "Life/myeolchi.html"
+        },
+        {
+          "title": "Curry",
+          "link": "Life/care.html"
+        },
+        {
+          "title": "Soondooboo",
+          "link": "Life/soondooboo.html"
+        },
+        {
+          "title": "Spinach Namul",
+          "link": "Life/sigmchi.html"
+        },
+        {
+          "title": "Bean Sprout Soup",
+          "link": "Life/sukjoo.html"
+        },
+        {
+          "title": "Seaweed Soup",
+          "link": "Life/miyuk.html"
+        },
+        {
+          "title": "Dubbab",
+          "link": "Life/dubbab.html"
+        },
+        {
+          "title": "Aehobak Namul",
+          "link": "Life/aehobak.html"
+        },
+        {
+          "title": "Jinmichae Bokkeum",
+          "link": "Life/jinmichae.html"
+        },
+        {
+          "title": "Altari Kimchi",
+          "link": "Life/altarikimchi.html"
+        },
+        {
+          "title": "짭조름한 소고기 장조림",
+          "link": "Life/jangjorim.html",
+          "basename": "jangjorim.html"
+        }
+      ]
+    },
+    {
+      "id": "tech",
+      "title": "Technology",
+      "description": "Technology trends and innovations",
+      "image": "images/tech.jpg",
+      "alt": "Technology Category - Technology trends and innovations",
+      "file": "tech.html",
+      "posts": [
+        {
+          "title": "Google AlphaEvolve",
+          "link": "Tech/alhpha_evolve.html"
+        },
+        {
+          "title": "AgentEvolver Self-Learning AI",
+          "link": "Tech/agent-evolver-three-innovations.html"
+        },
+        {
+          "title": "OpenAI Dropout Six Lessons",
+          "link": "Tech/openai-dropout-six-lessons.html"
+        },
+        {
+          "title": "4 Truths Shaping AI 2025",
+          "link": "Tech/ai-four-truths-2025.html"
+        },
+        {
+          "title": "Capital Markets CRM Lessons",
+          "link": "Tech/crm-capital-markets.html"
+        },
+        {
+          "title": "Image Generation",
+          "link": "Tech/imagegernertion.html"
+        },
+        {
+          "title": "PMP Career Direction",
+          "link": "Tech/career.html"
+        },
+        {
+          "title": "AI in Finance",
+          "link": "Tech/AIinFinance.html"
+        },
+        {
+          "title": "Prediction Model",
+          "link": "Tech/predictioin.html"
+        },
+        {
+          "title": "Stablecoin",
+          "link": "Tech/stablecoin.html"
+        },
+        {
+          "title": "AI에 대한 5가지 놀라운 진실: 우리가 놓치고 있는 것들",
+          "link": "Tech/ai-five-surprising-truths.html",
+          "basename": "ai-five-surprising-truths.html"
+        },
+        {
+          "title": "허깅페이스",
+          "link": "Tech/imagegeneration.html",
+          "basename": "imagegeneration.html"
+        },
+        {
+          "title": "예측 모델링",
+          "link": "Tech/prediction.html",
+          "basename": "prediction.html"
+        },
+        {
+          "title": "📘 유페이퍼 전자책 출판 마스터 가이드",
+          "link": "Tech/youpaper.html",
+          "basename": "youpaper.html"
+        }
+      ]
+    },
+    {
+      "id": "mindnotes",
+      "title": "Mind Notes",
+      "description": "Thoughts and reflections on various topics",
+      "image": "images/mindnotes.jpg",
+      "alt": "Mind Notes Category - Thoughts and reflections on various topics",
+      "file": "mindnotes.html",
+      "posts": [
+        {
+          "title": "Book Club",
+          "link": "MindNotes/bookclub.html"
+        },
+        {
+          "title": "Jiksi",
+          "link": "MindNotes/%EC%A7%81%EC%8B%9C.html"
+        },
+        {
+          "title": "Why Books Are Good",
+          "link": "MindNotes/%EC%B1%85%EC%9D%B4%EC%A2%8B%EC%9D%80%EC%A0%90.html"
+        },
+        {
+          "title": "Happiness",
+          "link": "MindNotes/happiness.html"
+        },
+        {
+          "title": "Leadership 1",
+          "link": "MindNotes/leadership1.html"
+        },
+        {
+          "title": "책이 좋은 이유",
+          "link": "MindNotes/책이좋은점.html",
+          "basename": "책이좋은점.html"
+        }
+      ]
+    }
+  ]
 }
