@@ -12,13 +12,20 @@ class BlogBuilder {
         this.templates = {};
     }
 
+    readJSON(filePath) {
+        const content = fs.readFileSync(filePath, 'utf8');
+        // Remove BOM if present (UTF-8 BOM is \uFEFF)
+        const cleanContent = content.replace(/^\uFEFF/, '');
+        return JSON.parse(cleanContent);
+    }
+
     async init() {
         // Auto-generate site-config.json from markdown files if needed
         this.autoGenerateConfig();
         
         // Load configuration
         const configPath = path.join(__dirname, 'config', 'site-config.json');
-        this.config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        this.config = this.readJSON(configPath);
         
         // Load templates
         await this.loadTemplates();
@@ -28,8 +35,8 @@ class BlogBuilder {
         const configPath = path.join(__dirname, 'config', 'site-config.json');
         const datesPath = path.join(__dirname, 'config', 'file-dates.json');
         
-        let config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-        let fileDates = JSON.parse(fs.readFileSync(datesPath, 'utf8'));
+        let config = this.readJSON(configPath);
+        let fileDates = this.readJSON(datesPath);
         
         // Categories to scan for markdown files
         const categoryDirs = [

@@ -325,6 +325,13 @@
           "title": "책이 좋은 이유",
           "link": "MindNotes/책이좋은점.html",
           "basename": "책이좋은점.html"
+        },
+        {
+          "title": "책이 좋은 이유",
+          "link": "MindNotes/booklike.html",
+          "basename": "booklike.html",
+          "mdKey": "MindNotes/booklike.md",
+          "date": ""
         }
       ]
     }
