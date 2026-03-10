@@ -2,49 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Personal experiences and life lessons">
-<meta name="keywords" content="Lifestyle, Blog, Readmuch">
-<meta name="theme-color" content="#1e1e1e">
-<meta name="color-scheme" content="dark">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal experiences and life lessons">
+    <meta name="keywords" content="Lifestyle, Blog, Readmuch">
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="color-scheme" content="dark">
 
-<!-- Open Graph Meta Tags -->
-<meta property="og:title" content="Lifestyle Category - Readmuch's Blog">
-<meta property="og:description" content="Personal experiences and life lessons">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://readmuch.github.io/life.html">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Lifestyle Category - Readmuch's Blog">
+    <meta property="og:description" content="Personal experiences and life lessons">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://readmuch.github.io/life.html">
 
-<!-- Twitter Card Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Lifestyle Category - Readmuch's Blog">
-<meta name="twitter:description" content="Personal experiences and life lessons">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Lifestyle Category - Readmuch's Blog">
+    <meta name="twitter:description" content="Personal experiences and life lessons">
 
-<title>Lifestyle Category - Readmuch's Blog</title>
+    <title>Lifestyle Category - Readmuch's Blog</title>
 
-<!-- Favicon -->
-<link rel="icon" type="image/png" href="images/favicon.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
 
-<!-- Preload critical assets -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
-{{#each preloadImages}}
-<link rel="preload" href="{{this}}" as="image">
-{{/each}}
+    <!-- Preload critical assets -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
 
-<!-- Font loading -->
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- External CSS -->
-<link rel="stylesheet" href="styles/category.css">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="styles/category.css">
 
 </head>
 <body>
     <header>
-    <h1>Lifestyle Category</h1>
-    <p>Personal experiences and life lessons</p>
-    
-    <a href="index.html" aria-label="Back to Home">Back to Home</a>
-    
-</header>
+        <h1>Lifestyle Category</h1>
+        <p>Personal experiences and life lessons</p>
+        
+        <a href="index.html" aria-label="Back to Home">Back to Home</a>
+        
+    </header>
 
     <main class="category-container" role="main">
         <h2>Lifestyle List</h2>
@@ -57,19 +54,36 @@
         </nav>
     </main>
     <footer>
-    <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
-</footer>
+        <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
+    </footer>
 
+    <script src="js/postTitleLoader.js"></script>
     <script src="js/config.js"></script>
     <script src="js/pagination.js"></script>
     <script>
         // Initialize category page
         (async function() {
-            const config = new SiteConfig();
-            await config.load();
-            
-            const category = config.getCategory('life');
-            const pagination = new Pagination('postList', category.posts, 10);
+            try {
+                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
+                    throw new Error('Required functions not found');
+                }
+                
+                const config = new SiteConfig();
+                await config.load();
+                
+                const category = config.getCategory('life');
+                if (!category || !category.posts) {
+                    throw new Error('Category or posts not found');
+                }
+                
+                const paginationOptions = config.getPagination();
+                const postsWithMeta = await loadPostsWithMarkdownMeta(category.posts);
+                const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+            } catch (error) {
+                document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
+                console.error('Failed to initialize category page:', error);
+            }
         })();
     </script>
 </body>
