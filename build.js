@@ -43,27 +43,6 @@ class BlogBuilder {
         };
     }
 
-    extractTitleFromBody(content, fallback = '') {
-        if (typeof content !== 'string') return fallback;
-
-        const lines = content.split(/\r?\n/);
-        for (const line of lines) {
-            const trimmed = line.trim();
-            const match = trimmed.match(/^#+\s*(.+?)\s*$/);
-            if (!match) continue;
-
-            const headingText = match[1].trim();
-            const normalized = trimmed.replace(/^#+\s*/, '');
-            const tokens = normalized.split(/\s+/).filter(Boolean);
-            const isTagOnlyHeading = tokens.length > 1 && tokens.slice(1).every(token => token.startsWith('#'));
-            if (isTagOnlyHeading) continue;
-
-            return headingText;
-        }
-
-        return fallback;
-    }
-
     extractFirstParagraph(content) {
         if (typeof content !== 'string') return '';
 
@@ -151,7 +130,7 @@ class BlogBuilder {
                     const mdPath = path.join(categoryPath, file);
                     const mdContent = this.decodeBuffer(fs.readFileSync(mdPath));
                     const { attributes, body } = this.parseFrontMatter(mdContent);
-                    const title = (attributes.title || '').trim() || this.extractTitleFromBody(body, file.replace('.md', ''));
+                    const title = (attributes.title || '').trim();
                     const excerpt = this.extractFirstParagraph(body);
                     const date = this.extractDateFromMarkdown(mdContent);
                     const tags = typeof attributes.tags === 'string' ? attributes.tags : '[]';

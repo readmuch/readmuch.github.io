@@ -3,9 +3,6 @@ title: 230만 달러짜리 CRM 실패
 date: 2025-12-17
 tags: [crm, 자본시장, 디지털전환]
 ---
-# 230만 달러짜리 CRM 실패
-
-
 우리에게 가르쳐준 것: 자본 시장의 4가지 잔혹한 진실
 
 [원문: 230만 달러짜리 CRM 실패가 우리에게 가르쳐준 것](https://www.insightscrm.com/article/digital-transformation-capital-markets-crm-adoption)

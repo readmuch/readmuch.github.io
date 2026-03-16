@@ -41,27 +41,6 @@
         };
     }
 
-    function extractTitleFromBody(text, fallback = '') {
-        if (typeof text !== 'string') return fallback;
-
-        const lines = text.split(/\r?\n/);
-        for (const line of lines) {
-            const trimmed = line.trim();
-            const match = trimmed.match(/^#+\s*(.+?)\s*$/);
-            if (!match) continue;
-
-            const headingText = match[1].trim();
-            const normalized = trimmed.replace(/^#+\s*/, '');
-            const tokens = normalized.split(/\s+/).filter(Boolean);
-            const isTagOnlyHeading = tokens.length > 1 && tokens.slice(1).every(token => token.startsWith('#'));
-            if (isTagOnlyHeading) continue;
-
-            return headingText;
-        }
-
-        return fallback;
-    }
-
     function normalizeDate(value) {
         if (typeof value !== 'string') return '';
         const match = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -103,7 +82,7 @@
 
             const text = decodeMarkdownBuffer(await response.arrayBuffer());
             const { attributes, body } = parseFrontMatter(text);
-            const title = (attributes.title || '').trim() || extractTitleFromBody(body, post.title);
+            const title = (attributes.title || '').trim() || post.title;
             const excerpt = extractFirstParagraph(body);
             const frontMatterDate = normalizeDate(attributes.date || '');
             // Determine whether a standalone HTML exists for this post; if not, point to post.html loader

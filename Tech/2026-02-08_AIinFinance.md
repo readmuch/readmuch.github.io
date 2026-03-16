@@ -3,9 +3,6 @@ title: 금융 산업에서의 AI를 활용
 date: 2026-02-08
 tags: [ai, 금융, 마케팅]
 ---
-# 금융 산업에서의 AI를 활용
-
-
 고객 행태 분석 및 마케팅 블로그 연재 목차
 
 ## [포스트 1: 예측 모델링 - 금융 고객 행동 예측의 시작](https://readmuch.github.io/Tech/2026-02-08_prediction.html)

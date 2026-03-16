@@ -76,27 +76,6 @@
             };
         }
 
-        function extractTitleFromBody(text, fallback = '') {
-            if (typeof text !== 'string') return fallback;
-
-            const lines = text.split(/\r?\n/);
-            for (const line of lines) {
-                const trimmed = line.trim();
-                const match = trimmed.match(/^#+\s*(.+?)\s*$/);
-                if (!match) continue;
-
-                const headingText = match[1].trim();
-                const normalized = trimmed.replace(/^#+\s*/, '');
-                const tokens = normalized.split(/\s+/).filter(Boolean);
-                const isTagOnlyHeading = tokens.length > 1 && tokens.slice(1).every(token => token.startsWith('#'));
-                if (isTagOnlyHeading) continue;
-
-                return headingText;
-            }
-
-            return fallback;
-        }
-
         let cfg = null;
         try {
             cfg = new SiteConfig();
@@ -136,7 +115,7 @@
             if (!res.ok) throw new Error('Not found');
             const md = decodeMarkdownBuffer(await res.arrayBuffer());
             const { attributes, body } = parseFrontMatter(md);
-            const title = (attributes.title || '').trim() || extractTitleFromBody(body, '');
+            const title = (attributes.title || '').trim();
             document.getElementById('postTitle').textContent = title || 'Untitled';
 
             const html = marked.parse(body);
