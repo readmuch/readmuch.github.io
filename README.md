@@ -34,7 +34,8 @@ npm install
 ```
 
 ### Development Commands
-- Build all pages: `npm run build`
+- Build all pages: `node build.js`
+- Alternative build command: `npm run build`
 - Development mode with watch: `npm run dev`
 - Start local server: `npm run serve`
 - Build and serve: `npm start`
