@@ -40,9 +40,10 @@ npm install
 - Build and serve: `npm start`
 
 ### Adding New Content
-1. Add your HTML file to the appropriate category folder.
-2. Add the post entry to `config/site-config.json`.
-3. Run `npm run build` to regenerate pages.
+1. Add a Markdown file to the appropriate category folder.
+2. Use the first `# Heading` in the Markdown file as the default post title.
+3. Run `npm run build` to sync `config/site-config.json`, refresh `config/file-dates.json`, and regenerate pages.
+4. If you want a shorter or custom listing title, edit that post's `title` in `config/site-config.json` after the first build.
 
 ### Adding New Categories
 1. Add category data to `config/site-config.json`.
@@ -66,7 +67,9 @@ Edit CSS custom properties in `styles/base.css`:
 ## Build Process
 The build script (`build.js`) automates:
 - Template rendering from reusable components
-- Configuration management via JSON
+- Category post discovery from Markdown files
+- Configuration synchronization via JSON
+- Post date synchronization via `config/file-dates.json`
 - Asset preloading setup
 - Page generation for all categories
 

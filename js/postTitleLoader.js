@@ -3,6 +3,19 @@
     const cache = new Map();
     let fileDatesPromise = null;
 
+    function decodeMarkdownBuffer(buffer) {
+        const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(buffer);
+        const replacementCount = (utf8Text.match(/\uFFFD/g) || []).length;
+        if (replacementCount > 0) {
+            try {
+                return new TextDecoder('euc-kr', { fatal: false }).decode(buffer);
+            } catch (error) {
+                return utf8Text;
+            }
+        }
+        return utf8Text;
+    }
+
     function extractFirstParagraph(text) {
         const lines = text.split(/\r?\n/);
         let collecting = [];
@@ -54,7 +67,7 @@
                 throw new Error(`HTTP ${response.status}`);
             }
 
-            const text = await response.text();
+            const text = decodeMarkdownBuffer(await response.arrayBuffer());
             const titleMatch = text.match(/^\s*#\s+(.+?)\s*$/m);
             const title = titleMatch ? titleMatch[1].trim() : post.title;
             const excerpt = extractFirstParagraph(text);

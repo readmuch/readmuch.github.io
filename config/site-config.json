@@ -41,95 +41,95 @@
       "file": "book.html",
       "posts": [
         {
-          "title": "100% Brain Utilization",
+          "title": "100% 뇌 활용법 - 요시 할라미시",
           "link": "Book/brain100.html"
         },
         {
-          "title": "Jensen Huang Thinking Machine",
+          "title": "엔비디아 젠슨 황 생각하는 기계 - 스티븐 위트",
           "link": "Book/jensenhwang.html"
         },
         {
-          "title": "Mind Becomes Destiny",
+          "title": "마음이 모여 운명이 된다 - 이나모리 가즈오",
           "link": "Book/maum.html"
         },
         {
-          "title": "Future Self",
+          "title": "퓨처셀프 - 벤자민 하디",
           "link": "Book/futureself.html"
         },
         {
-          "title": "Real Fun Math",
+          "title": "수학의 진짜 재미",
           "link": "Book/realfunmath.html"
         },
         {
-          "title": "Data, Not Prediction",
+          "title": "데이터는 예측하지 않는다 - 김송규",
           "link": "Book/datanoprediction.html"
         },
         {
-          "title": "Writing",
+          "title": "유혹하는 글쓰기 - 스티븐 킹",
           "link": "Book/writing.html"
         },
         {
-          "title": "Work",
+          "title": "일의 격 - 신수정",
           "link": "Book/work.html"
         },
         {
-          "title": "Crossing Over",
+          "title": "건너가는 자 - 최진석",
           "link": "Book/choijinsuk.html"
         },
         {
-          "title": "Creator",
+          "title": "창조적 행위 : 존재의 방식 - 릭 루빈",
           "link": "Book/creator.html"
         },
         {
-          "title": "Dopamine Nation",
+          "title": "도파민네이션 - 애나 렘키",
           "link": "Book/dopaminenation.html"
         },
         {
-          "title": "Mind Communication",
+          "title": "내면 소통 - 김주한",
           "link": "Book/mindcommunication.html"
         },
         {
-          "title": "I Can Be Wrong",
+          "title": "내가 틀릴 수도 있습니다 - 비욘 나티코 린데블라드",
           "link": "Book/Icanbewrong.html"
         },
         {
-          "title": "The War for Kindness",
+          "title": "공감은 지능이다. - 자밀자키",
           "link": "Book/TheWarforKindness.html"
         },
         {
-          "title": "Dual Brain",
+          "title": "듀얼 브레인 - 이선몰릭",
           "link": "Book/dualbrain.html"
         },
         {
-          "title": "Gojun",
+          "title": "고전이 답했다 마땅히 살아야 할 삶에 대하여 - 고명환",
           "link": "Book/gojun.html"
         },
         {
-          "title": "Art",
+          "title": "뇌가 힘들 땐 미술관에 가는 게 좋다. - 수전 매그새먼",
           "link": "Book/art.html"
         },
         {
-          "title": "Palantir Era",
+          "title": "팔란티어 시대가 온다 - 변우철",
           "link": "Book/palantir.html"
         },
         {
-          "title": "Bu",
+          "title": "고전이 답했다 마땅히 가져야 할 부에 대하여 - 고명환",
           "link": "Book/bu.html"
         },
         {
-          "title": "Gojun 2",
+          "title": "고전이 답했다 마땅히 가져야 할 부에 대하여 - 고명환",
           "link": "Book/gojun2.html"
         },
         {
-          "title": "Comfort Crisis",
+          "title": "편안함의 습격 - 마이클 이스터",
           "link": "Book/comfortcrisis.html"
         },
         {
-          "title": "Misul",
+          "title": "뇌가 힘들 땐 미술관에 가는 게 좋다. - 수전 매그새먼",
           "link": "Book/misul.html"
         },
         {
-          "title": "Suim",
+          "title": "나는 왜 마음 놓고 쉬지 못할까 - 김은영",
           "link": "Book/suim.html"
         }
       ]
@@ -143,19 +143,15 @@
       "file": "education.html",
       "posts": [
         {
-          "title": "Markdown in HTML",
+          "title": "마크다운 파일 문법",
           "link": "Education/markdowninhtml.html"
         },
         {
-          "title": "Fetch Markdown into HTML",
-          "link": "Education/MDfetchinhtml.html"
-        },
-        {
-          "title": "Infinity",
+          "title": "가무한과 실무한",
           "link": "Education/infinity.html"
         },
         {
-          "title": "Lottery",
+          "title": "복권에 두번 당첨될 확률",
           "link": "Education/lottery.html"
         }
       ]
@@ -169,57 +165,56 @@
       "file": "life.html",
       "posts": [
         {
-          "title": "Easy Tasty Healthy Recipes",
+          "title": "토마토, 계란 볶음 - 업데이트",
           "link": "Life/EasyTastyHealthyRecipes.html"
         },
         {
-          "title": "Mookook",
+          "title": "맛있고 간단한 무국 레시피",
           "link": "Life/mookook.html"
         },
         {
-          "title": "Myeolchi",
+          "title": "간단한 멸치 볶음",
           "link": "Life/myeolchi.html"
         },
         {
-          "title": "Curry",
+          "title": "야채 골고루 카레",
           "link": "Life/care.html"
         },
         {
-          "title": "Soondooboo",
+          "title": "영양만점 순두부국",
           "link": "Life/soondooboo.html"
         },
         {
-          "title": "Spinach Namul",
+          "title": "초록 영양이 가득 시금치 나물",
           "link": "Life/sigmchi.html"
         },
         {
-          "title": "Bean Sprout Soup",
+          "title": "부들부들 식감이 좋은 초간단 숙주나물",
           "link": "Life/sukjoo.html"
         },
         {
-          "title": "Seaweed Soup",
+          "title": "맛있고 간단한 미역국 레시피",
           "link": "Life/miyuk.html"
         },
         {
-          "title": "Dubbab",
+          "title": "야미야미 덮밥",
           "link": "Life/dubbab.html"
         },
         {
-          "title": "Aehobak Namul",
+          "title": "고소하게 볶은 애호박 나물",
           "link": "Life/aehobak.html"
         },
         {
-          "title": "Jinmichae Bokkeum",
+          "title": "매콤달콤 진미채 볶음",
           "link": "Life/jinmichae.html"
         },
         {
-          "title": "Altari Kimchi",
+          "title": "아삭한 알타리 김치 담그기",
           "link": "Life/altarikimchi.html"
         },
         {
           "title": "짭조름한 소고기 장조림",
-          "link": "Life/jangjorim.html",
-          "basename": "jangjorim.html"
+          "link": "Life/jangjorim.html"
         }
       ]
     },
@@ -232,64 +227,48 @@
       "file": "tech.html",
       "posts": [
         {
-          "title": "Google AlphaEvolve",
+          "title": "구글의 새로운 AI, 이미 세상을 조용히 바꾸고 있습니다: AlphaEvolve의 놀라운 3가지 활약상",
           "link": "Tech/alhpha_evolve.html"
         },
         {
-          "title": "AgentEvolver Self-Learning AI",
+          "title": "AI가 스스로 학습하는 시대",
           "link": "Tech/agent-evolver-three-innovations.html"
         },
         {
-          "title": "OpenAI Dropout Six Lessons",
+          "title": "고등학교 중퇴 후 OpenAI 입사",
           "link": "Tech/openai-dropout-six-lessons.html"
         },
         {
-          "title": "4 Truths Shaping AI 2025",
+          "title": "2025년 AI 업계의 4가지 진실",
           "link": "Tech/ai-four-truths-2025.html"
         },
         {
-          "title": "Capital Markets CRM Lessons",
+          "title": "230만 달러짜리 CRM 실패",
           "link": "Tech/crm-capital-markets.html"
         },
         {
-          "title": "Image Generation",
-          "link": "Tech/imagegernertion.html"
-        },
-        {
-          "title": "PMP Career Direction",
+          "title": "금융 AI 프로젝트 매니저 역할",
           "link": "Tech/career.html"
         },
         {
-          "title": "AI in Finance",
+          "title": "금융 산업에서의 AI를 활용",
           "link": "Tech/AIinFinance.html"
         },
         {
-          "title": "Prediction Model",
-          "link": "Tech/predictioin.html"
-        },
-        {
-          "title": "Stablecoin",
-          "link": "Tech/stablecoin.html"
-        },
-        {
           "title": "AI에 대한 5가지 놀라운 진실: 우리가 놓치고 있는 것들",
-          "link": "Tech/ai-five-surprising-truths.html",
-          "basename": "ai-five-surprising-truths.html"
+          "link": "Tech/ai-five-surprising-truths.html"
         },
         {
           "title": "허깅페이스",
-          "link": "Tech/imagegeneration.html",
-          "basename": "imagegeneration.html"
+          "link": "Tech/imagegeneration.html"
         },
         {
           "title": "예측 모델링",
-          "link": "Tech/prediction.html",
-          "basename": "prediction.html"
+          "link": "Tech/prediction.html"
         },
         {
-          "title": "📘 유페이퍼 전자책 출판 마스터 가이드",
-          "link": "Tech/youpaper.html",
-          "basename": "youpaper.html"
+          "title": "유페이퍼 전자책 셀프 출판",
+          "link": "Tech/youpaper.html"
         }
       ]
     },
@@ -302,36 +281,20 @@
       "file": "mindnotes.html",
       "posts": [
         {
-          "title": "Book Club",
+          "title": "독서모임이 좋은 점",
           "link": "MindNotes/bookclub.html"
         },
         {
-          "title": "Jiksi",
-          "link": "MindNotes/%EC%A7%81%EC%8B%9C.html"
-        },
-        {
-          "title": "Why Books Are Good",
-          "link": "MindNotes/%EC%B1%85%EC%9D%B4%EC%A2%8B%EC%9D%80%EC%A0%90.html"
-        },
-        {
-          "title": "Happiness",
+          "title": "회복탄력성",
           "link": "MindNotes/happiness.html"
         },
         {
-          "title": "Leadership 1",
+          "title": "leadership1",
           "link": "MindNotes/leadership1.html"
         },
         {
           "title": "책이 좋은 이유",
-          "link": "MindNotes/책이좋은점.html",
-          "basename": "책이좋은점.html"
-        },
-        {
-          "title": "책이 좋은 이유",
-          "link": "MindNotes/booklike.html",
-          "basename": "booklike.html",
-          "mdKey": "MindNotes/booklike.md",
-          "date": ""
+          "link": "MindNotes/booklike.html"
         }
       ]
     }

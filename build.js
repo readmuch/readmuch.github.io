@@ -12,33 +12,57 @@ class BlogBuilder {
         this.templates = {};
     }
 
+    normalizeDate(dateString) {
+        if (typeof dateString !== 'string') return '';
+        const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        return match ? `${match[1]}-${match[2]}-${match[3]}` : '';
+    }
+
+    extractDateFromMarkdown(content) {
+        const dateMatch = content.match(/\b(20\d{2}|19\d{2})[./-](\d{1,2})[./-](\d{1,2})\b/);
+        if (!dateMatch) return '';
+        const [year, month, day] = [dateMatch[1], dateMatch[2].padStart(2, '0'), dateMatch[3].padStart(2, '0')];
+        return `${year}-${month}-${day}`;
+    }
+
+    stableStringify(value) {
+        return JSON.stringify(value, null, 2);
+    }
+
+    decodeBuffer(buffer) {
+        const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(buffer);
+        const replacementCount = (utf8Text.match(/\uFFFD/g) || []).length;
+        if (replacementCount > 0) {
+            try {
+                return new TextDecoder('euc-kr', { fatal: false }).decode(buffer);
+            } catch (error) {
+                return utf8Text;
+            }
+        }
+        return utf8Text;
+    }
+
     readJSON(filePath) {
         const content = fs.readFileSync(filePath, 'utf8');
-        // Remove BOM if present (UTF-8 BOM is \uFEFF)
         const cleanContent = content.replace(/^\uFEFF/, '');
         return JSON.parse(cleanContent);
     }
 
     async init() {
-        // Auto-generate site-config.json from markdown files if needed
         this.autoGenerateConfig();
-        
-        // Load configuration
+
         const configPath = path.join(__dirname, 'config', 'site-config.json');
         this.config = this.readJSON(configPath);
-        
-        // Load templates
+
         await this.loadTemplates();
     }
 
     autoGenerateConfig() {
         const configPath = path.join(__dirname, 'config', 'site-config.json');
         const datesPath = path.join(__dirname, 'config', 'file-dates.json');
-        
-        let config = this.readJSON(configPath);
-        let fileDates = this.readJSON(datesPath);
-        
-        // Categories to scan for markdown files
+        const config = this.readJSON(configPath);
+        const fileDates = this.readJSON(datesPath);
+
         const categoryDirs = [
             { dir: 'Book', id: 'book' },
             { dir: 'Education', id: 'education' },
@@ -47,80 +71,94 @@ class BlogBuilder {
             { dir: 'MindNotes', id: 'mindnotes' }
         ];
 
-        let newPostsAdded = false;
+        const validDateKeys = new Set();
 
         categoryDirs.forEach(({ dir, id }) => {
             const categoryPath = path.join(__dirname, dir);
             const category = config.categories.find(cat => cat.id === id);
-            
-            if (!category) return;
 
-            // Get all markdown files in the category directory
+            if (!category || !fs.existsSync(categoryPath)) return;
+
             const files = fs.readdirSync(categoryPath)
                 .filter(file => file.endsWith('.md'))
                 .map(file => {
                     const mdPath = path.join(categoryPath, file);
-                    const mdContent = fs.readFileSync(mdPath, 'utf8');
-                    
-                    // Extract title from H1
+                    const mdContent = this.decodeBuffer(fs.readFileSync(mdPath));
                     const titleMatch = mdContent.match(/^\s*#\s+(.+?)\s*$/m);
                     const title = titleMatch ? titleMatch[1].trim() : file.replace('.md', '');
-                    
-                    // Extract date from markdown content
-                    const dateMatch = mdContent.match(/\b(20\d{2}|19\d{2})[./-](\d{1,2})[./-](\d{1,2})\b/);
-                    let date = '';
-                    if (dateMatch) {
-                        const [year, month, day] = [dateMatch[1], dateMatch[2].padStart(2, '0'), dateMatch[3].padStart(2, '0')];
-                        date = `${year}-${month}-${day}`;
-                    }
-                    
-                    // Create HTML filename (remove .md and add .html)
                     const htmlFile = file.replace('.md', '.html');
                     const mdKey = `${dir}/${file}`;
-                    
+
+                    validDateKeys.add(mdKey);
+
                     return {
-                        title: title,
+                        title,
                         link: `${dir}/${htmlFile}`,
                         basename: htmlFile,
-                        mdKey: mdKey,
-                        date: date
+                        mdKey,
+                        date: this.extractDateFromMarkdown(mdContent)
                     };
                 });
 
-            // Merge with existing posts (update existing, add new ones)
-            const existingPosts = category.posts || [];
-            const existingBasenames = new Set(existingPosts.map(p => p.link.split('/')[1]));
-            
-            const newPosts = files.filter(f => !existingBasenames.has(f.basename));
-            
-            if (newPosts.length > 0) {
-                console.log(`📝 Found ${newPosts.length} new post(s) in ${dir}/: ${newPosts.map(p => p.title).join(', ')}`);
-                
-                // Add new posts to config
-                category.posts = [...existingPosts, ...newPosts];
-                
-                // Add dates to file-dates.json
-                newPosts.forEach(post => {
-                    const defaultDate = new Date().toISOString().split('T')[0];
-                    fileDates[post.mdKey] = post.date || defaultDate;
+            const filesByBasename = new Map(files.map(file => [file.basename, file]));
+            const existingPosts = Array.isArray(category.posts) ? category.posts : [];
+            const normalizedPosts = [];
+            const seen = new Set();
+
+            existingPosts.forEach(post => {
+                if (!post || typeof post.link !== 'string') return;
+                const basename = post.link.split('/')[1];
+                if (!basename || seen.has(basename) || !filesByBasename.has(basename)) return;
+
+                const normalized = filesByBasename.get(basename);
+                normalizedPosts.push({
+                    title: typeof post.title === 'string' && post.title.trim() !== '' ? post.title : normalized.title,
+                    link: normalized.link
                 });
-                
-                newPostsAdded = true;
+                seen.add(basename);
+            });
+
+            files
+                .filter(file => !seen.has(file.basename))
+                .sort((a, b) => a.basename.localeCompare(b.basename))
+                .forEach(file => {
+                    normalizedPosts.push({
+                        title: file.title,
+                        link: file.link
+                    });
+                });
+
+            category.posts = normalizedPosts;
+
+            files.forEach(post => {
+                const existingDate = this.normalizeDate(fileDates[post.mdKey]);
+                fileDates[post.mdKey] = existingDate || post.date || '';
+            });
+        });
+
+        Object.keys(fileDates).forEach(key => {
+            if (!validDateKeys.has(key)) {
+                delete fileDates[key];
             }
         });
 
-        // Save updated config and dates
-        fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
-        if (newPostsAdded) {
-            fs.writeFileSync(datesPath, JSON.stringify(fileDates, null, 2));
-            console.log('📅 Updated file-dates.json with new post dates');
+        const nextConfigString = this.stableStringify(config);
+        const currentConfigString = fs.readFileSync(configPath, 'utf8').replace(/^\uFEFF/, '');
+        if (currentConfigString !== nextConfigString) {
+            fs.writeFileSync(configPath, nextConfigString);
+        }
+
+        const nextDatesString = this.stableStringify(fileDates);
+        const currentDatesString = fs.readFileSync(datesPath, 'utf8').replace(/^\uFEFF/, '');
+        if (currentDatesString !== nextDatesString) {
+            fs.writeFileSync(datesPath, nextDatesString);
         }
     }
 
     async loadTemplates() {
         const templatesDir = path.join(__dirname, 'components');
         const templateFiles = fs.readdirSync(templatesDir);
-        
+
         for (const file of templateFiles) {
             if (file.endsWith('.html')) {
                 const name = path.basename(file, '.html');
@@ -136,22 +174,19 @@ class BlogBuilder {
             throw new Error(`Template ${templateName} not found`);
         }
 
-        // Simple template rendering
         for (const [key, value] of Object.entries(data)) {
             const placeholder = `{{${key}}}`;
             template = template.replace(new RegExp(placeholder, 'g'), value);
         }
 
-        // Handle arrays (like preloadImages)
         if (data.preloadImages && Array.isArray(data.preloadImages)) {
             const preloadPlaceholder = '{{#each preloadImages}}\n<link rel="preload" href="{{this}}" as="image">\n{{/each}}';
-            const preloadHtml = data.preloadImages.map(img => 
+            const preloadHtml = data.preloadImages.map(img =>
                 `<link rel="preload" href="${img}" as="image">`
             ).join('\n    ');
             template = template.replace(preloadPlaceholder, preloadHtml);
         }
 
-        // Handle conditional blocks
         if (data.showBackLink) {
             template = template.replace('{{#if showBackLink}}', '');
             template = template.replace('{{/if}}', '');
@@ -239,7 +274,7 @@ class BlogBuilder {
         document.addEventListener('DOMContentLoaded', async function() {
             try {
                 if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
-                    throw new Error('SiteConfig, Pagination, loadPostsWithMarkdownMeta 확인이 필요합니다.');
+                    throw new Error('SiteConfig, Pagination, and loadPostsWithMarkdownMeta are required.');
                 }
                 const config = new SiteConfig();
                 await config.load();
@@ -271,7 +306,7 @@ class BlogBuilder {
 </html>`;
 
         fs.writeFileSync('index.html', html);
-        console.log('✅ Generated index.html');
+        console.log('Generated index.html');
     }
 
     generateCategoryPage(categoryId) {
@@ -343,7 +378,6 @@ class BlogBuilder {
     <script src="js/config.js"></script>
     <script src="js/pagination.js"></script>
     <script>
-        // Initialize category page
         (async function() {
             try {
                 if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
@@ -361,7 +395,7 @@ class BlogBuilder {
                 const paginationOptions = config.getPagination();
                 const postsWithMeta = await loadPostsWithMarkdownMeta(category.posts);
                 const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+                new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
             } catch (error) {
                 document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
                 console.error('Failed to initialize category page:', error);
@@ -372,26 +406,24 @@ class BlogBuilder {
 </html>`;
 
         fs.writeFileSync(category.file, html);
-        console.log(`✅ Generated ${category.file}`);
+        console.log(`Generated ${category.file}`);
     }
 
     generateAllPages() {
-        console.log('🚀 Starting build process...');
-        
-        // Generate index page
+        console.log('Starting build process...');
+
         this.generateIndexPage();
-        
-        // Generate category pages
+
         this.config.categories.forEach(category => {
             this.generateCategoryPage(category.id);
         });
-        
-        console.log('🎉 Build completed successfully!');
+
+        console.log('Build completed successfully.');
     }
 
     watch() {
-        console.log('👀 Watching for changes...');
-        
+        console.log('Watching for changes...');
+
         const watchPaths = [
             'config/site-config.json',
             'components/',
@@ -399,22 +431,21 @@ class BlogBuilder {
             'js/'
         ];
 
-        watchPaths.forEach(path => {
-            fs.watch(path, { recursive: true }, (eventType, filename) => {
-                console.log(`📝 Detected change in ${filename}`);
+        watchPaths.forEach(watchPath => {
+            fs.watch(watchPath, { recursive: true }, (eventType, filename) => {
+                console.log(`Detected change in ${filename}`);
                 this.generateAllPages();
             });
         });
     }
 }
 
-// CLI interface
 const args = process.argv.slice(2);
 const builder = new BlogBuilder();
 
 async function main() {
     await builder.init();
-    
+
     if (args.includes('--watch') || args.includes('-w')) {
         builder.generateAllPages();
         builder.watch();

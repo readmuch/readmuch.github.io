@@ -7,15 +7,6 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
     <link rel="stylesheet" href="styles/category.css">
     <link rel="stylesheet" href="styles/main.css">
-    <style>
-        /* Prevent copy/paste on post content */
-        #postContent {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -30,7 +21,7 @@
     <main class="container article-container" role="main">
         <article id="postArticle">
             <header>
-                <h1 id="postTitle">Loading…</h1>
+                <h1 id="postTitle">Loading...</h1>
                 <div id="postMeta" class="post-meta"></div>
             </header>
             <section id="postContent"></section>
@@ -42,10 +33,23 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
     <script src="js/config.js"></script>
     <script>
     (async function() {
-        // Load site config once so we can build nav and resolve category back links
+        function decodeMarkdownBuffer(buffer) {
+            const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(buffer);
+            const replacementCount = (utf8Text.match(/\uFFFD/g) || []).length;
+            if (replacementCount > 0) {
+                try {
+                    return new TextDecoder('euc-kr', { fatal: false }).decode(buffer);
+                } catch (error) {
+                    return utf8Text;
+                }
+            }
+            return utf8Text;
+        }
+
         let cfg = null;
         try {
             cfg = new SiteConfig();
@@ -62,7 +66,6 @@
             console.error('Failed to load site config for nav', e);
         }
 
-        // Parse ?src=... parameter
         const params = new URLSearchParams(location.search);
         const src = params.get('src');
         if (!src) {
@@ -71,7 +74,6 @@
             return;
         }
 
-        // Insert a back-link placeholder; we'll populate href/text once category is known
         const articleHeader = document.querySelector('#postArticle > header');
         const backLink = document.createElement('a');
         backLink.id = 'backLink';
@@ -79,48 +81,40 @@
         backLink.style.display = 'inline-block';
         backLink.style.marginBottom = '12px';
         backLink.href = 'index.html';
-        backLink.textContent = '← Back';
+        backLink.textContent = 'Back';
         if (articleHeader) articleHeader.insertBefore(backLink, articleHeader.firstChild);
-
-        // Prevent copy on postContent
-        const postContent = document.getElementById('postContent');
-        postContent.addEventListener('copy', (e) => {
-            e.preventDefault();
-            return false;
-        });
-        postContent.addEventListener('cut', (e) => {
-            e.preventDefault();
-            return false;
-        });
 
         try {
             const res = await fetch(src);
             if (!res.ok) throw new Error('Not found');
-            const md = await res.text();
-            // Extract title
+            const md = decodeMarkdownBuffer(await res.arrayBuffer());
             const titleMatch = md.match(/^\s*#\s+(.+?)\s*$/m);
             const title = titleMatch ? titleMatch[1].trim() : '';
             document.getElementById('postTitle').textContent = title || 'Untitled';
 
-            // Render markdown to HTML
             const html = marked.parse(md);
-            document.getElementById('postContent').innerHTML = html;
+            const safeHtml = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+            document.getElementById('postContent').innerHTML = safeHtml;
+            document.querySelectorAll('#postContent a').forEach(link => {
+                link.setAttribute('rel', 'noopener noreferrer');
+                if (!link.getAttribute('target')) {
+                    link.setAttribute('target', '_self');
+                }
+            });
 
-            // Optional: set meta (date) from file-dates.json
             try {
                 const dates = await fetch('config/file-dates.json').then(r => r.json());
                 const date = dates[src] || '';
                 if (date) document.getElementById('postMeta').textContent = date;
             } catch (e) {}
 
-            // Determine category from src path (e.g., 'Tech/youpaper.md' -> 'Tech')
             if (cfg && cfg.get && src.includes('/')) {
                 const dir = src.split('/')[0] || '';
                 const catId = dir.toLowerCase();
                 const category = cfg.get().categories.find(c => c.id === catId || c.title.toLowerCase() === catId);
                 if (category) {
                     backLink.href = category.file || 'index.html';
-                    backLink.textContent = `← Back to ${category.title}`;
+                    backLink.textContent = `Back to ${category.title}`;
                 }
             }
 

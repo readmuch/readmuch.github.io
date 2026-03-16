@@ -61,7 +61,6 @@
     <script src="js/config.js"></script>
     <script src="js/pagination.js"></script>
     <script>
-        // Initialize category page
         (async function() {
             try {
                 if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
@@ -79,7 +78,7 @@
                 const paginationOptions = config.getPagination();
                 const postsWithMeta = await loadPostsWithMarkdownMeta(category.posts);
                 const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+                new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
             } catch (error) {
                 document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
                 console.error('Failed to initialize category page:', error);

@@ -78,7 +78,7 @@
         document.addEventListener('DOMContentLoaded', async function() {
             try {
                 if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
-                    throw new Error('SiteConfig, Pagination, loadPostsWithMarkdownMeta 확인이 필요합니다.');
+                    throw new Error('SiteConfig, Pagination, and loadPostsWithMarkdownMeta are required.');
                 }
                 const config = new SiteConfig();
                 await config.load();
