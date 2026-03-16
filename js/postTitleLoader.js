@@ -1,7 +1,6 @@
 ﻿// Utility to replace post titles with the first H1 found in their markdown files
 (function() {
     const cache = new Map();
-    let fileDatesPromise = null;
 
     function decodeMarkdownBuffer(buffer) {
         const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(buffer);
@@ -14,6 +13,59 @@
             }
         }
         return utf8Text;
+    }
+
+    function parseFrontMatter(text) {
+        if (typeof text !== 'string') {
+            return { attributes: {}, body: '' };
+        }
+
+        const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+        if (!match) {
+            return { attributes: {}, body: text };
+        }
+
+        const attributes = {};
+        match[1].split(/\r?\n/).forEach(line => {
+            const metaMatch = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+            if (!metaMatch) return;
+
+            const [, key, rawValue] = metaMatch;
+            const value = rawValue.trim().replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
+            attributes[key] = value;
+        });
+
+        return {
+            attributes,
+            body: text.slice(match[0].length)
+        };
+    }
+
+    function extractTitleFromBody(text, fallback = '') {
+        if (typeof text !== 'string') return fallback;
+
+        const lines = text.split(/\r?\n/);
+        for (const line of lines) {
+            const trimmed = line.trim();
+            const match = trimmed.match(/^#+\s*(.+?)\s*$/);
+            if (!match) continue;
+
+            const headingText = match[1].trim();
+            const normalized = trimmed.replace(/^#+\s*/, '');
+            const tokens = normalized.split(/\s+/).filter(Boolean);
+            const isTagOnlyHeading = tokens.length > 1 && tokens.slice(1).every(token => token.startsWith('#'));
+            if (isTagOnlyHeading) continue;
+
+            return headingText;
+        }
+
+        return fallback;
+    }
+
+    function normalizeDate(value) {
+        if (typeof value !== 'string') return '';
+        const match = value.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        return match ? `${match[1]}-${match[2]}-${match[3]}` : '';
     }
 
     function extractFirstParagraph(text) {
@@ -33,23 +85,6 @@
         return paragraph.length > 220 ? paragraph.slice(0, 220).trim() + '...' : paragraph;
     }
 
-    function extractDate(text) {
-        const match = text.match(/\b(20\d{2}|19\d{2})[./-](\d{1,2})[./-](\d{1,2})\b/);
-        if (match) {
-            const [year, month, day] = [match[1], match[2].padStart(2, '0'), match[3].padStart(2, '0')];
-            return `${year}-${month}-${day}`;
-        }
-        return '';
-    }
-
-    async function loadFileDates() {
-        if (fileDatesPromise) return fileDatesPromise;
-        fileDatesPromise = fetch('config/file-dates.json')
-            .then(res => res.ok ? res.json() : {})
-            .catch(() => ({}));
-        return fileDatesPromise;
-    }
-
     async function fetchMarkdownMeta(post) {
         if (!post || !post.link) return { title: post?.title || '', excerpt: post?.excerpt || '' };
 
@@ -60,7 +95,6 @@
         const mdPath = post.link.replace(/\.html?$/i, '.md');
 
         try {
-            const fileDates = await loadFileDates();
             // Try to fetch the markdown content
             const response = await fetch(mdPath);
             if (!response.ok) {
@@ -68,11 +102,10 @@
             }
 
             const text = decodeMarkdownBuffer(await response.arrayBuffer());
-            const titleMatch = text.match(/^\s*#\s+(.+?)\s*$/m);
-            const title = titleMatch ? titleMatch[1].trim() : post.title;
-            const excerpt = extractFirstParagraph(text);
-            const detectedDate = extractDate(text);
-            const creationDate = fileDates[mdPath] || '';
+            const { attributes, body } = parseFrontMatter(text);
+            const title = (attributes.title || '').trim() || extractTitleFromBody(body, post.title);
+            const excerpt = extractFirstParagraph(body);
+            const frontMatterDate = normalizeDate(attributes.date || '');
             // Determine whether a standalone HTML exists for this post; if not, point to post.html loader
             let resolvedLink = post.link;
             try {
@@ -92,7 +125,7 @@
                 }
             }
 
-            const meta = { title, excerpt, date: creationDate || detectedDate || post.date || '', resolvedLink };
+            const meta = { title, excerpt, date: frontMatterDate || post.date || '', resolvedLink };
             cache.set(post.link, meta);
             return meta;
         } catch (error) {

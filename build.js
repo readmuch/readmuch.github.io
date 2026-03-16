@@ -12,6 +12,53 @@ class BlogBuilder {
         this.templates = {};
     }
 
+    parseFrontMatter(content) {
+        if (typeof content !== 'string') {
+            return { attributes: {}, body: '' };
+        }
+
+        const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+        if (!match) {
+            return { attributes: {}, body: content };
+        }
+
+        const attributes = {};
+        match[1].split(/\r?\n/).forEach(line => {
+            const metaMatch = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+            if (!metaMatch) return;
+
+            const [, key, rawValue] = metaMatch;
+            const value = rawValue.trim().replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
+            attributes[key] = value;
+        });
+
+        return {
+            attributes,
+            body: content.slice(match[0].length)
+        };
+    }
+
+    extractTitleFromBody(content, fallback = '') {
+        if (typeof content !== 'string') return fallback;
+
+        const lines = content.split(/\r?\n/);
+        for (const line of lines) {
+            const trimmed = line.trim();
+            const match = trimmed.match(/^#+\s*(.+?)\s*$/);
+            if (!match) continue;
+
+            const headingText = match[1].trim();
+            const normalized = trimmed.replace(/^#+\s*/, '');
+            const tokens = normalized.split(/\s+/).filter(Boolean);
+            const isTagOnlyHeading = tokens.length > 1 && tokens.slice(1).every(token => token.startsWith('#'));
+            if (isTagOnlyHeading) continue;
+
+            return headingText;
+        }
+
+        return fallback;
+    }
+
     normalizeDate(dateString) {
         if (typeof dateString !== 'string') return '';
         const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -19,10 +66,8 @@ class BlogBuilder {
     }
 
     extractDateFromMarkdown(content) {
-        const dateMatch = content.match(/\b(20\d{2}|19\d{2})[./-](\d{1,2})[./-](\d{1,2})\b/);
-        if (!dateMatch) return '';
-        const [year, month, day] = [dateMatch[1], dateMatch[2].padStart(2, '0'), dateMatch[3].padStart(2, '0')];
-        return `${year}-${month}-${day}`;
+        const { attributes } = this.parseFrontMatter(content);
+        return this.normalizeDate(attributes.date || '');
     }
 
     stableStringify(value) {
@@ -59,9 +104,7 @@ class BlogBuilder {
 
     autoGenerateConfig() {
         const configPath = path.join(__dirname, 'config', 'site-config.json');
-        const datesPath = path.join(__dirname, 'config', 'file-dates.json');
         const config = this.readJSON(configPath);
-        const fileDates = this.readJSON(datesPath);
 
         const categoryDirs = [
             { dir: 'Book', id: 'book' },
@@ -70,8 +113,6 @@ class BlogBuilder {
             { dir: 'Tech', id: 'tech' },
             { dir: 'MindNotes', id: 'mindnotes' }
         ];
-
-        const validDateKeys = new Set();
 
         categoryDirs.forEach(({ dir, id }) => {
             const categoryPath = path.join(__dirname, dir);
@@ -84,12 +125,10 @@ class BlogBuilder {
                 .map(file => {
                     const mdPath = path.join(categoryPath, file);
                     const mdContent = this.decodeBuffer(fs.readFileSync(mdPath));
-                    const titleMatch = mdContent.match(/^\s*#\s+(.+?)\s*$/m);
-                    const title = titleMatch ? titleMatch[1].trim() : file.replace('.md', '');
+                    const { attributes, body } = this.parseFrontMatter(mdContent);
+                    const title = (attributes.title || '').trim() || this.extractTitleFromBody(body, file.replace('.md', ''));
                     const htmlFile = file.replace('.md', '.html');
                     const mdKey = `${dir}/${file}`;
-
-                    validDateKeys.add(mdKey);
 
                     return {
                         title,
@@ -112,7 +151,7 @@ class BlogBuilder {
 
                 const normalized = filesByBasename.get(basename);
                 normalizedPosts.push({
-                    title: typeof post.title === 'string' && post.title.trim() !== '' ? post.title : normalized.title,
+                    title: normalized.title,
                     link: normalized.link
                 });
                 seen.add(basename);
@@ -129,29 +168,12 @@ class BlogBuilder {
                 });
 
             category.posts = normalizedPosts;
-
-            files.forEach(post => {
-                const existingDate = this.normalizeDate(fileDates[post.mdKey]);
-                fileDates[post.mdKey] = existingDate || post.date || '';
-            });
-        });
-
-        Object.keys(fileDates).forEach(key => {
-            if (!validDateKeys.has(key)) {
-                delete fileDates[key];
-            }
         });
 
         const nextConfigString = this.stableStringify(config);
         const currentConfigString = fs.readFileSync(configPath, 'utf8').replace(/^\uFEFF/, '');
         if (currentConfigString !== nextConfigString) {
             fs.writeFileSync(configPath, nextConfigString);
-        }
-
-        const nextDatesString = this.stableStringify(fileDates);
-        const currentDatesString = fs.readFileSync(datesPath, 'utf8').replace(/^\uFEFF/, '');
-        if (currentDatesString !== nextDatesString) {
-            fs.writeFileSync(datesPath, nextDatesString);
         }
     }
 

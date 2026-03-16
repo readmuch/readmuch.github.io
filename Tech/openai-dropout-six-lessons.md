@@ -1,3 +1,8 @@
+---
+title: 고등학교 중퇴 후 OpenAI 입사
+date: 2026-01-11
+tags: [openai, 커리어, 학습]
+---
 # 고등학교 중퇴 후 OpenAI 입사
 
 

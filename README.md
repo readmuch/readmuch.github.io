@@ -41,9 +41,20 @@ npm install
 
 ### Adding New Content
 1. Add a Markdown file to the appropriate category folder.
-2. Use the first `# Heading` in the Markdown file as the default post title.
-3. Run `npm run build` to sync `config/site-config.json`, refresh `config/file-dates.json`, and regenerate pages.
-4. If you want a shorter or custom listing title, edit that post's `title` in `config/site-config.json` after the first build.
+2. Add front matter with `title`, `date`, and `tags` at the top of the Markdown file.
+3. The front matter is the source of truth for post metadata, so enter those values directly in each new Markdown file.
+4. Run `npm run build` to sync `config/site-config.json` and regenerate pages.
+
+Example:
+```md
+---
+title: Post Title
+date: 2026-03-16
+tags: [tag-one, tag-two]
+---
+
+# Post Title
+```
 
 ### Adding New Categories
 1. Add category data to `config/site-config.json`.
@@ -69,7 +80,7 @@ The build script (`build.js`) automates:
 - Template rendering from reusable components
 - Category post discovery from Markdown files
 - Configuration synchronization via JSON
-- Post date synchronization via `config/file-dates.json`
+- Post date parsing from Markdown front matter
 - Asset preloading setup
 - Page generation for all categories
 

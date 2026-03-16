@@ -50,6 +50,53 @@
             return utf8Text;
         }
 
+        function parseFrontMatter(text) {
+            if (typeof text !== 'string') {
+                return { attributes: {}, body: '' };
+            }
+
+            const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+            if (!match) {
+                return { attributes: {}, body: text };
+            }
+
+            const attributes = {};
+            match[1].split(/\r?\n/).forEach(line => {
+                const metaMatch = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+                if (!metaMatch) return;
+
+                const [, key, rawValue] = metaMatch;
+                const value = rawValue.trim().replace(/^"(.*)"$/, '$1').replace(/^'(.*)'$/, '$1');
+                attributes[key] = value;
+            });
+
+            return {
+                attributes,
+                body: text.slice(match[0].length)
+            };
+        }
+
+        function extractTitleFromBody(text, fallback = '') {
+            if (typeof text !== 'string') return fallback;
+
+            const lines = text.split(/\r?\n/);
+            for (const line of lines) {
+                const trimmed = line.trim();
+                const match = trimmed.match(/^#+\s*(.+?)\s*$/);
+                if (!match) continue;
+
+                const headingText = match[1].trim();
+                const normalized = trimmed.replace(/^#+\s*/, '');
+                const tokens = normalized.split(/\s+/).filter(Boolean);
+                const isTagOnlyHeading = tokens.length > 1 && tokens.slice(1).every(token => token.startsWith('#'));
+                if (isTagOnlyHeading) continue;
+
+                return headingText;
+            }
+
+            return fallback;
+        }
+
         let cfg = null;
         try {
             cfg = new SiteConfig();
@@ -88,11 +135,11 @@
             const res = await fetch(src);
             if (!res.ok) throw new Error('Not found');
             const md = decodeMarkdownBuffer(await res.arrayBuffer());
-            const titleMatch = md.match(/^\s*#\s+(.+?)\s*$/m);
-            const title = titleMatch ? titleMatch[1].trim() : '';
+            const { attributes, body } = parseFrontMatter(md);
+            const title = (attributes.title || '').trim() || extractTitleFromBody(body, '');
             document.getElementById('postTitle').textContent = title || 'Untitled';
 
-            const html = marked.parse(md);
+            const html = marked.parse(body);
             const safeHtml = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
             document.getElementById('postContent').innerHTML = safeHtml;
             document.querySelectorAll('#postContent a').forEach(link => {
@@ -102,11 +149,9 @@
                 }
             });
 
-            try {
-                const dates = await fetch('config/file-dates.json').then(r => r.json());
-                const date = dates[src] || '';
-                if (date) document.getElementById('postMeta').textContent = date;
-            } catch (e) {}
+            if (attributes.date) {
+                document.getElementById('postMeta').textContent = attributes.date;
+            }
 
             if (cfg && cfg.get && src.includes('/')) {
                 const dir = src.split('/')[0] || '';
