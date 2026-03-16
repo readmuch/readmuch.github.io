@@ -59,6 +59,26 @@ class BlogBuilder {
         return fallback;
     }
 
+    extractFirstParagraph(content) {
+        if (typeof content !== 'string') return '';
+
+        const lines = content.split(/\r?\n/);
+        let collecting = [];
+        for (const line of lines) {
+            if (/^\s*#/.test(line)) continue;
+            if (line.trim() === '') {
+                if (collecting.length > 0) break;
+                continue;
+            }
+            collecting.push(line.trim());
+            if (collecting.join(' ').length >= 200) break;
+        }
+
+        const paragraph = collecting.join(' ');
+        if (!paragraph) return '';
+        return paragraph.length > 220 ? `${paragraph.slice(0, 220).trim()}...` : paragraph;
+    }
+
     normalizeDate(dateString) {
         if (typeof dateString !== 'string') return '';
         const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
@@ -127,15 +147,18 @@ class BlogBuilder {
                     const mdContent = this.decodeBuffer(fs.readFileSync(mdPath));
                     const { attributes, body } = this.parseFrontMatter(mdContent);
                     const title = (attributes.title || '').trim() || this.extractTitleFromBody(body, file.replace('.md', ''));
+                    const excerpt = this.extractFirstParagraph(body);
+                    const date = this.extractDateFromMarkdown(mdContent);
+                    const tags = typeof attributes.tags === 'string' ? attributes.tags : '[]';
                     const htmlFile = file.replace('.md', '.html');
-                    const mdKey = `${dir}/${file}`;
 
                     return {
                         title,
+                        excerpt,
+                        date,
+                        tags,
                         link: `${dir}/${htmlFile}`,
-                        basename: htmlFile,
-                        mdKey,
-                        date: this.extractDateFromMarkdown(mdContent)
+                        basename: htmlFile
                     };
                 });
 
@@ -152,6 +175,9 @@ class BlogBuilder {
                 const normalized = filesByBasename.get(basename);
                 normalizedPosts.push({
                     title: normalized.title,
+                    excerpt: normalized.excerpt,
+                    date: normalized.date,
+                    tags: normalized.tags,
                     link: normalized.link
                 });
                 seen.add(basename);
@@ -163,6 +189,9 @@ class BlogBuilder {
                 .forEach(file => {
                     normalizedPosts.push({
                         title: file.title,
+                        excerpt: file.excerpt,
+                        date: file.date,
+                        tags: file.tags,
                         link: file.link
                     });
                 });
