@@ -92,7 +92,7 @@
             return cache.get(post.link);
         }
 
-        const mdPath = post.link.replace(/\.html?$/i, '.md');
+        const mdPath = post.source || post.link.replace(/\.html?$/i, '.md');
 
         try {
             // Try to fetch the markdown content

@@ -12,6 +12,11 @@ class BlogBuilder {
         this.templates = {};
     }
 
+    getPublicHtmlFile(markdownFile) {
+        if (typeof markdownFile !== 'string') return '';
+        return markdownFile.replace(/\.md$/, '.html');
+    }
+
     parseFrontMatter(content) {
         if (typeof content !== 'string') {
             return { attributes: {}, body: '' };
@@ -150,13 +155,14 @@ class BlogBuilder {
                     const excerpt = this.extractFirstParagraph(body);
                     const date = this.extractDateFromMarkdown(mdContent);
                     const tags = typeof attributes.tags === 'string' ? attributes.tags : '[]';
-                    const htmlFile = file.replace('.md', '.html');
+                    const htmlFile = this.getPublicHtmlFile(file);
 
                     return {
                         title,
                         excerpt,
                         date,
                         tags,
+                        source: `${dir}/${file}`,
                         link: `${dir}/${htmlFile}`,
                         basename: htmlFile
                     };
@@ -178,6 +184,7 @@ class BlogBuilder {
                     excerpt: normalized.excerpt,
                     date: normalized.date,
                     tags: normalized.tags,
+                    source: normalized.source,
                     link: normalized.link
                 });
                 seen.add(basename);
@@ -192,6 +199,7 @@ class BlogBuilder {
                         excerpt: file.excerpt,
                         date: file.date,
                         tags: file.tags,
+                        source: file.source,
                         link: file.link
                     });
                 });
