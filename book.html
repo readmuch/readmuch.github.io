@@ -7,33 +7,18 @@
     <meta name="keywords" content="Book, Blog, Readmuch">
     <meta name="theme-color" content="#f5f1ea">
     <meta name="color-scheme" content="light">
-
-    <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Book Category - Readmuch's Blog">
     <meta property="og:description" content="Book reviews and literary discussions">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://readmuch.github.io/book.html">
-
-    <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Book Category - Readmuch's Blog">
     <meta name="twitter:description" content="Book reviews and literary discussions">
-
     <title>Book Category - Readmuch's Blog</title>
-
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png">
-
-    <!-- Preload critical assets -->
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
     <link rel="preload" href="images/book.jpg" as="image">
-
-    <!-- Font loading -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- External CSS -->
-    <link rel="stylesheet" href="styles/category.css?v=20260503-search">
-
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/category.css?v=51b837d56a">
 </head>
 <body class="category-page category-page--book">
     <header class="site-header">
@@ -64,7 +49,7 @@
                 <span class="section-kicker">Bookshelf</span>
                 <h1 id="categoryHeroTitle">읽고 남긴 생각의 서가</h1>
                 <p>책에서 건져 올린 문장과 질문을 오래 다시 볼 수 있게 정리합니다.</p>
-                <div class="category-hero__meta" id="categoryStats">Loading section notes...</div>
+                <div class="category-hero__meta">24 articles · Latest update 2026-03-24</div>
             </div>
         </section>
 
@@ -73,10 +58,11 @@
                 <span class="section-kicker">Featured article</span>
                 <h2 id="featuredCategoryTitle">Editor's pick</h2>
             </div>
-            <article class="category-feature__card" id="featuredCategoryPost" aria-live="polite">
+            <article class="category-feature__card">
                 <span class="featured-card__label">Book</span>
-                <h3>Loading featured post...</h3>
-                <p>Finding the latest note from this section.</p>
+                <a class="category-feature__title" href="post.html?src=Book%2F2026-03-24_rufvlq.md">결핍은 우리를 어떻게 변화시키는가 - 센딜 멀레이너선 , 엘다 샤퍼</a>
+                <p>결핍은 누구나 있다. 시간일 수도 있고, 돈일 수도 있고, 관계일 수도 있다.</p>
+                <div class="featured-card__meta">2026-03-24</div>
             </article>
         </section>
 
@@ -86,15 +72,10 @@
                     <span class="section-kicker">Archive</span>
                     <h2 id="categoryArchiveTitle">Book Articles</h2>
                 </div>
-                <p id="categoryArchiveCount">Loading archive...</p>
+                <p id="categoryArchiveCount">24 notes in this section</p>
             </div>
-            <ul id="postList" class="post-list" role="list">
-                <!-- Book items will be injected here dynamically -->
-            </ul>
-            <nav class="pagination" role="navigation" aria-label="Pagination">
-                <button id="prevBtn" disabled aria-label="Previous page">Previous</button>
-                <button id="nextBtn" aria-label="Next page">Next</button>
-            </nav>
+            <ul id="postList" class="post-list" role="list"></ul>
+            <nav class="pagination" role="navigation" aria-label="Pagination"></nav>
         </section>
 
         <section class="more-shelves" aria-labelledby="moreShelvesTitle">
@@ -123,84 +104,30 @@
             </div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
     </footer>
-
-    <script src="js/postTitleLoader.js?v=20260503-search"></script>
-    <script src="js/config.js?v=20260503-search"></script>
-    <script src="js/pagination.js?v=20260503-search"></script>
+    <script src="js/config.js?v=51b837d56a"></script>
+    <script src="js/pagination.js?v=51b837d56a"></script>
     <script>
-        (async function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             try {
-                if (typeof SiteConfig !== 'function' || typeof Pagination !== 'function' || typeof loadPostsWithMarkdownMeta !== 'function') {
-                    throw new Error('Required functions not found');
-                }
-                
                 const config = new SiteConfig();
                 await config.load();
-                
                 const category = config.getCategory('book');
-                if (!category || !category.posts) {
-                    throw new Error('Category or posts not found');
-                }
-                
-                const paginationOptions = config.getPagination();
-                const postsWithMeta = await loadPostsWithMarkdownMeta(category.posts);
-                const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-                renderCategorySummary(sorted, category);
-                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+                const posts = category?.posts || [];
+                const pagination = new Pagination('postList', posts, config.getPagination().postsPerPage, config.getPagination());
 
                 const searchInput = document.getElementById('postSearch');
                 if (searchInput) {
-                    if (searchInput.value.trim() !== '') {
-                        pagination.setFilter(searchInput.value);
-                    }
-                    searchInput.addEventListener('input', (event) => {
-                        pagination.setFilter(event.target.value);
-                    });
+                    searchInput.addEventListener('input', event => pagination.setFilter(event.target.value));
                 }
             } catch (error) {
                 document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
                 console.error('Failed to initialize category page:', error);
             }
-        })();
-
-        function renderCategorySummary(posts, category) {
-            const stats = document.getElementById('categoryStats');
-            const archiveCount = document.getElementById('categoryArchiveCount');
-            const featured = document.getElementById('featuredCategoryPost');
-            const latest = posts[0];
-            const latestDate = latest && latest.date ? latest.date : 'No date';
-
-            if (stats) {
-                stats.textContent = `${posts.length} articles · Latest update ${latestDate}`;
-            }
-            if (archiveCount) {
-                archiveCount.textContent = `${posts.length} notes in this section`;
-            }
-            if (!featured || !latest) return;
-
-            featured.innerHTML = '';
-
-            const label = document.createElement('span');
-            label.className = 'featured-card__label';
-            label.textContent = category.title || 'Featured';
-
-            const title = document.createElement('a');
-            title.className = 'category-feature__title';
-            title.href = latest.link;
-            title.textContent = latest.title;
-
-            const excerpt = document.createElement('p');
-            excerpt.textContent = latest.excerpt || 'Open the latest note in this section.';
-
-            const meta = document.createElement('div');
-            meta.className = 'featured-card__meta';
-            meta.textContent = latest.date || '';
-
-            featured.append(label, title, excerpt, meta);
-        }
+        });
     </script>
 </body>
 </html>

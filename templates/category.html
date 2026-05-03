@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ CATEGORY_DESCRIPTION }}">
+    <meta name="keywords" content="{{ CATEGORY_TITLE }}, Blog, Readmuch">
+    <meta name="theme-color" content="#f5f1ea">
+    <meta name="color-scheme" content="light">
+    <meta property="og:title" content="{{ CATEGORY_TITLE }} Category - {{ SITE_NAME }}">
+    <meta property="og:description" content="{{ CATEGORY_DESCRIPTION }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ SITE_URL }}/{{ CATEGORY_FILE }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ CATEGORY_TITLE }} Category - {{ SITE_NAME }}">
+    <meta name="twitter:description" content="{{ CATEGORY_DESCRIPTION }}">
+    <title>{{ CATEGORY_TITLE }} Category - {{ SITE_NAME }}</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="preload" href="{{ CATEGORY_IMAGE }}" as="image">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/category.css?v={{ ASSET_VERSION }}">
+</head>
+<body class="category-page category-page--{{ CATEGORY_ID }}">
+    <header class="site-header">
+        <div class="brand-block">
+            <a href="index.html" class="brand-title">{{ SITE_SHORT_NAME }}</a>
+            <span class="brand-subtitle">{{ SITE_DESCRIPTION }}</span>
+        </div>
+        <nav class="tab-nav" aria-label="Categories">
+            {{ NAV }}
+        </nav>
+        <div class="header-actions">
+            <label for="postSearch" class="sr-only">Search posts</label>
+            <input type="search" id="postSearch" class="search-input" placeholder="Search {{ CATEGORY_TITLE }}" aria-label="Search {{ CATEGORY_TITLE }} posts">
+        </div>
+    </header>
+
+    <main class="category-container category-shell" role="main">
+        <section class="category-hero" aria-labelledby="categoryHeroTitle">
+            <div class="category-hero__image" aria-hidden="true">
+                <img src="{{ CATEGORY_IMAGE }}" alt="">
+            </div>
+            <div class="category-hero__copy">
+                <span class="section-kicker">{{ CATEGORY_KICKER }}</span>
+                <h1 id="categoryHeroTitle">{{ CATEGORY_HEADLINE }}</h1>
+                <p>{{ CATEGORY_DECK }}</p>
+                <div class="category-hero__meta">{{ CATEGORY_STATS }}</div>
+            </div>
+        </section>
+
+        <section class="category-feature" aria-labelledby="featuredCategoryTitle">
+            <div class="section-heading">
+                <span class="section-kicker">Featured article</span>
+                <h2 id="featuredCategoryTitle">Editor's pick</h2>
+            </div>
+            <article class="category-feature__card">
+                <span class="featured-card__label">{{ CATEGORY_TITLE }}</span>
+                <a class="category-feature__title" href="{{ FEATURED_LINK }}">{{ FEATURED_TITLE }}</a>
+                <p>{{ FEATURED_EXCERPT }}</p>
+                <div class="featured-card__meta">{{ FEATURED_DATE }}</div>
+            </article>
+        </section>
+
+        <section class="category-archive" aria-labelledby="categoryArchiveTitle">
+            <div class="section-heading section-heading--inline">
+                <div>
+                    <span class="section-kicker">Archive</span>
+                    <h2 id="categoryArchiveTitle">{{ CATEGORY_TITLE }} Articles</h2>
+                </div>
+                <p id="categoryArchiveCount">{{ CATEGORY_ARCHIVE_COUNT }}</p>
+            </div>
+            <ul id="postList" class="post-list" role="list"></ul>
+            <nav class="pagination" role="navigation" aria-label="Pagination"></nav>
+        </section>
+
+        <section class="more-shelves" aria-labelledby="moreShelvesTitle">
+            <div class="section-heading">
+                <span class="section-kicker">More shelves</span>
+                <h2 id="moreShelvesTitle">다른 섹션 보기</h2>
+            </div>
+            <div class="shelf-link-grid">
+                {{ SHELF_LINKS }}
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; {{ SITE_YEAR }} {{ SITE_NAME }}. All rights reserved.</p>
+    </footer>
+    <script src="js/config.js?v={{ ASSET_VERSION }}"></script>
+    <script src="js/pagination.js?v={{ ASSET_VERSION }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const config = new SiteConfig();
+                await config.load();
+                const category = config.getCategory('{{ CATEGORY_ID }}');
+                const posts = category?.posts || [];
+                const pagination = new Pagination('postList', posts, config.getPagination().postsPerPage, config.getPagination());
+
+                const searchInput = document.getElementById('postSearch');
+                if (searchInput) {
+                    searchInput.addEventListener('input', event => pagination.setFilter(event.target.value));
+                }
+            } catch (error) {
+                document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
+                console.error('Failed to initialize category page:', error);
+            }
+        });
+    </script>
+</body>
+</html>

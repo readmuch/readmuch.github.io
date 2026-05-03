@@ -1,143 +1,162 @@
 # Readmuch's Blog
 
-Exploring the intersection of knowledge and creativity
+Exploring the intersection of knowledge and creativity.
 
-## Features
-- Modular architecture with reusable components
-- Responsive design using modern CSS Grid and Flexbox
-- Performance optimizations with lazy loading and preloading
-- SEO-friendly metadata (Open Graph, Twitter Cards)
-- Build automation for generating pages
+## Overview
+
+This is a static personal magazine/blog site. Markdown files live in category folders, and the build script generates:
+
+- `index.html`
+- category pages such as `book.html` and `tech.html`
+- `config/generated-posts.json`, the runtime post index used by the browser
+
+Do not edit generated HTML pages directly when changing layout. Update `templates/`, `styles/`, or `build.js`, then run the build.
 
 ## Project Structure
-- components/: shared HTML pieces (`header.html`, `footer.html`, `head.html`)
-- config/: configuration files (`site-config.json`)
-- js/: client-side modules (`config.js`, `pagination.js`)
-- styles/: modular CSS (`base.css`, `components.css`, `layout.css`, `main.css`, `category.css`)
-- images/: static assets
-- Book/, Education/, Life/, Tech/, MindNotes/: category posts
-- build.js: build automation script
-- package.json: project dependencies and scripts
-- README.md: project overview
+
+- `Book/`, `Education/`, `Life/`, `Tech/`, `MindNotes/`: source Markdown posts
+- `templates/`: HTML templates used by `build.js`
+- `config/site-config.json`: site and category metadata only
+- `config/generated-posts.json`: generated post index
+- `styles/`: CSS modules
+- `js/`: browser-side modules
+- `images/`: category and static images
+- `scripts/validate.js`: content/config validation
+- `build.js`: static site generator
+- `index.html`, `book.html`, etc.: generated output pages
 
 ## Development
 
 ### Prerequisites
-- Node.js 14.0.0 or higher
-- npm or yarn
 
-### Installation
+- Node.js 14.0.0 or higher
+- npm
+
+### Commands
+
 ```bash
-git clone https://github.com/readmuch/readmuch.github.io.git
-cd readmuch.github.io
-npm install
+npm.cmd run validate
+npm.cmd run build
+npm.cmd run dev
+npm.cmd run serve
 ```
 
-### Development Commands
-- Build all pages: `node build.js`
-- Alternative build command: `npm run build`
-- Development mode with watch: `npm run dev`
-- Start local server: `npm run serve`
-- Build and serve: `npm start`
+PowerShell may block `npm.ps1`. On Windows, `npm.cmd run build` is the most reliable command.
 
-### 신규 MD 작성 규칙
-신규 포스팅을 만들 때는 아래 규칙을 지켜주세요.
+## Adding Markdown Posts
 
-1. 파일은 카테고리 폴더(`Book`, `Education`, `Life`, `Tech`, `MindNotes`) 안에 생성합니다.
-2. 파일명은 반드시 `YYYY-MM-DD_파일이름.md` 형식으로 작성합니다.
-3. 파일 맨 위에는 반드시 front matter를 넣고, `title`, `date`, `tags`를 직접 입력합니다.
-4. `date`는 반드시 `YYYY-MM-DD` 형식으로 입력합니다.
-5. `tags`는 배열 형식으로 입력합니다. 예: `tags: [ai, 커리어]`
-6. 본문 제목이 있더라도 목록/정렬/메타데이터 기준은 front matter 값이므로, 수정이 필요하면 front matter를 수정합니다.
-7. 새 글을 추가하거나 메타데이터를 바꾼 뒤에는 반드시 `node build.js`를 실행합니다.
+1. Add the `.md` file to one category folder:
+   - `Book`
+   - `Education`
+   - `Life`
+   - `Tech`
+   - `MindNotes`
+2. Name the file with this pattern:
 
-예시:
+```text
+YYYY-MM-DD_slug.md
+```
+
+3. Add front matter at the top:
+
 ```md
 ---
-title: OpenAI 입사에서 배운 6가지
-date: 2026-01-11
-tags: [ai, 커리어]
+title: 글 제목
+date: 2026-05-03
+tags: [tag1, tag2]
 ---
 
-# OpenAI 입사에서 배운 6가지
+# 글 제목
 
 본문...
 ```
 
-주의사항:
-- 공개 링크는 MD 파일명을 기준으로 생성되므로, 파일명을 바꾸면 링크도 함께 바뀝니다.
-- 기존 글의 링크를 유지해야 한다면 파일명 변경은 신중하게 진행해야 합니다.
-- `npm run build`가 PowerShell 환경에서 막히면 `node build.js`를 사용하면 됩니다.
+4. Run:
 
-### Request After Adding Markdown Posts
-When you add one or more `.md` files to a category folder (`Book`, `Education`, `Life`, `Tech`, `MindNotes`), ask Codex to update the generated site files.
-
-Recommended request:
-```text
-새 md 파일을 추가했어. 카테고리별 글 목록과 설정을 갱신하고, 빌드해서 페이지에 반영해줘.
+```bash
+npm.cmd run validate
+npm.cmd run build
 ```
 
-If you added files to a specific category, use:
+5. Check the local site:
+
 ```text
-Book 카테고리에 새 md 파일을 추가했어. 글 목록과 설정을 갱신하고 빌드해줘.
+http://127.0.0.1:3000/index.html
 ```
 
-Codex should then:
-- Run `node build.js` or `npm.cmd run build`.
-- Confirm that `config/site-config.json` includes the new post.
-- Confirm that the relevant category page and `index.html` are regenerated.
-- Check that the new post link points to the expected Markdown/HTML route.
+## Request To Codex After Adding Posts
 
-### Adding New Categories
-1. Add category data to `config/site-config.json`.
-2. Place the category image in `images/`.
-3. Run `npm run build` to generate the new category page.
+Use this request after adding Markdown files:
 
-## Customization
+```text
+새 md 파일을 추가했어. 검증하고, 글 목록 JSON과 카테고리 페이지를 빌드해서 반영해줘.
+```
 
-### Colors and Theme
-Edit CSS custom properties in `styles/base.css`:
+For a specific category:
 
-```css
-:root {
-    --background-color: #1e1e1e;
-    --accent-color: #4a9eff;
-    --text-color: #ffffff;
-    /* ... more variables */
+```text
+Book 카테고리에 새 md 파일을 추가했어. 검증하고 빌드해서 반영해줘.
+```
+
+Codex should:
+
+- Run `npm.cmd run validate`.
+- Run `npm.cmd run build`.
+- Confirm that `config/generated-posts.json` includes the new post.
+- Confirm that the relevant category page and `index.html` were regenerated.
+
+## Adding Categories
+
+1. Add a category entry to `config/site-config.json`.
+2. Include these fields:
+
+```json
+{
+  "id": "example",
+  "title": "Example",
+  "description": "Example notes",
+  "image": "images/example.jpg",
+  "alt": "Example category image",
+  "file": "example.html",
+  "dir": "Example"
 }
 ```
 
+3. Create the matching folder.
+4. Add the category image.
+5. Update `build.js` if the category needs custom editorial copy.
+6. Run `npm.cmd run validate` and `npm.cmd run build`.
+
 ## Build Process
-The build script (`build.js`) automates:
-- Template rendering from reusable components
-- Category post discovery from Markdown files
-- Configuration synchronization via JSON
-- Post date parsing from Markdown front matter
-- Asset preloading setup
-- Page generation for all categories
 
-## Responsive Design
-- Mobile-first layout
-- CSS Grid for desktop layouts
-- Flexbox for flexible components
-- Media queries at 768px and 480px breakpoints
+The build script:
 
-## Performance
-- Lazy-loaded images
-- Preloaded critical assets
-- Lightweight, modular JavaScript
-- Optimized, modular CSS
+- Reads `config/site-config.json`.
+- Discovers Markdown posts in each category folder.
+- Parses front matter and excerpts.
+- Writes `config/generated-posts.json`.
+- Renders `templates/home.html` to `index.html`.
+- Renders `templates/category.html` to each category page.
+- Adds a cache-busting asset version based on CSS/JS file contents.
+
+## Validation
+
+`npm.cmd run validate` checks:
+
+- Required site/category metadata
+- Category image existence
+- Category folder existence
+- Markdown front matter `title`
+- Markdown front matter `date`
+- Date format `YYYY-MM-DD`
+
+## Notes
+
+- `config/site-config.json` should not contain post lists.
+- `config/generated-posts.json` is generated by the build.
+- Browser listing/search uses `generated-posts.json`; it does not fetch every Markdown file for metadata.
+- `post.html` still fetches the Markdown file to render the full article.
 
 ## License
-MIT License - see LICENSE for details
 
-## Contributing
-1. Fork the repository.
-2. Create a feature branch.
-3. Make your changes.
-4. Test with `npm run build`.
-5. Submit a pull request.
-
----
-
-Built with love by Readmuch
+MIT License
