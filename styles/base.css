@@ -1,11 +1,15 @@
 :root {
-    --bg: #f8f8f8;
+    --bg: #f5f1ea;
     --card: #ffffff;
-    --card-border: #e5e5e5;
-    --text: #1b1b1b;
-    --muted: #5b5b5b;
-    --accent: #111111;
-    --radius: 10px;
+    --card-border: #ded7cb;
+    --text: #1c1a17;
+    --muted: #655f56;
+    --accent: #173f35;
+    --accent-2: #a5472b;
+    --ink: #10100f;
+    --surface: #fffcf5;
+    --surface-strong: #ebe3d5;
+    --radius: 8px;
     --gap: 24px;
     --max-width: 1200px;
     --font-title: "Manrope", "Inter", "Apple SD Gothic Neo", sans-serif;
@@ -24,6 +28,17 @@ body {
     color: var(--text);
     line-height: 1.6;
     font-family: var(--font-body);
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        linear-gradient(135deg, rgba(23, 63, 53, 0.08), transparent 36%),
+        linear-gradient(315deg, rgba(165, 71, 43, 0.08), transparent 30%);
 }
 
 a {

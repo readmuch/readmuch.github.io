@@ -7,17 +7,37 @@
 }
 
 .category-container h2 {
-    margin: 32px 0 12px;
-    color: #f4f7ff;
-    font-size: 1.25rem;
+    margin: 0;
+    color: var(--text);
+    font-size: 1.35rem;
 }
 
 .container {
     display: block;
 }
 
+.home-shell {
+    padding-top: 32px;
+}
+
+.category-shell {
+    padding-top: 32px;
+}
+
+.latest-section {
+    margin-top: 48px;
+}
+
 @media (max-width: 599px) {
     .category-container {
         padding: 0 16px 56px;
+    }
+
+    .home-shell {
+        padding-top: 18px;
+    }
+
+    .category-shell {
+        padding-top: 18px;
     }
 }

@@ -69,6 +69,25 @@ tags: [ai, 커리어]
 - 기존 글의 링크를 유지해야 한다면 파일명 변경은 신중하게 진행해야 합니다.
 - `npm run build`가 PowerShell 환경에서 막히면 `node build.js`를 사용하면 됩니다.
 
+### Request After Adding Markdown Posts
+When you add one or more `.md` files to a category folder (`Book`, `Education`, `Life`, `Tech`, `MindNotes`), ask Codex to update the generated site files.
+
+Recommended request:
+```text
+새 md 파일을 추가했어. 카테고리별 글 목록과 설정을 갱신하고, 빌드해서 페이지에 반영해줘.
+```
+
+If you added files to a specific category, use:
+```text
+Book 카테고리에 새 md 파일을 추가했어. 글 목록과 설정을 갱신하고 빌드해줘.
+```
+
+Codex should then:
+- Run `node build.js` or `npm.cmd run build`.
+- Confirm that `config/site-config.json` includes the new post.
+- Confirm that the relevant category page and `index.html` are regenerated.
+- Check that the new post link points to the expected Markdown/HTML route.
+
 ### Adding New Categories
 1. Add category data to `config/site-config.json`.
 2. Place the category image in `images/`.

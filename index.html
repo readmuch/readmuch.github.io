@@ -39,14 +39,14 @@
     <!-- External CSS -->
     <link rel="stylesheet" href="styles/category.css">
 </head>
-<body>
-    <header>
+<body class="home-page">
+    <header class="site-header">
         <div class="brand-block">
             <a href="index.html" class="brand-title">Readmuch</a>
-            <span class="brand-subtitle">Exploring the intersection of knowledge and creativity.</span>
+            <span class="brand-subtitle">Exploring the intersection of knowledge and creativity</span>
         </div>
         <nav class="tab-nav" aria-label="Categories">
-            <a class="tab" href="index.html">All Posts</a>
+            <a class="tab active" href="index.html">All Posts</a>
             <a class="tab" href="book.html">Book</a>
             <a class="tab" href="education.html">Education</a>
             <a class="tab" href="life.html">Lifestyle</a>
@@ -58,14 +58,74 @@
             <input type="search" id="postSearch" class="search-input" placeholder="Search posts" aria-label="Search posts">
         </div>
     </header>
-    <main class="container category-container" role="main">
-        <h2>All Posts</h2>
+
+    <main class="container category-container home-shell" role="main">
+        <section class="home-hero" aria-labelledby="homeHeroTitle">
+            <div class="home-hero__copy">
+                <span class="section-kicker">Reading notes, essays, and useful fragments</span>
+                <h1 id="homeHeroTitle">A personal library for ideas worth returning to.</h1>
+                <p>Books, technology, learning, recipes, and small observations collected into one readable archive.</p>
+                <div class="home-hero__actions">
+                    <a class="primary-link" href="#postList">Browse latest</a>
+                    <a class="secondary-link" href="book.html">Read books</a>
+                </div>
+            </div>
+            <article class="featured-card" id="featuredPost" aria-live="polite">
+                <span class="featured-card__label">Latest note</span>
+                <h2>Loading latest post...</h2>
+                <p>Finding the newest entry in the archive.</p>
+            </article>
+        </section>
+
+        <section class="category-bento" aria-labelledby="categoryBentoTitle">
+            <div class="section-heading">
+                <span class="section-kicker">Explore by shelf</span>
+                <h2 id="categoryBentoTitle">Five rooms in the archive</h2>
+            </div>
+            <div class="bento-grid" id="categoryBento">
+                <a class="bento-tile bento-tile--large" href="book.html">
+                    <img src="images/book.jpg" alt="" loading="eager">
+                    <span>Book</span>
+                    <strong>Longer reflections from reading.</strong>
+                </a>
+                <a class="bento-tile" href="tech.html">
+                    <img src="images/tech.jpg" alt="" loading="lazy">
+                    <span>Technology</span>
+                    <strong>AI, finance, and modern tools.</strong>
+                </a>
+                <a class="bento-tile" href="life.html">
+                    <img src="images/life.jpg" alt="" loading="lazy">
+                    <span>Lifestyle</span>
+                    <strong>Recipes and daily routines.</strong>
+                </a>
+                <a class="bento-tile" href="education.html">
+                    <img src="images/education.jpg" alt="" loading="lazy">
+                    <span>Education</span>
+                    <strong>Learning notes and explanations.</strong>
+                </a>
+                <a class="bento-tile bento-tile--wide" href="mindnotes.html">
+                    <img src="images/mindnotes.jpg" alt="" loading="lazy">
+                    <span>Mind Notes</span>
+                    <strong>Questions, leadership, and inner work.</strong>
+                </a>
+            </div>
+        </section>
+
+        <section class="latest-section" aria-labelledby="latestPostsTitle">
+            <div class="section-heading section-heading--inline">
+                <div>
+                    <span class="section-kicker">Recently added</span>
+                    <h2 id="latestPostsTitle">All Posts</h2>
+                </div>
+                <p id="archiveCount">Loading archive...</p>
+            </div>
         <ul id="postList" role="list">
             <!-- Posts will be injected here dynamically -->
         </ul>
         <nav class="pagination" role="navigation" aria-label="Pagination">
             <!-- Pagination will be rendered here by JavaScript -->
         </nav>
+        </section>
     </main>
     
     <footer>
@@ -92,6 +152,7 @@
                 const paginationOptions = config.getPagination();
                 const postsWithMeta = await loadPostsWithMarkdownMeta(flattened);
                 const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                renderHomeSummary(sorted, allCategories);
                 const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
 
                 const searchInput = document.getElementById('postSearch');
@@ -105,6 +166,38 @@
                 console.error('Failed to initialize home page:', error);
             }
         });
+
+        function renderHomeSummary(posts, categories) {
+            const featured = document.getElementById('featuredPost');
+            const archiveCount = document.getElementById('archiveCount');
+            const latest = posts[0];
+
+            if (archiveCount) {
+                archiveCount.textContent = `${posts.length} notes across ${categories.length} shelves`;
+            }
+
+            if (!featured || !latest) return;
+
+            featured.innerHTML = '';
+
+            const label = document.createElement('span');
+            label.className = 'featured-card__label';
+            label.textContent = latest.badge || 'Latest note';
+
+            const title = document.createElement('a');
+            title.className = 'featured-card__title';
+            title.href = latest.link;
+            title.textContent = latest.title;
+
+            const excerpt = document.createElement('p');
+            excerpt.textContent = latest.excerpt || 'Open the latest note in the archive.';
+
+            const meta = document.createElement('div');
+            meta.className = 'featured-card__meta';
+            meta.textContent = latest.date || '';
+
+            featured.append(label, title, excerpt, meta);
+        }
     </script>
 </body>
 </html>

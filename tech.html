@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Technology trends and innovations">
     <meta name="keywords" content="Technology, Blog, Readmuch">
-    <meta name="theme-color" content="#1e1e1e">
-    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#f5f1ea">
+    <meta name="color-scheme" content="light">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Technology Category - Readmuch's Blog">
@@ -26,6 +26,7 @@
 
     <!-- Preload critical assets -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="images/tech.jpg" as="image">
 
     <!-- Font loading -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -34,24 +35,89 @@
     <link rel="stylesheet" href="styles/category.css">
 
 </head>
-<body>
-    <header>
-        <h1>Technology Category</h1>
-        <p>Technology trends and innovations</p>
-        
-        <a href="index.html" aria-label="Back to Home">Back to Home</a>
-        
+<body class="category-page category-page--tech">
+    <header class="site-header">
+        <div class="brand-block">
+            <a href="index.html" class="brand-title">Readmuch</a>
+            <span class="brand-subtitle">Exploring the intersection of knowledge and creativity</span>
+        </div>
+        <nav class="tab-nav" aria-label="Categories">
+            <a class="tab" href="index.html">All Posts</a>
+            <a class="tab" href="book.html">Book</a>
+            <a class="tab" href="education.html">Education</a>
+            <a class="tab" href="life.html">Lifestyle</a>
+            <a class="tab active" href="tech.html">Technology</a>
+            <a class="tab" href="mindnotes.html">Mind Notes</a>
+        </nav>
     </header>
 
-    <main class="category-container" role="main">
-        <h2>Technology List</h2>
-        <ul id="postList" class="post-list" role="list">
-            <!-- Technology items will be injected here dynamically -->
-        </ul>
-        <nav class="pagination" role="navigation" aria-label="Pagination">
-            <button id="prevBtn" disabled aria-label="Previous page">Previous</button>
-            <button id="nextBtn" aria-label="Next page">Next</button>
-        </nav>
+    <main class="category-container category-shell" role="main">
+        <section class="category-hero" aria-labelledby="categoryHeroTitle">
+            <div class="category-hero__image" aria-hidden="true">
+                <img src="images/tech.jpg" alt="">
+            </div>
+            <div class="category-hero__copy">
+                <span class="section-kicker">Technology Review</span>
+                <h1 id="categoryHeroTitle">AI, 금융, 도구에 관한 관찰</h1>
+                <p>기술의 변화를 일과 사고, 시장의 언어로 차분히 읽어봅니다.</p>
+                <div class="category-hero__meta" id="categoryStats">Loading section notes...</div>
+            </div>
+        </section>
+
+        <section class="category-feature" aria-labelledby="featuredCategoryTitle">
+            <div class="section-heading">
+                <span class="section-kicker">Featured article</span>
+                <h2 id="featuredCategoryTitle">Editor's pick</h2>
+            </div>
+            <article class="category-feature__card" id="featuredCategoryPost" aria-live="polite">
+                <span class="featured-card__label">Technology</span>
+                <h3>Loading featured post...</h3>
+                <p>Finding the latest note from this section.</p>
+            </article>
+        </section>
+
+        <section class="category-archive" aria-labelledby="categoryArchiveTitle">
+            <div class="section-heading section-heading--inline">
+                <div>
+                    <span class="section-kicker">Archive</span>
+                    <h2 id="categoryArchiveTitle">Technology Articles</h2>
+                </div>
+                <p id="categoryArchiveCount">Loading archive...</p>
+            </div>
+            <ul id="postList" class="post-list" role="list">
+                <!-- Technology items will be injected here dynamically -->
+            </ul>
+            <nav class="pagination" role="navigation" aria-label="Pagination">
+                <button id="prevBtn" disabled aria-label="Previous page">Previous</button>
+                <button id="nextBtn" aria-label="Next page">Next</button>
+            </nav>
+        </section>
+
+        <section class="more-shelves" aria-labelledby="moreShelvesTitle">
+            <div class="section-heading">
+                <span class="section-kicker">More shelves</span>
+                <h2 id="moreShelvesTitle">다른 섹션 보기</h2>
+            </div>
+            <div class="shelf-link-grid">
+                
+                <a class="shelf-link" href="book.html">
+                    <span>Book</span>
+                    <strong>Book reviews and literary discussions</strong>
+                </a>
+                <a class="shelf-link" href="education.html">
+                    <span>Education</span>
+                    <strong>Insights and resources about learning and teaching</strong>
+                </a>
+                <a class="shelf-link" href="life.html">
+                    <span>Lifestyle</span>
+                    <strong>Personal experiences and life lessons</strong>
+                </a>
+                <a class="shelf-link" href="mindnotes.html">
+                    <span>Mind Notes</span>
+                    <strong>Thoughts and reflections on various topics</strong>
+                </a>
+            </div>
+        </section>
     </main>
     <footer>
         <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
@@ -78,12 +144,49 @@
                 const paginationOptions = config.getPagination();
                 const postsWithMeta = await loadPostsWithMarkdownMeta(category.posts);
                 const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                renderCategorySummary(sorted, category);
                 new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
             } catch (error) {
                 document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
                 console.error('Failed to initialize category page:', error);
             }
         })();
+
+        function renderCategorySummary(posts, category) {
+            const stats = document.getElementById('categoryStats');
+            const archiveCount = document.getElementById('categoryArchiveCount');
+            const featured = document.getElementById('featuredCategoryPost');
+            const latest = posts[0];
+            const latestDate = latest && latest.date ? latest.date : 'No date';
+
+            if (stats) {
+                stats.textContent = `${posts.length} articles · Latest update ${latestDate}`;
+            }
+            if (archiveCount) {
+                archiveCount.textContent = `${posts.length} notes in this section`;
+            }
+            if (!featured || !latest) return;
+
+            featured.innerHTML = '';
+
+            const label = document.createElement('span');
+            label.className = 'featured-card__label';
+            label.textContent = category.title || 'Featured';
+
+            const title = document.createElement('a');
+            title.className = 'category-feature__title';
+            title.href = latest.link;
+            title.textContent = latest.title;
+
+            const excerpt = document.createElement('p');
+            excerpt.textContent = latest.excerpt || 'Open the latest note in this section.';
+
+            const meta = document.createElement('div');
+            meta.className = 'featured-card__meta';
+            meta.textContent = latest.date || '';
+
+            featured.append(label, title, excerpt, meta);
+        }
     </script>
 </body>
 </html>
