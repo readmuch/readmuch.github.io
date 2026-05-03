@@ -10,6 +10,7 @@ class BlogBuilder {
     constructor() {
         this.config = null;
         this.templates = {};
+        this.assetVersion = '20260503-search';
     }
 
     getPublicHtmlFile(markdownFile) {
@@ -275,7 +276,7 @@ class BlogBuilder {
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- External CSS -->
-    <link rel="stylesheet" href="styles/category.css">
+    <link rel="stylesheet" href="styles/category.css?v=${this.assetVersion}">
 </head>
 <body class="home-page">
     <header class="site-header">
@@ -365,9 +366,9 @@ class BlogBuilder {
     <footer>
         <p>&copy; ${this.config.site.year} ${this.config.site.name}. All rights reserved.</p>
     </footer>
-    <script src="js/postTitleLoader.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/pagination.js"></script>
+    <script src="js/postTitleLoader.js?v=${this.assetVersion}"></script>
+    <script src="js/config.js?v=${this.assetVersion}"></script>
+    <script src="js/pagination.js?v=${this.assetVersion}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             try {
@@ -391,6 +392,9 @@ class BlogBuilder {
 
                 const searchInput = document.getElementById('postSearch');
                 if (searchInput) {
+                    if (searchInput.value.trim() !== '') {
+                        pagination.setFilter(searchInput.value);
+                    }
                     searchInput.addEventListener('input', (event) => {
                         pagination.setFilter(event.target.value);
                     });
@@ -524,7 +528,7 @@ class BlogBuilder {
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- External CSS -->
-    <link rel="stylesheet" href="styles/category.css">
+    <link rel="stylesheet" href="styles/category.css?v=${this.assetVersion}">
 
 </head>
 <body class="category-page category-page--${categoryId}">
@@ -537,6 +541,10 @@ class BlogBuilder {
             <a class="tab" href="index.html">All Posts</a>
             ${categoryNav}
         </nav>
+        <div class="header-actions">
+            <label for="postSearch" class="sr-only">Search posts</label>
+            <input type="search" id="postSearch" class="search-input" placeholder="Search ${category.title}" aria-label="Search ${category.title} posts">
+        </div>
     </header>
 
     <main class="category-container category-shell" role="main">
@@ -595,9 +603,9 @@ class BlogBuilder {
         <p>&copy; ${this.config.site.year} ${this.config.site.name}. All rights reserved.</p>
     </footer>
 
-    <script src="js/postTitleLoader.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/pagination.js"></script>
+    <script src="js/postTitleLoader.js?v=${this.assetVersion}"></script>
+    <script src="js/config.js?v=${this.assetVersion}"></script>
+    <script src="js/pagination.js?v=${this.assetVersion}"></script>
     <script>
         (async function() {
             try {
@@ -617,7 +625,17 @@ class BlogBuilder {
                 const postsWithMeta = await loadPostsWithMarkdownMeta(category.posts);
                 const sorted = postsWithMeta.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
                 renderCategorySummary(sorted, category);
-                new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+                const pagination = new Pagination('postList', sorted, paginationOptions.postsPerPage, paginationOptions);
+
+                const searchInput = document.getElementById('postSearch');
+                if (searchInput) {
+                    if (searchInput.value.trim() !== '') {
+                        pagination.setFilter(searchInput.value);
+                    }
+                    searchInput.addEventListener('input', (event) => {
+                        pagination.setFilter(event.target.value);
+                    });
+                }
             } catch (error) {
                 document.getElementById('postList').innerHTML = '<li>Error loading posts.</li>';
                 console.error('Failed to initialize category page:', error);

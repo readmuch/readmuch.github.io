@@ -37,7 +37,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- External CSS -->
-    <link rel="stylesheet" href="styles/category.css">
+    <link rel="stylesheet" href="styles/category.css?v=20260503-search">
 </head>
 <body class="home-page">
     <header class="site-header">
@@ -131,9 +131,9 @@
     <footer>
         <p>&copy; 2024 Readmuch's Blog. All rights reserved.</p>
     </footer>
-    <script src="js/postTitleLoader.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/pagination.js"></script>
+    <script src="js/postTitleLoader.js?v=20260503-search"></script>
+    <script src="js/config.js?v=20260503-search"></script>
+    <script src="js/pagination.js?v=20260503-search"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             try {
@@ -157,6 +157,9 @@
 
                 const searchInput = document.getElementById('postSearch');
                 if (searchInput) {
+                    if (searchInput.value.trim() !== '') {
+                        pagination.setFilter(searchInput.value);
+                    }
                     searchInput.addEventListener('input', (event) => {
                         pagination.setFilter(event.target.value);
                     });

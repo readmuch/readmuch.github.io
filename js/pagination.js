@@ -320,12 +320,25 @@ class Pagination {
     }
 
     setFilter(term) {
-        this.searchTerm = (term || '').toLowerCase();
-        this.filteredPosts = this.posts.filter(post => {
-            const title = typeof post.title === 'string' ? post.title.toLowerCase() : '';
-            const excerpt = typeof post.excerpt === 'string' ? post.excerpt.toLowerCase() : '';
-            return title.includes(this.searchTerm) || excerpt.includes(this.searchTerm);
-        });
+        this.searchTerm = (term || '').trim().toLowerCase();
+        this.filteredPosts = this.searchTerm === ''
+            ? this.posts
+            : this.posts.filter(post => {
+                const searchable = [
+                    post.title,
+                    post.excerpt,
+                    post.tags,
+                    post.badge,
+                    post.date,
+                    post.author,
+                    post.source
+                ]
+                    .filter(value => typeof value === 'string')
+                    .join(' ')
+                    .toLowerCase();
+
+                return searchable.includes(this.searchTerm);
+            });
         this.currentPage = 1;
         this.totalPages = this.computeTotalPages();
         this.renderPosts();
