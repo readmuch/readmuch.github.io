@@ -34,6 +34,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script src="js/generated-data.js"></script>
     <script src="js/config.js"></script>
     <script>
     (async function() {
@@ -111,9 +112,12 @@
         if (articleHeader) articleHeader.insertBefore(backLink, articleHeader.firstChild);
 
         try {
-            const res = await fetch(src);
-            if (!res.ok) throw new Error('Not found');
-            const md = decodeMarkdownBuffer(await res.arrayBuffer());
+            let md = window.__POST_MARKDOWN__?.[src] || '';
+            if (!md) {
+                const res = await fetch(src);
+                if (!res.ok) throw new Error('Not found');
+                md = decodeMarkdownBuffer(await res.arrayBuffer());
+            }
             const { attributes, body } = parseFrontMatter(md);
             const title = (attributes.title || '').trim();
             document.getElementById('postTitle').textContent = title || 'Untitled';

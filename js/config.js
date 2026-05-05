@@ -10,13 +10,26 @@ class SiteConfig {
 
     async load() {
         try {
-            const [configResponse, postsResponse] = await Promise.all([
-                fetch('config/site-config.json'),
-                fetch('config/generated-posts.json')
-            ]);
+            const embeddedConfig = window.__SITE_CONFIG__ || null;
+            const embeddedPosts = window.__GENERATED_POSTS__ || null;
 
-            this.config = await configResponse.json();
-            const generatedPosts = postsResponse.ok ? await postsResponse.json() : { categories: [] };
+            if (embeddedConfig) {
+                this.config = embeddedConfig;
+            } else {
+                const configResponse = await fetch('config/site-config.json');
+                this.config = await configResponse.json();
+            }
+
+            let generatedPosts = embeddedPosts;
+            if (!generatedPosts) {
+                try {
+                    const postsResponse = await fetch('config/generated-posts.json');
+                    generatedPosts = postsResponse.ok ? await postsResponse.json() : { categories: [] };
+                } catch (error) {
+                    generatedPosts = { categories: [] };
+                }
+            }
+
             const postsByCategory = new Map(
                 (generatedPosts.categories || []).map(category => [category.id, category.posts || []])
             );
