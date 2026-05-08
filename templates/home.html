@@ -16,12 +16,6 @@
     <meta name="twitter:description" content="{{ SITE_DESCRIPTION }}">
     <title>{{ SITE_NAME }}</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="preload" href="images/book.jpg" as="image">
-    <link rel="preload" href="images/education.jpg" as="image">
-    <link rel="preload" href="images/life.jpg" as="image">
-    <link rel="preload" href="images/tech.jpg" as="image">
-    <link rel="preload" href="images/mindnotes.jpg" as="image">
-    <link rel="preload" href="images/games.svg" as="image">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/category.css?v={{ ASSET_VERSION }}">
 </head>
@@ -41,34 +35,6 @@
     </header>
 
     <main class="container category-container home-shell" role="main">
-        <section class="home-hero" aria-labelledby="homeHeroTitle">
-            <div class="home-hero__copy">
-                <span class="section-kicker">Reading notes, essays, and useful fragments</span>
-                <h1 id="homeHeroTitle">A personal library for ideas worth returning to.</h1>
-                <p>Books, technology, learning, recipes, and small observations collected into one readable archive.</p>
-                <div class="home-hero__actions">
-                    <a class="primary-link" href="#postList">Browse latest</a>
-                    <a class="secondary-link" href="book.html">Read books</a>
-                </div>
-            </div>
-            <article class="featured-card">
-                <span class="featured-card__label">{{ FEATURED_BADGE }}</span>
-                <a class="featured-card__title" href="{{ FEATURED_LINK }}">{{ FEATURED_TITLE }}</a>
-                <p>{{ FEATURED_EXCERPT }}</p>
-                <div class="featured-card__meta">{{ FEATURED_DATE }}</div>
-            </article>
-        </section>
-
-        <section class="category-bento" aria-labelledby="categoryBentoTitle">
-            <div class="section-heading">
-                <span class="section-kicker">Explore by shelf</span>
-                <h2 id="categoryBentoTitle">Rooms in the archive</h2>
-            </div>
-            <div class="bento-grid">
-                {{ BENTO_TILES }}
-            </div>
-        </section>
-
         <section class="latest-section" aria-labelledby="latestPostsTitle">
             <div class="section-heading section-heading--inline">
                 <div>

@@ -16,7 +16,6 @@
     <meta name="twitter:description" content="{{ CATEGORY_DESCRIPTION }}">
     <title>{{ CATEGORY_TITLE }} Category - {{ SITE_NAME }}</title>
     <link rel="icon" type="image/png" href="images/favicon.png">
-    <link rel="preload" href="{{ CATEGORY_IMAGE }}" as="image">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/category.css?v={{ ASSET_VERSION }}">
 </head>
@@ -36,18 +35,6 @@
     </header>
 
     <main class="category-container category-shell" role="main">
-        <section class="category-hero" aria-labelledby="categoryHeroTitle">
-            <div class="category-hero__image" aria-hidden="true">
-                <img src="{{ CATEGORY_IMAGE }}" alt="">
-            </div>
-            <div class="category-hero__copy">
-                <span class="section-kicker">{{ CATEGORY_KICKER }}</span>
-                <h1 id="categoryHeroTitle">{{ CATEGORY_HEADLINE }}</h1>
-                <p>{{ CATEGORY_DECK }}</p>
-                <div class="category-hero__meta">{{ CATEGORY_STATS }}</div>
-            </div>
-        </section>
-
         <section class="category-feature" aria-labelledby="featuredCategoryTitle">
             <div class="section-heading">
                 <span class="section-kicker">Featured article</span>
