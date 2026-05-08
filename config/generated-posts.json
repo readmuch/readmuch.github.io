@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-05T07:35:10.947Z",
+  "generatedAt": "2026-05-08T05:23:03.829Z",
   "categories": [
     {
       "id": "book",
@@ -682,6 +682,23 @@
           ],
           "source": "MindNotes/2026-02-08_leadership1.md",
           "link": "post.html?src=MindNotes%2F2026-02-08_leadership1.md"
+        }
+      ]
+    },
+    {
+      "id": "games",
+      "posts": [
+        {
+          "title": "구구단 별 모험 게임",
+          "excerpt": "초등학교 저학년을 위한 2단부터 9단까지의 밝고 귀여운 구구단 연습 게임입니다.",
+          "date": "2026-05-08",
+          "tags": [
+            "game",
+            "math",
+            "multiplication"
+          ],
+          "source": "Games/2026-05-08_gugudan-game.md",
+          "link": "post.html?src=Games%2F2026-05-08_gugudan-game.md"
         }
       ]
     }

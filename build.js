@@ -26,7 +26,8 @@ const DEFAULT_CATEGORY_DIRS = {
     education: 'Education',
     life: 'Life',
     tech: 'Tech',
-    mindnotes: 'MindNotes'
+    mindnotes: 'MindNotes',
+    games: 'Games'
 };
 
 const CATEGORY_EDITORIAL = {
@@ -54,6 +55,11 @@ const CATEGORY_EDITORIAL = {
         kicker: 'Mind Notes',
         headline: '생각, 관계, 성장에 관한 기록',
         deck: '마음에 오래 남은 질문과 관계, 리더십, 태도에 관한 메모입니다.'
+    },
+    games: {
+        kicker: 'Learning Games',
+        headline: 'Playful practice for young learners',
+        deck: 'Bright, friendly web games that turn repetition into small wins.'
     }
 };
 
@@ -98,7 +104,6 @@ class BlogBuilder {
                 dir: rest.dir || DEFAULT_CATEGORY_DIRS[rest.id] || rest.title
             };
         });
-        this.writeJSON(CONFIG_PATH, this.config);
     }
 
     decodeBuffer(buffer) {

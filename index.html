@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Exploring the intersection of knowledge and creativity">
-    <meta name="keywords" content="Book, Education, Technology, Life, Mindnotes">
+    <meta name="keywords" content="Book, Education, Technology, Life, Mindnotes, Games">
     <meta name="theme-color" content="#f5f1ea">
     <meta name="color-scheme" content="light">
     <meta property="og:title" content="Readmuch's Blog">
@@ -21,6 +21,7 @@
     <link rel="preload" href="images/life.jpg" as="image">
     <link rel="preload" href="images/tech.jpg" as="image">
     <link rel="preload" href="images/mindnotes.jpg" as="image">
+    <link rel="preload" href="images/games.svg" as="image">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/category.css?v=2373127b8b">
 </head>
@@ -37,6 +38,7 @@
             <a class="tab" href="life.html">Lifestyle</a>
             <a class="tab" href="tech.html">Technology</a>
             <a class="tab" href="mindnotes.html">Mind Notes</a>
+            <a class="tab" href="games.html">Games</a>
         </nav>
         <div class="header-actions">
             <label for="postSearch" class="sr-only">Search posts</label>
@@ -56,17 +58,17 @@
                 </div>
             </div>
             <article class="featured-card">
-                <span class="featured-card__label">Book</span>
-                <a class="featured-card__title" href="post.html?src=Book%2F2026-03-24_rufvlq.md">결핍은 우리를 어떻게 변화시키는가 - 센딜 멀레이너선 , 엘다 샤퍼</a>
-                <p>결핍은 누구나 있다. 시간일 수도 있고, 돈일 수도 있고, 관계일 수도 있다.</p>
-                <div class="featured-card__meta">2026-03-24</div>
+                <span class="featured-card__label">Games</span>
+                <a class="featured-card__title" href="post.html?src=Games%2F2026-05-08_gugudan-game.md">구구단 별 모험 게임</a>
+                <p>초등학교 저학년을 위한 2단부터 9단까지의 밝고 귀여운 구구단 연습 게임입니다.</p>
+                <div class="featured-card__meta">2026-05-08</div>
             </article>
         </section>
 
         <section class="category-bento" aria-labelledby="categoryBentoTitle">
             <div class="section-heading">
                 <span class="section-kicker">Explore by shelf</span>
-                <h2 id="categoryBentoTitle">Five rooms in the archive</h2>
+                <h2 id="categoryBentoTitle">Rooms in the archive</h2>
             </div>
             <div class="bento-grid">
                 
@@ -90,10 +92,15 @@
                     <span>Technology</span>
                     <strong>금융 산업에서의 AI를 활용</strong>
                 </a>
-                <a class="bento-tile bento-tile--wide" href="mindnotes.html">
+                <a class="bento-tile" href="mindnotes.html">
                     <img src="images/mindnotes.jpg" alt="" loading="lazy">
                     <span>Mind Notes</span>
                     <strong>독서모임이 좋은 점</strong>
+                </a>
+                <a class="bento-tile bento-tile--wide" href="games.html">
+                    <img src="images/games.svg" alt="" loading="lazy">
+                    <span>Games</span>
+                    <strong>구구단 별 모험 게임</strong>
                 </a>
             </div>
         </section>
@@ -104,7 +111,7 @@
                     <span class="section-kicker">Recently added</span>
                     <h2 id="latestPostsTitle">All Posts</h2>
                 </div>
-                <p id="archiveCount">55 notes across 5 shelves</p>
+                <p id="archiveCount">56 notes across 6 shelves</p>
             </div>
             <ul id="postList" role="list"></ul>
             <nav class="pagination" role="navigation" aria-label="Pagination"></nav>

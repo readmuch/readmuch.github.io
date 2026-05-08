@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단 별 모험 게임</title>
+    <style>
+        /* 밝고 둥근 게임 화면을 만들기 위한 기본 색상입니다. */
+        :root {
+            --ink: #26304f;
+            --muted: #63708b;
+            --blue: #58b8ff;
+            --pink: #ff8db5;
+            --yellow: #ffd75e;
+            --green: #58d68d;
+            --red: #ff6b6b;
+            --paper: #fffdf5;
+            --line: rgba(38, 48, 79, 0.14);
+            --shadow: 0 18px 45px rgba(59, 70, 120, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Arial Rounded MT Bold", "Malgun Gothic", "Apple SD Gothic Neo", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 12% 16%, rgba(255, 255, 255, 0.9) 0 7%, transparent 8%),
+                linear-gradient(135deg, #8bd3ff 0%, #fff1a8 48%, #ffbdd0 100%);
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+            cursor: pointer;
+        }
+
+        .game {
+            width: min(1040px, 100%);
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .screen {
+            display: none;
+            width: 100%;
+            animation: pop 0.28s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .panel {
+            width: 100%;
+            padding: clamp(18px, 4vw, 36px);
+            border: 4px solid rgba(255, 255, 255, 0.72);
+            border-radius: 26px;
+            background: rgba(255, 253, 245, 0.94);
+            box-shadow: var(--shadow);
+        }
+
+        .top-link {
+            display: inline-flex;
+            min-height: 42px;
+            align-items: center;
+            margin-bottom: 12px;
+            color: var(--ink);
+            font-weight: 900;
+            text-decoration: none;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 260px;
+            gap: 26px;
+            align-items: center;
+        }
+
+        h1,
+        h2 {
+            margin: 0;
+            line-height: 1.12;
+            letter-spacing: 0;
+        }
+
+        h1 {
+            font-size: clamp(2.35rem, 7vw, 4.8rem);
+        }
+
+        h2 {
+            font-size: clamp(1.9rem, 5vw, 3.2rem);
+        }
+
+        p {
+            color: var(--muted);
+            font-size: clamp(1rem, 3vw, 1.22rem);
+            line-height: 1.55;
+        }
+
+        /* CSS로 만든 캐릭터라서 이미지 파일 없이도 귀엽게 표시됩니다. */
+        .mascot {
+            position: relative;
+            width: min(250px, 70vw);
+            aspect-ratio: 1;
+            margin: 0 auto;
+        }
+
+        .mascot-face {
+            position: absolute;
+            inset: 16%;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: inset 0 -12px 0 rgba(255, 218, 235, 0.75), var(--shadow);
+        }
+
+        .mascot-face::before,
+        .mascot-face::after {
+            content: "";
+            position: absolute;
+            top: 39%;
+            width: 15%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--ink);
+        }
+
+        .mascot-face::before {
+            left: 29%;
+        }
+
+        .mascot-face::after {
+            right: 29%;
+        }
+
+        .smile {
+            position: absolute;
+            left: 35%;
+            top: 56%;
+            width: 30%;
+            height: 16%;
+            border-bottom: 8px solid var(--ink);
+            border-radius: 0 0 999px 999px;
+        }
+
+        .star {
+            position: absolute;
+            width: 72px;
+            aspect-ratio: 1;
+            clip-path: polygon(50% 0, 61% 34%, 98% 34%, 68% 55%, 79% 91%, 50% 69%, 21% 91%, 32% 55%, 2% 34%, 39% 34%);
+            background: var(--yellow);
+            filter: drop-shadow(0 8px 0 rgba(244, 166, 57, 0.35));
+        }
+
+        .star.one {
+            left: 0;
+            top: 10%;
+            transform: rotate(-18deg);
+        }
+
+        .star.two {
+            right: 0;
+            bottom: 8%;
+            transform: rotate(15deg) scale(0.8);
+        }
+
+        .button-row,
+        .mode-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 22px;
+        }
+
+        .btn {
+            min-height: 58px;
+            padding: 0 22px;
+            border-radius: 18px;
+            color: var(--ink);
+            background: #fff;
+            border: 3px solid var(--line);
+            font-weight: 900;
+            box-shadow: 0 8px 0 rgba(38, 48, 79, 0.12);
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 0 rgba(38, 48, 79, 0.12);
+            outline: 0;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 rgba(38, 48, 79, 0.12);
+        }
+
+        .btn.primary {
+            background: var(--yellow);
+            border-color: #f4b63f;
+        }
+
+        .btn.blue {
+            background: #cceeff;
+            border-color: var(--blue);
+        }
+
+        .btn.pink {
+            background: #ffe1ec;
+            border-color: var(--pink);
+        }
+
+        .btn.green {
+            background: #d9f8e7;
+            border-color: var(--green);
+        }
+
+        .btn.selected {
+            background: var(--green);
+            border-color: #26ad65;
+            color: #07381e;
+        }
+
+        .dan-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin: 22px 0;
+        }
+
+        .dan-btn {
+            min-height: 72px;
+            font-size: 1.25rem;
+        }
+
+        .toggle-card {
+            flex: 1 1 220px;
+            min-height: 92px;
+            padding: 16px;
+            border: 3px solid var(--line);
+            border-radius: 20px;
+            background: #fff;
+            color: var(--ink);
+            text-align: left;
+        }
+
+        .toggle-card strong,
+        .toggle-card span {
+            display: block;
+        }
+
+        .toggle-card span {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.35;
+        }
+
+        .toggle-card.selected {
+            background: #e9fbff;
+            border-color: var(--blue);
+        }
+
+        .hud {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .hud-item {
+            min-height: 78px;
+            padding: 12px;
+            border-radius: 18px;
+            background: #fff;
+            border: 3px solid var(--line);
+            text-align: center;
+        }
+
+        .hud-item span {
+            display: block;
+            color: var(--muted);
+            font-size: 0.86rem;
+            font-weight: 800;
+        }
+
+        .hud-item strong {
+            display: block;
+            margin-top: 4px;
+            font-size: clamp(1.35rem, 4vw, 2rem);
+        }
+
+        .problem-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 230px;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .problem {
+            min-height: 170px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 24px;
+            background: #25305f;
+            color: #fff;
+            font-size: clamp(3rem, 13vw, 7rem);
+            font-weight: 900;
+            text-align: center;
+            box-shadow: inset 0 -12px 0 rgba(0, 0, 0, 0.18);
+        }
+
+        .answer-box {
+            display: grid;
+            gap: 12px;
+        }
+
+        .answer-input {
+            width: 100%;
+            min-height: 76px;
+            padding: 0 18px;
+            border: 4px solid var(--blue);
+            border-radius: 20px;
+            color: var(--ink);
+            background: #fff;
+            font-size: 2rem;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .answer-input:focus {
+            outline: 4px solid rgba(88, 184, 255, 0.28);
+        }
+
+        .feedback {
+            min-height: 70px;
+            margin-top: 18px;
+            padding: 14px 18px;
+            border-radius: 20px;
+            background: #fff;
+            border: 3px dashed var(--line);
+            color: var(--muted);
+            font-size: clamp(1.05rem, 3vw, 1.35rem);
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .feedback.correct {
+            color: #13723f;
+            background: #e5fbef;
+            border-color: var(--green);
+        }
+
+        .feedback.wrong {
+            color: #9b2525;
+            background: #ffeaea;
+            border-color: var(--red);
+        }
+
+        .reward-strip {
+            min-height: 48px;
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .reward {
+            width: 38px;
+            aspect-ratio: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--yellow);
+            box-shadow: 0 5px 0 rgba(244, 166, 57, 0.36);
+            font-weight: 900;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin: 22px 0;
+        }
+
+        .result-card,
+        .wrong-list li {
+            background: #fff;
+            border: 3px solid var(--line);
+        }
+
+        .result-card {
+            min-height: 112px;
+            padding: 16px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .result-card span,
+        .result-card strong {
+            display: block;
+        }
+
+        .result-card span {
+            color: var(--muted);
+            font-weight: 900;
+        }
+
+        .result-card strong {
+            margin-top: 8px;
+            font-size: 2rem;
+        }
+
+        .wrong-list {
+            display: grid;
+            gap: 8px;
+            margin: 14px 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .wrong-list li {
+            padding: 12px 14px;
+            border-width: 2px;
+            border-radius: 14px;
+            font-weight: 800;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes pop {
+            from {
+                opacity: 0;
+                transform: scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 760px) {
+            .game {
+                padding: 10px;
+                align-items: stretch;
+            }
+
+            .hero,
+            .problem-card {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                text-align: center;
+            }
+
+            .button-row {
+                justify-content: center;
+            }
+
+            .btn {
+                flex: 1 1 150px;
+                min-height: 62px;
+            }
+
+            .dan-grid,
+            .hud,
+            .result-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .problem {
+                min-height: 150px;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .dan-grid,
+            .hud,
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mascot {
+                width: 190px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="game">
+        <section id="startScreen" class="screen active" aria-labelledby="startTitle">
+            <a class="top-link" href="../games.html">← Games로 돌아가기</a>
+            <div class="panel hero">
+                <div>
+                    <h1 id="startTitle">구구단 별 모험</h1>
+                    <p>2단부터 9단까지 신나게 풀고 별을 모아 보세요. 정답을 맞힐 때마다 칭찬과 콤보 보상이 기다리고 있어요!</p>
+                    <div class="button-row">
+                        <button class="btn primary" id="goSetupBtn" type="button">시작하기</button>
+                        <button class="btn blue" id="quickStartBtn" type="button">바로 연습</button>
+                    </div>
+                </div>
+                <div class="mascot" aria-hidden="true">
+                    <div class="star one"></div>
+                    <div class="mascot-face"><span class="smile"></span></div>
+                    <div class="star two"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="setupScreen" class="screen" aria-labelledby="setupTitle">
+            <div class="panel">
+                <h2 id="setupTitle">연습할 단을 골라요</h2>
+                <p>하나만 골라도 되고, 여러 개를 골라도 좋아요. 제한 시간 모드를 켜면 60초 동안 도전합니다.</p>
+                <div id="danGrid" class="dan-grid" aria-label="단 선택"></div>
+                <div class="mode-row">
+                    <button id="normalModeBtn" class="toggle-card selected" type="button">
+                        <strong>차근차근 모드</strong>
+                        <span>총 10문제를 풀고 결과를 확인해요.</span>
+                    </button>
+                    <button id="timerModeBtn" class="toggle-card" type="button">
+                        <strong>제한 시간 모드</strong>
+                        <span>60초 동안 최대한 많이 맞혀요.</span>
+                    </button>
+                </div>
+                <div class="button-row">
+                    <button class="btn primary" id="startGameBtn" type="button">게임 시작</button>
+                    <button class="btn pink" id="selectAllBtn" type="button">2~9단 모두 선택</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="gameScreen" class="screen" aria-labelledby="problemText">
+            <div class="panel">
+                <div class="hud" aria-label="게임 정보">
+                    <div class="hud-item"><span>점수</span><strong id="scoreText">0</strong></div>
+                    <div class="hud-item"><span>콤보</span><strong id="comboText">0</strong></div>
+                    <div class="hud-item"><span>문제</span><strong id="roundText">1/10</strong></div>
+                    <div class="hud-item"><span>시간</span><strong id="timeText">∞</strong></div>
+                </div>
+                <div class="problem-card">
+                    <div id="problemText" class="problem" aria-live="polite">2 × 3</div>
+                    <div class="answer-box">
+                        <label class="hidden" for="answerInput">정답 입력</label>
+                        <input id="answerInput" class="answer-input" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="정답">
+                        <button class="btn primary" id="submitBtn" type="button">정답 확인</button>
+                        <button class="btn blue" id="skipBtn" type="button">다음 문제</button>
+                    </div>
+                </div>
+                <div id="feedback" class="feedback" aria-live="polite">할 수 있어요. 천천히 생각해 봐요!</div>
+                <div id="rewardStrip" class="reward-strip" aria-label="모은 별"></div>
+            </div>
+        </section>
+
+        <section id="resultScreen" class="screen" aria-labelledby="resultTitle">
+            <div class="panel">
+                <h2 id="resultTitle">멋진 도전이었어요!</h2>
+                <p id="resultMessage">오늘도 구구단 실력이 반짝반짝 자랐어요.</p>
+                <div class="result-grid">
+                    <div class="result-card"><span>최종 점수</span><strong id="finalScore">0</strong></div>
+                    <div class="result-card"><span>맞힌 문제</span><strong id="finalCorrect">0</strong></div>
+                    <div class="result-card"><span>최고 콤보</span><strong id="finalCombo">0</strong></div>
+                </div>
+                <div id="wrongArea">
+                    <h3>다시 풀어볼 문제</h3>
+                    <ul id="wrongList" class="wrong-list"></ul>
+                </div>
+                <div class="button-row">
+                    <button class="btn green" id="retryWrongBtn" type="button">틀린 문제 다시 풀기</button>
+                    <button class="btn primary" id="againBtn" type="button">새 게임</button>
+                    <button class="btn blue" id="homeBtn" type="button">처음으로</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 게임 상태를 한 곳에 모아 두면 점수, 콤보, 틀린 문제를 관리하기 쉽습니다.
+        const state = {
+            selectedDans: [2, 3, 4, 5, 6, 7, 8, 9],
+            timerMode: false,
+            reviewMode: false,
+            score: 0,
+            combo: 0,
+            bestCombo: 0,
+            correct: 0,
+            answered: 0,
+            totalRounds: 10,
+            timeLeft: 60,
+            timerId: null,
+            current: null,
+            wrongProblems: [],
+            reviewQueue: [],
+            reviewOriginalCount: 0
+        };
+
+        const praise = [
+            "정답! 정말 반짝이는 실력이에요!",
+            "좋아요! 별 하나를 더 모았어요!",
+            "멋져요! 구구단 박사에 가까워졌어요!",
+            "최고예요! 콤보가 쑥쑥 자라요!"
+        ];
+
+        const screens = {
+            start: document.getElementById("startScreen"),
+            setup: document.getElementById("setupScreen"),
+            game: document.getElementById("gameScreen"),
+            result: document.getElementById("resultScreen")
+        };
+
+        const danGrid = document.getElementById("danGrid");
+        const answerInput = document.getElementById("answerInput");
+        const feedback = document.getElementById("feedback");
+        const rewardStrip = document.getElementById("rewardStrip");
+
+        function showScreen(name) {
+            Object.values(screens).forEach(screen => screen.classList.remove("active"));
+            screens[name].classList.add("active");
+            if (name === "game") {
+                setTimeout(() => answerInput.focus(), 80);
+            }
+        }
+
+        // 2단부터 9단까지 선택 버튼을 만듭니다.
+        function renderDanButtons() {
+            danGrid.innerHTML = "";
+            for (let dan = 2; dan <= 9; dan++) {
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "btn dan-btn selected";
+                button.textContent = `${dan}단`;
+                button.dataset.dan = String(dan);
+                button.addEventListener("click", () => toggleDan(dan, button));
+                danGrid.appendChild(button);
+            }
+        }
+
+        function toggleDan(dan, button) {
+            const hasDan = state.selectedDans.includes(dan);
+            if (hasDan && state.selectedDans.length === 1) {
+                flashSetupMessage("단은 하나 이상 골라야 해요!");
+                return;
+            }
+            state.selectedDans = hasDan
+                ? state.selectedDans.filter(item => item !== dan)
+                : [...state.selectedDans, dan].sort((a, b) => a - b);
+            button.classList.toggle("selected", !hasDan);
+        }
+
+        function flashSetupMessage(message) {
+            const setupTitle = document.getElementById("setupTitle");
+            const original = setupTitle.textContent;
+            setupTitle.textContent = message;
+            setTimeout(() => {
+                setupTitle.textContent = original;
+            }, 900);
+        }
+
+        function setTimerMode(enabled) {
+            state.timerMode = enabled;
+            document.getElementById("normalModeBtn").classList.toggle("selected", !enabled);
+            document.getElementById("timerModeBtn").classList.toggle("selected", enabled);
+        }
+
+        function feedbackMessage(message, type) {
+            feedback.textContent = message;
+            feedback.className = `feedback ${type || ""}`.trim();
+        }
+
+        // 새 게임을 시작하기 전에 점수와 기록을 초기화합니다.
+        function resetGame(reviewOnly = false) {
+            state.reviewMode = reviewOnly;
+            state.score = 0;
+            state.combo = 0;
+            state.bestCombo = 0;
+            state.correct = 0;
+            state.answered = 0;
+            state.timeLeft = 60;
+            state.wrongProblems = [];
+            state.reviewOriginalCount = reviewOnly ? state.reviewQueue.length : 0;
+            clearInterval(state.timerId);
+            state.timerId = null;
+            rewardStrip.innerHTML = "";
+            updateHud();
+        }
+
+        function startGame(reviewOnly = false) {
+            resetGame(reviewOnly);
+            showScreen("game");
+            feedbackMessage("좋아요! 첫 번째 별을 향해 출발!", "");
+            if (state.timerMode && !reviewOnly) {
+                state.timerId = setInterval(tickTimer, 1000);
+            }
+            makeProblem();
+        }
+
+        function tickTimer() {
+            state.timeLeft -= 1;
+            updateHud();
+            if (state.timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        // 랜덤 문제를 만들거나, 다시 풀기에서는 틀린 문제 목록에서 꺼냅니다.
+        function makeProblem() {
+            if (state.reviewMode && state.reviewQueue.length === 0) {
+                endGame();
+                return;
+            }
+            const problem = state.reviewMode ? state.reviewQueue.shift() : randomProblem();
+            state.current = problem;
+            document.getElementById("problemText").textContent = `${problem.a} × ${problem.b}`;
+            answerInput.value = "";
+            updateHud();
+        }
+
+        function randomProblem() {
+            const dan = state.selectedDans[Math.floor(Math.random() * state.selectedDans.length)];
+            const number = Math.floor(Math.random() * 9) + 1;
+            return { a: dan, b: number, answer: dan * number };
+        }
+
+        function submitAnswer() {
+            const value = Number(answerInput.value);
+            if (!answerInput.value.trim()) {
+                feedbackMessage("빈칸에 답을 적어 주세요.", "wrong");
+                return;
+            }
+            gradeAnswer(value === state.current.answer, false);
+        }
+
+        function skipProblem() {
+            gradeAnswer(false, true);
+        }
+
+        function gradeAnswer(isCorrect, skipped) {
+            state.answered += 1;
+            if (isCorrect) {
+                state.correct += 1;
+                state.combo += 1;
+                state.bestCombo = Math.max(state.bestCombo, state.combo);
+                state.score += 10 + Math.min(state.combo * 2, 20);
+                addReward();
+                feedbackMessage(praise[Math.floor(Math.random() * praise.length)], "correct");
+            } else {
+                state.combo = 0;
+                state.wrongProblems.push({ ...state.current });
+                const prefix = skipped ? "다음에 다시 풀어 봐요." : "괜찮아요!";
+                feedbackMessage(`${prefix} 정답은 ${state.current.answer}예요.`, "wrong");
+            }
+
+            updateHud();
+            setTimeout(nextStep, 720);
+        }
+
+        function nextStep() {
+            if (state.reviewMode) {
+                makeProblem();
+                return;
+            }
+            if (!state.timerMode && state.answered >= state.totalRounds) {
+                endGame();
+                return;
+            }
+            makeProblem();
+        }
+
+        function addReward() {
+            const reward = document.createElement("span");
+            reward.className = "reward";
+            reward.textContent = "★";
+            rewardStrip.appendChild(reward);
+        }
+
+        function updateHud() {
+            const roundValue = state.reviewMode
+                ? `${Math.min(state.answered + 1, state.reviewOriginalCount)}/${state.reviewOriginalCount || 1}`
+                : state.timerMode ? state.answered : `${Math.min(state.answered + 1, state.totalRounds)}/${state.totalRounds}`;
+            document.getElementById("scoreText").textContent = state.score;
+            document.getElementById("comboText").textContent = state.combo;
+            document.getElementById("roundText").textContent = roundValue;
+            document.getElementById("timeText").textContent = state.timerMode && !state.reviewMode ? state.timeLeft : "∞";
+        }
+
+        function endGame() {
+            clearInterval(state.timerId);
+            state.timerId = null;
+            state.reviewQueue = [...state.wrongProblems];
+            document.getElementById("finalScore").textContent = state.score;
+            document.getElementById("finalCorrect").textContent = state.correct;
+            document.getElementById("finalCombo").textContent = state.bestCombo;
+            document.getElementById("resultMessage").textContent = makeResultMessage();
+            renderWrongList();
+            showScreen("result");
+        }
+
+        function makeResultMessage() {
+            if (state.correct >= 9 || (state.timerMode && state.correct >= 15)) {
+                return "와! 별빛이 가득해요. 오늘의 구구단 영웅입니다!";
+            }
+            if (state.correct >= 6) {
+                return "아주 잘했어요. 조금만 더 연습하면 더 빠르게 맞힐 수 있어요!";
+            }
+            return "괜찮아요. 틀린 문제를 다시 풀면 구구단 힘이 더 튼튼해져요!";
+        }
+
+        function renderWrongList() {
+            const wrongArea = document.getElementById("wrongArea");
+            const wrongList = document.getElementById("wrongList");
+            const retryButton = document.getElementById("retryWrongBtn");
+            wrongList.innerHTML = "";
+
+            if (state.reviewQueue.length === 0) {
+                wrongArea.classList.add("hidden");
+                retryButton.classList.add("hidden");
+                return;
+            }
+
+            wrongArea.classList.remove("hidden");
+            retryButton.classList.remove("hidden");
+            state.reviewQueue.forEach(problem => {
+                const item = document.createElement("li");
+                item.textContent = `${problem.a} × ${problem.b} = ${problem.answer}`;
+                wrongList.appendChild(item);
+            });
+        }
+
+        document.getElementById("goSetupBtn").addEventListener("click", () => showScreen("setup"));
+        document.getElementById("quickStartBtn").addEventListener("click", () => startGame(false));
+        document.getElementById("startGameBtn").addEventListener("click", () => startGame(false));
+        document.getElementById("normalModeBtn").addEventListener("click", () => setTimerMode(false));
+        document.getElementById("timerModeBtn").addEventListener("click", () => setTimerMode(true));
+        document.getElementById("submitBtn").addEventListener("click", submitAnswer);
+        document.getElementById("skipBtn").addEventListener("click", skipProblem);
+        document.getElementById("againBtn").addEventListener("click", () => showScreen("setup"));
+        document.getElementById("homeBtn").addEventListener("click", () => showScreen("start"));
+        document.getElementById("retryWrongBtn").addEventListener("click", () => {
+            state.timerMode = false;
+            setTimerMode(false);
+            startGame(true);
+        });
+        document.getElementById("selectAllBtn").addEventListener("click", () => {
+            state.selectedDans = [2, 3, 4, 5, 6, 7, 8, 9];
+            document.querySelectorAll(".dan-btn").forEach(button => button.classList.add("selected"));
+        });
+        answerInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                submitAnswer();
+            }
+        });
+
+        renderDanButtons();
+    </script>
+</body>
+</html>

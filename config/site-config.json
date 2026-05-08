@@ -76,6 +76,15 @@
       "alt": "Mind Notes Category - Thoughts and reflections on various topics",
       "file": "mindnotes.html",
       "dir": "MindNotes"
+    },
+    {
+      "id": "games",
+      "title": "Games",
+      "description": "Small learning games and playful practice tools",
+      "image": "images/games.svg",
+      "alt": "Games Category - Bright learning games and playful practice tools",
+      "file": "games.html",
+      "dir": "Games"
     }
   ]
 }
