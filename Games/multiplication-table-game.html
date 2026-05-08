@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>구구단 별 모험 게임</title>
     <style>
-        /* 밝고 둥근 게임 화면을 만들기 위한 기본 색상입니다. */
+        /* 초등학생이 보기 편한 밝은 색과 큰 버튼을 기본으로 잡습니다. */
         :root {
             --ink: #26304f;
             --muted: #63708b;
@@ -14,7 +14,6 @@
             --yellow: #ffd75e;
             --green: #58d68d;
             --red: #ff6b6b;
-            --paper: #fffdf5;
             --line: rgba(38, 48, 79, 0.14);
             --shadow: 0 18px 45px rgba(59, 70, 120, 0.18);
         }
@@ -110,7 +109,7 @@
             line-height: 1.55;
         }
 
-        /* CSS로 만든 캐릭터라서 이미지 파일 없이도 귀엽게 표시됩니다. */
+        /* CSS 캐릭터라서 별도 이미지 없이 바로 실행됩니다. */
         .mascot {
             position: relative;
             width: min(250px, 70vw);
@@ -193,7 +192,7 @@
             border: 3px solid var(--line);
             font-weight: 900;
             box-shadow: 0 8px 0 rgba(38, 48, 79, 0.12);
-            transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+            transition: transform 0.12s ease, box-shadow 0.12s ease;
         }
 
         .btn:hover,
@@ -223,15 +222,10 @@
             border-color: var(--pink);
         }
 
-        .btn.green {
+        .btn.green,
+        .btn.selected {
             background: #d9f8e7;
             border-color: var(--green);
-        }
-
-        .btn.selected {
-            background: var(--green);
-            border-color: #26ad65;
-            color: #07381e;
         }
 
         .dan-grid {
@@ -377,7 +371,6 @@
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            align-items: center;
         }
 
         .reward {
@@ -472,10 +465,6 @@
                 text-align: center;
             }
 
-            .button-row {
-                justify-content: center;
-            }
-
             .btn {
                 flex: 1 1 150px;
                 min-height: 62px;
@@ -485,10 +474,6 @@
             .hud,
             .result-grid {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .problem {
-                min-height: 150px;
             }
         }
 

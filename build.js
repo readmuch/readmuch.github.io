@@ -221,7 +221,7 @@ class BlogBuilder {
             date,
             tags,
             source,
-            link: `post.html?src=${encodeURIComponent(source)}`
+            link: (attributes.link || '').trim() || `post.html?src=${encodeURIComponent(source)}`
         };
     }
 

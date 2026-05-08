@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-08T05:23:03.829Z",
+  "generatedAt": "2026-05-08T05:50:03.776Z",
   "categories": [
     {
       "id": "book",
@@ -698,7 +698,7 @@
             "multiplication"
           ],
           "source": "Games/2026-05-08_gugudan-game.md",
-          "link": "post.html?src=Games%2F2026-05-08_gugudan-game.md"
+          "link": "Games/multiplication-table-game.html"
         }
       ]
     }

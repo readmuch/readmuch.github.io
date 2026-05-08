@@ -3,6 +3,7 @@ title: 구구단 별 모험 게임
 date: 2026-05-08
 tags: [game, math, multiplication]
 excerpt: 초등학교 저학년을 위한 2단부터 9단까지의 밝고 귀여운 구구단 연습 게임입니다.
+link: Games/multiplication-table-game.html
 ---
 
 # 구구단 별 모험 게임
