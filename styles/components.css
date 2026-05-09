@@ -443,6 +443,8 @@ header > a:not(.brand-title) {
 .category-page #postList {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 14px;
+    grid-auto-flow: row;
+    overflow: visible;
 }
 
 .category-page .post-card {
@@ -727,9 +729,17 @@ footer p {
     .shelf-link-grid {
         grid-template-columns: minmax(0, 1fr);
     }
+    .category-page #postList {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        overflow: visible;
+    }
     .category-page .post-card,
     .category-page .post-card:nth-child(1),
     .category-page .post-card:nth-child(2) {
+        width: 100%;
         grid-column: auto;
         min-height: auto;
     }
