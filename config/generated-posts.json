@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-08T06:14:12.460Z",
+  "generatedAt": "2026-05-09T11:23:50.618Z",
   "categories": [
     {
       "id": "book",
@@ -688,6 +688,42 @@
     {
       "id": "games",
       "posts": [
+        {
+          "title": "스네이크",
+          "excerpt": "먹이를 먹으며 길어지는 몸을 피해 오래 버티는 클래식 아케이드 게임입니다.",
+          "date": "2026-05-09",
+          "tags": [
+            "game",
+            "arcade",
+            "snake"
+          ],
+          "source": "Games/2026-05-09_snake.md",
+          "link": "Games/snake.html"
+        },
+        {
+          "title": "수박게임",
+          "excerpt": "같은 과일을 합쳐 더 큰 과일로 키워 가는 귀여운 머지 퍼즐 게임입니다.",
+          "date": "2026-05-09",
+          "tags": [
+            "game",
+            "puzzle",
+            "suika"
+          ],
+          "source": "Games/2026-05-09_suika-game.md",
+          "link": "Games/suika-game.html"
+        },
+        {
+          "title": "테트리스",
+          "excerpt": "블록을 회전하고 쌓아 줄을 지우는 클래식 퍼즐 게임입니다.",
+          "date": "2026-05-09",
+          "tags": [
+            "game",
+            "puzzle",
+            "tetris"
+          ],
+          "source": "Games/2026-05-09_tetris.md",
+          "link": "Games/tetris.html"
+        },
         {
           "title": "구구단 별 모험 게임",
           "excerpt": "초등학교 저학년을 위한 2단부터 9단까지의 밝고 귀여운 구구단 연습 게임입니다.",

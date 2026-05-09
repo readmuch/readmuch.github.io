@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수박게임</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", "Apple SD Gothic Neo", sans-serif;
+            background: #fff4e6;
+            color: #2b1d17;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+        }
+        .game { width: min(100%, 900px); display: grid; gap: 16px; }
+        .top-link { color: #b94e35; font-weight: 800; text-decoration: none; }
+        .panel {
+            background: #fffdfa;
+            border: 3px solid #2b1d17;
+            border-radius: 8px;
+            box-shadow: 0 10px 0 #2b1d17;
+            padding: 18px;
+        }
+        header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: end;
+        }
+        h1 { margin: 0; font-size: clamp(2rem, 6vw, 4rem); line-height: .95; }
+        p { margin: 8px 0 0; color: #70564c; }
+        .stats { display: grid; grid-template-columns: repeat(3, minmax(84px, 1fr)); gap: 10px; }
+        .stat {
+            border: 2px solid #2b1d17;
+            border-radius: 8px;
+            padding: 10px;
+            background: #ffe0a3;
+            text-align: center;
+        }
+        .stat span { display: block; font-size: .78rem; font-weight: 800; color: #70564c; }
+        .stat strong { font-size: 1.5rem; }
+        .stage {
+            display: grid;
+            grid-template-columns: 1fr 180px;
+            gap: 16px;
+            align-items: start;
+        }
+        canvas {
+            width: 100%;
+            max-width: 480px;
+            aspect-ratio: 4 / 5;
+            justify-self: center;
+            background: #fff8d7;
+            border: 4px solid #2b1d17;
+            border-radius: 8px;
+        }
+        .side { display: grid; gap: 12px; }
+        .fruit-card {
+            min-height: 120px;
+            display: grid;
+            place-items: center;
+            border: 2px solid #2b1d17;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 3rem;
+        }
+        button {
+            border: 2px solid #2b1d17;
+            border-radius: 8px;
+            background: #96d67f;
+            color: #2b1d17;
+            font-weight: 900;
+            padding: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #2b1d17;
+        }
+        button:active { transform: translateY(3px); box-shadow: 0 1px 0 #2b1d17; }
+        input[type="range"] { width: 100%; accent-color: #e85d48; }
+        .message { min-height: 26px; text-align: center; font-weight: 900; }
+        @media (max-width: 760px) {
+            header, .stage { grid-template-columns: 1fr; }
+            .side { grid-template-columns: repeat(2, 1fr); }
+            .fruit-card { min-height: 90px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="game">
+        <a class="top-link" href="../games.html">← Games로 돌아가기</a>
+        <section class="panel">
+            <header>
+                <div>
+                    <h1>수박게임</h1>
+                    <p>위치를 고르고 과일을 떨어뜨리세요. 같은 과일이 만나면 더 큰 과일로 합쳐집니다.</p>
+                </div>
+                <div class="stats">
+                    <div class="stat"><span>점수</span><strong id="score">0</strong></div>
+                    <div class="stat"><span>최고 과일</span><strong id="largest">1</strong></div>
+                    <div class="stat"><span>남은 칸</span><strong id="space">좋음</strong></div>
+                </div>
+            </header>
+        </section>
+        <section class="panel stage">
+            <canvas id="board" width="400" height="500" aria-label="수박게임 보드"></canvas>
+            <aside class="side">
+                <div class="fruit-card" id="nextFruit" aria-label="다음 과일">🍒</div>
+                <label>
+                    떨어뜨릴 위치
+                    <input id="aim" type="range" min="28" max="372" value="200">
+                </label>
+                <button id="dropBtn" type="button">떨어뜨리기</button>
+                <button id="resetBtn" type="button">처음부터</button>
+            </aside>
+        </section>
+        <div class="message" id="message">클릭하거나 버튼을 눌러 과일을 떨어뜨려요.</div>
+    </main>
+    <script>
+        const canvas = document.getElementById("board");
+        const ctx = canvas.getContext("2d");
+        const scoreEl = document.getElementById("score");
+        const largestEl = document.getElementById("largest");
+        const spaceEl = document.getElementById("space");
+        const nextFruitEl = document.getElementById("nextFruit");
+        const aim = document.getElementById("aim");
+        const fruits = [
+            { emoji: "🍒", radius: 18, color: "#f64f66", score: 2 },
+            { emoji: "🍓", radius: 24, color: "#ff6f61", score: 5 },
+            { emoji: "🍊", radius: 31, color: "#ffac42", score: 12 },
+            { emoji: "🍋", radius: 38, color: "#ffd95a", score: 24 },
+            { emoji: "🍎", radius: 46, color: "#ef5350", score: 48 },
+            { emoji: "🍈", radius: 55, color: "#9bd770", score: 96 },
+            { emoji: "🍉", radius: 66, color: "#35a853", score: 180 }
+        ];
+        let balls, score, nextLevel, running, gameOver;
+        const gravity = 0.24;
+        const friction = 0.985;
+
+        function init() {
+            balls = [];
+            score = 0;
+            nextLevel = randomLevel();
+            running = true;
+            gameOver = false;
+            updateHud();
+            requestAnimationFrame(loop);
+        }
+
+        function randomLevel() {
+            return Math.floor(Math.random() * 3);
+        }
+
+        function drop(x = Number(aim.value)) {
+            if (gameOver) return;
+            const fruit = fruits[nextLevel];
+            balls.push({
+                x: Math.max(fruit.radius, Math.min(canvas.width - fruit.radius, x)),
+                y: 36,
+                vx: 0,
+                vy: 0,
+                level: nextLevel,
+                radius: fruit.radius,
+                merging: false
+            });
+            nextLevel = randomLevel();
+            updateHud();
+        }
+
+        function loop() {
+            if (!running) return;
+            updatePhysics();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        function updatePhysics() {
+            balls.forEach(ball => {
+                ball.vy += gravity;
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+                ball.vx *= friction;
+                ball.vy *= friction;
+                if (ball.x - ball.radius < 0) {
+                    ball.x = ball.radius;
+                    ball.vx *= -0.55;
+                }
+                if (ball.x + ball.radius > canvas.width) {
+                    ball.x = canvas.width - ball.radius;
+                    ball.vx *= -0.55;
+                }
+                if (ball.y + ball.radius > canvas.height) {
+                    ball.y = canvas.height - ball.radius;
+                    ball.vy *= -0.45;
+                    ball.vx *= 0.94;
+                }
+            });
+
+            for (let pass = 0; pass < 3; pass++) {
+                for (let i = 0; i < balls.length; i++) {
+                    for (let j = i + 1; j < balls.length; j++) {
+                        resolvePair(balls[i], balls[j]);
+                    }
+                }
+            }
+            balls = balls.filter(ball => !ball.merging);
+            const danger = balls.some(ball => ball.y - ball.radius < 76 && Math.abs(ball.vy) < 0.3);
+            if (danger && balls.length > 8) {
+                gameOver = true;
+                document.getElementById("message").textContent = "게임 끝! 처음부터 다시 도전해 보세요.";
+            }
+            updateHud();
+        }
+
+        function resolvePair(a, b) {
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const distance = Math.hypot(dx, dy) || 1;
+            const minDistance = a.radius + b.radius;
+            if (distance >= minDistance) return;
+
+            if (a.level === b.level && a.level < fruits.length - 1 && !a.merging && !b.merging) {
+                const level = a.level + 1;
+                const fruit = fruits[level];
+                a.merging = true;
+                b.merging = true;
+                balls.push({
+                    x: (a.x + b.x) / 2,
+                    y: (a.y + b.y) / 2,
+                    vx: (a.vx + b.vx) * 0.25,
+                    vy: -2,
+                    level,
+                    radius: fruit.radius,
+                    merging: false
+                });
+                score += fruit.score;
+                document.getElementById("message").textContent = `${fruit.emoji} 탄생!`;
+                return;
+            }
+
+            const overlap = (minDistance - distance) / 2;
+            const nx = dx / distance;
+            const ny = dy / distance;
+            a.x -= nx * overlap;
+            a.y -= ny * overlap;
+            b.x += nx * overlap;
+            b.y += ny * overlap;
+            const impulse = ((b.vx - a.vx) * nx + (b.vy - a.vy) * ny) * 0.5;
+            a.vx += impulse * nx;
+            a.vy += impulse * ny;
+            b.vx -= impulse * nx;
+            b.vy -= impulse * ny;
+        }
+
+        function updateHud() {
+            scoreEl.textContent = score;
+            const largest = balls.reduce((max, ball) => Math.max(max, ball.level + 1), 1);
+            largestEl.textContent = largest;
+            const top = balls.reduce((min, ball) => Math.min(min, ball.y - ball.radius), canvas.height);
+            spaceEl.textContent = top < 110 ? "위험" : top < 180 ? "주의" : "좋음";
+            nextFruitEl.textContent = fruits[nextLevel].emoji;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#fff8d7";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(232,93,72,.18)";
+            ctx.fillRect(0, 70, canvas.width, 4);
+            ctx.strokeStyle = "rgba(43,29,23,.12)";
+            for (let y = 100; y < canvas.height; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+            ctx.strokeStyle = "#e85d48";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(Number(aim.value), 0);
+            ctx.lineTo(Number(aim.value), 58);
+            ctx.stroke();
+            balls.forEach(drawFruit);
+        }
+
+        function drawFruit(ball) {
+            const fruit = fruits[ball.level];
+            ctx.beginPath();
+            ctx.fillStyle = fruit.color;
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "rgba(255,255,255,.35)";
+            ctx.beginPath();
+            ctx.arc(ball.x - ball.radius * .28, ball.y - ball.radius * .32, ball.radius * .2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.font = `${Math.max(18, ball.radius * .9)}px serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(fruit.emoji, ball.x, ball.y + 1);
+        }
+
+        canvas.addEventListener("pointermove", event => {
+            const rect = canvas.getBoundingClientRect();
+            aim.value = Math.round((event.clientX - rect.left) * (canvas.width / rect.width));
+        });
+        canvas.addEventListener("click", event => {
+            const rect = canvas.getBoundingClientRect();
+            drop((event.clientX - rect.left) * (canvas.width / rect.width));
+        });
+        document.getElementById("dropBtn").addEventListener("click", () => drop());
+        document.getElementById("resetBtn").addEventListener("click", init);
+        document.addEventListener("keydown", event => {
+            if (event.key === "ArrowLeft") aim.value = Math.max(Number(aim.min), Number(aim.value) - 18);
+            if (event.key === "ArrowRight") aim.value = Math.min(Number(aim.max), Number(aim.value) + 18);
+            if (event.code === "Space") {
+                event.preventDefault();
+                drop();
+            }
+        });
+        init();
+    </script>
+</body>
+</html>

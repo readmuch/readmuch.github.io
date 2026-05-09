@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테트리스</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", "Apple SD Gothic Neo", sans-serif;
+            background: #eef2f8;
+            color: #172033;
+            display: grid;
+            place-items: center;
+            padding: 20px;
+        }
+        .game { width: min(100%, 920px); display: grid; gap: 16px; }
+        .top-link { color: #315fb8; font-weight: 800; text-decoration: none; }
+        .panel {
+            background: #fff;
+            border: 3px solid #172033;
+            border-radius: 8px;
+            box-shadow: 0 10px 0 #172033;
+            padding: 18px;
+        }
+        header, .play-area {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            align-items: start;
+        }
+        h1 { margin: 0; font-size: clamp(2rem, 6vw, 4rem); line-height: .95; }
+        p { margin: 8px 0 0; color: #526070; }
+        canvas {
+            background: #111827;
+            border: 4px solid #172033;
+            border-radius: 8px;
+            image-rendering: pixelated;
+        }
+        #board { width: min(100%, 360px); aspect-ratio: 1 / 2; }
+        #next { width: 120px; height: 120px; }
+        .side { display: grid; gap: 12px; width: 180px; }
+        .stat {
+            border: 2px solid #172033;
+            border-radius: 8px;
+            padding: 10px;
+            background: #dce9ff;
+            text-align: center;
+        }
+        .stat span { display: block; font-size: .78rem; font-weight: 800; color: #526070; }
+        .stat strong { font-size: 1.7rem; }
+        button {
+            border: 2px solid #172033;
+            border-radius: 8px;
+            background: #ffd966;
+            color: #172033;
+            font-weight: 900;
+            padding: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #172033;
+        }
+        button:active { transform: translateY(3px); box-shadow: 0 1px 0 #172033; }
+        .controls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .controls .wide { grid-column: span 3; }
+        .message { min-height: 26px; text-align: center; font-weight: 900; }
+        @media (max-width: 720px) {
+            header, .play-area { grid-template-columns: 1fr; }
+            .side { width: 100%; grid-template-columns: repeat(2, 1fr); }
+            #next { justify-self: center; }
+            .controls { grid-column: 1 / -1; }
+        }
+    </style>
+</head>
+<body>
+    <main class="game">
+        <a class="top-link" href="../games.html">← Games로 돌아가기</a>
+        <section class="panel">
+            <header>
+                <div>
+                    <h1>테트리스</h1>
+                    <p>블록을 회전하고 줄을 지워 점수를 올려요. 방향키, 스페이스바, 버튼을 사용할 수 있습니다.</p>
+                </div>
+                <div class="stat"><span>상태</span><strong id="status">준비</strong></div>
+            </header>
+        </section>
+        <section class="panel play-area">
+            <canvas id="board" width="240" height="480" aria-label="테트리스 게임판"></canvas>
+            <aside class="side">
+                <div class="stat"><span>점수</span><strong id="score">0</strong></div>
+                <div class="stat"><span>줄</span><strong id="lines">0</strong></div>
+                <div class="stat"><span>레벨</span><strong id="level">1</strong></div>
+                <canvas id="next" width="120" height="120" aria-label="다음 블록"></canvas>
+                <button id="startBtn" type="button">시작</button>
+                <button id="pauseBtn" type="button">일시정지</button>
+                <div class="controls">
+                    <button data-action="left" type="button">←</button>
+                    <button data-action="rotate" type="button">↻</button>
+                    <button data-action="right" type="button">→</button>
+                    <button data-action="drop" class="wide" type="button">바로 내리기</button>
+                </div>
+            </aside>
+        </section>
+        <div class="message" id="message">시작을 누르면 첫 블록이 떨어집니다.</div>
+    </main>
+    <script>
+        const canvas = document.getElementById("board");
+        const ctx = canvas.getContext("2d");
+        const nextCanvas = document.getElementById("next");
+        const nextCtx = nextCanvas.getContext("2d");
+        const cols = 10;
+        const rows = 20;
+        const cell = 24;
+        const colors = {
+            I: "#45c7f4", O: "#ffd95a", T: "#b583ff", S: "#68d391",
+            Z: "#ff6b6b", J: "#5b8def", L: "#ffad5a"
+        };
+        const shapes = {
+            I: [[1, 1, 1, 1]],
+            O: [[1, 1], [1, 1]],
+            T: [[0, 1, 0], [1, 1, 1]],
+            S: [[0, 1, 1], [1, 1, 0]],
+            Z: [[1, 1, 0], [0, 1, 1]],
+            J: [[1, 0, 0], [1, 1, 1]],
+            L: [[0, 0, 1], [1, 1, 1]]
+        };
+        let board, piece, nextPiece, score, lines, level, running, paused, lastTime, dropCounter;
+
+        function emptyBoard() {
+            return Array.from({ length: rows }, () => Array(cols).fill(null));
+        }
+
+        function randomPiece() {
+            const types = Object.keys(shapes);
+            const type = types[Math.floor(Math.random() * types.length)];
+            return {
+                type,
+                shape: shapes[type].map(row => [...row]),
+                x: Math.floor(cols / 2) - 2,
+                y: 0
+            };
+        }
+
+        function init() {
+            board = emptyBoard();
+            piece = randomPiece();
+            nextPiece = randomPiece();
+            score = 0;
+            lines = 0;
+            level = 1;
+            running = false;
+            paused = false;
+            lastTime = 0;
+            dropCounter = 0;
+            updateHud("준비");
+            draw();
+        }
+
+        function start() {
+            if (!running) {
+                running = true;
+                paused = false;
+                updateHud("진행");
+                requestAnimationFrame(update);
+            } else if (paused) {
+                paused = false;
+                updateHud("진행");
+            }
+        }
+
+        function pause() {
+            if (!running) return;
+            paused = !paused;
+            updateHud(paused ? "일시정지" : "진행");
+        }
+
+        function update(time = 0) {
+            if (!running) return;
+            const delta = time - lastTime;
+            lastTime = time;
+            if (!paused) {
+                dropCounter += delta;
+                if (dropCounter > Math.max(120, 760 - level * 60)) {
+                    moveDown();
+                    dropCounter = 0;
+                }
+                draw();
+            }
+            requestAnimationFrame(update);
+        }
+
+        function collide(testPiece = piece) {
+            return testPiece.shape.some((row, y) => row.some((value, x) => {
+                if (!value) return false;
+                const px = testPiece.x + x;
+                const py = testPiece.y + y;
+                return px < 0 || px >= cols || py >= rows || (py >= 0 && board[py][px]);
+            }));
+        }
+
+        function merge() {
+            piece.shape.forEach((row, y) => row.forEach((value, x) => {
+                if (value && piece.y + y >= 0) board[piece.y + y][piece.x + x] = piece.type;
+            }));
+        }
+
+        function clearLines() {
+            let cleared = 0;
+            board = board.filter(row => {
+                if (row.every(Boolean)) {
+                    cleared += 1;
+                    return false;
+                }
+                return true;
+            });
+            while (board.length < rows) board.unshift(Array(cols).fill(null));
+            if (cleared) {
+                lines += cleared;
+                score += [0, 100, 300, 500, 800][cleared] * level;
+                level = 1 + Math.floor(lines / 5);
+                updateHud("진행");
+            }
+        }
+
+        function spawn() {
+            piece = nextPiece;
+            piece.x = Math.floor(cols / 2) - 2;
+            piece.y = 0;
+            nextPiece = randomPiece();
+            if (collide()) {
+                running = false;
+                updateHud("끝");
+                document.getElementById("message").textContent = "게임 끝! 시작을 누르면 새로 도전합니다.";
+                init();
+            }
+        }
+
+        function moveDown() {
+            piece.y += 1;
+            if (collide()) {
+                piece.y -= 1;
+                merge();
+                clearLines();
+                spawn();
+            }
+        }
+
+        function move(dx) {
+            if (!running || paused) return;
+            piece.x += dx;
+            if (collide()) piece.x -= dx;
+            draw();
+        }
+
+        function rotate() {
+            if (!running || paused) return;
+            const old = piece.shape;
+            piece.shape = piece.shape[0].map((_, i) => piece.shape.map(row => row[i]).reverse());
+            if (collide()) piece.shape = old;
+            draw();
+        }
+
+        function hardDrop() {
+            if (!running || paused) return;
+            while (!collide()) piece.y += 1;
+            piece.y -= 1;
+            merge();
+            clearLines();
+            spawn();
+            draw();
+        }
+
+        function updateHud(status) {
+            document.getElementById("score").textContent = score;
+            document.getElementById("lines").textContent = lines;
+            document.getElementById("level").textContent = level;
+            document.getElementById("status").textContent = status;
+            document.getElementById("message").textContent = status === "진행" ? "줄을 완성하면 점수가 올라갑니다." : document.getElementById("message").textContent;
+        }
+
+        function drawBlock(context, x, y, color, blockSize = cell) {
+            context.fillStyle = color;
+            context.fillRect(x * blockSize + 1, y * blockSize + 1, blockSize - 2, blockSize - 2);
+            context.fillStyle = "rgba(255,255,255,.25)";
+            context.fillRect(x * blockSize + 3, y * blockSize + 3, blockSize - 6, 4);
+        }
+
+        function draw() {
+            ctx.fillStyle = "#111827";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = "rgba(255,255,255,.08)";
+            for (let x = 0; x <= cols; x++) {
+                ctx.beginPath();
+                ctx.moveTo(x * cell, 0);
+                ctx.lineTo(x * cell, canvas.height);
+                ctx.stroke();
+            }
+            for (let y = 0; y <= rows; y++) {
+                ctx.beginPath();
+                ctx.moveTo(0, y * cell);
+                ctx.lineTo(canvas.width, y * cell);
+                ctx.stroke();
+            }
+            board.forEach((row, y) => row.forEach((type, x) => {
+                if (type) drawBlock(ctx, x, y, colors[type]);
+            }));
+            piece.shape.forEach((row, y) => row.forEach((value, x) => {
+                if (value) drawBlock(ctx, piece.x + x, piece.y + y, colors[piece.type]);
+            }));
+            drawNext();
+        }
+
+        function drawNext() {
+            nextCtx.fillStyle = "#111827";
+            nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
+            const block = 24;
+            const offsetX = Math.floor((5 - nextPiece.shape[0].length) / 2);
+            const offsetY = Math.floor((5 - nextPiece.shape.length) / 2);
+            nextPiece.shape.forEach((row, y) => row.forEach((value, x) => {
+                if (value) drawBlock(nextCtx, x + offsetX, y + offsetY, colors[nextPiece.type], block);
+            }));
+        }
+
+        document.getElementById("startBtn").addEventListener("click", start);
+        document.getElementById("pauseBtn").addEventListener("click", pause);
+        document.querySelectorAll("[data-action]").forEach(button => {
+            button.addEventListener("click", () => {
+                const action = button.dataset.action;
+                if (action === "left") move(-1);
+                if (action === "right") move(1);
+                if (action === "rotate") rotate();
+                if (action === "drop") hardDrop();
+            });
+        });
+        document.addEventListener("keydown", event => {
+            if (event.key === "ArrowLeft") move(-1);
+            if (event.key === "ArrowRight") move(1);
+            if (event.key === "ArrowDown") moveDown();
+            if (event.key === "ArrowUp") rotate();
+            if (event.code === "Space") {
+                event.preventDefault();
+                hardDrop();
+            }
+            if (event.key.toLowerCase() === "p") pause();
+        });
+        init();
+    </script>
+</body>
+</html>

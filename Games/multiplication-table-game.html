@@ -582,7 +582,7 @@
         const allDans = [2, 3, 4, 5, 6, 7, 8, 9];
 
         const state = {
-            selectedDans: [2],
+            selectedDans: [],
             timerMode: false,
             reviewMode: false,
             score: 0,
@@ -594,6 +594,7 @@
             timeLeft: 60,
             timerId: null,
             current: null,
+            acceptingAnswer: false,
             wrongProblems: [],
             reviewQueue: [],
             reviewOriginalCount: 0
@@ -617,6 +618,8 @@
         const answerInput = document.getElementById("answerInput");
         const feedback = document.getElementById("feedback");
         const rewardStrip = document.getElementById("rewardStrip");
+        const submitBtn = document.getElementById("submitBtn");
+        const skipBtn = document.getElementById("skipBtn");
 
         function showScreen(name) {
             Object.values(screens).forEach(screen => screen.classList.remove("active"));
@@ -650,10 +653,6 @@
                     danButton.classList.toggle("selected", isSelected);
                     danButton.setAttribute("aria-pressed", String(isSelected));
                 });
-                return;
-            }
-            if (hasDan && state.selectedDans.length === 1) {
-                flashSetupMessage("단은 하나 이상 골라야 해요!");
                 return;
             }
             state.selectedDans = hasDan
@@ -691,6 +690,13 @@
             feedback.className = `feedback ${type || ""}`.trim();
         }
 
+        function setAnswerControls(enabled) {
+            state.acceptingAnswer = enabled;
+            answerInput.disabled = !enabled;
+            submitBtn.disabled = !enabled;
+            skipBtn.disabled = !enabled;
+        }
+
         // 새 게임을 시작하기 전에 점수와 기록을 초기화합니다.
         function resetGame(reviewOnly = false) {
             state.reviewMode = reviewOnly;
@@ -702,6 +708,7 @@
             state.timeLeft = 60;
             state.wrongProblems = [];
             state.reviewOriginalCount = reviewOnly ? state.reviewQueue.length : 0;
+            state.acceptingAnswer = false;
             clearInterval(state.timerId);
             state.timerId = null;
             rewardStrip.innerHTML = "";
@@ -709,6 +716,11 @@
         }
 
         function startGame(reviewOnly = false) {
+            if (!reviewOnly && state.selectedDans.length === 0) {
+                flashSetupMessage("연습할 단을 먼저 골라 주세요!");
+                showScreen("setup");
+                return;
+            }
             resetGame(reviewOnly);
             showScreen("game");
             feedbackMessage("좋아요! 첫 번째 별을 향해 출발!", "");
@@ -736,6 +748,7 @@
             state.current = problem;
             document.getElementById("problemText").textContent = `${problem.a} × ${problem.b}`;
             answerInput.value = "";
+            setAnswerControls(true);
             updateHud();
         }
 
@@ -746,6 +759,9 @@
         }
 
         function submitAnswer() {
+            if (!state.acceptingAnswer) {
+                return;
+            }
             const value = Number(answerInput.value);
             if (!answerInput.value.trim()) {
                 feedbackMessage("빈칸에 답을 적어 주세요.", "wrong");
@@ -755,10 +771,17 @@
         }
 
         function skipProblem() {
+            if (!state.acceptingAnswer) {
+                return;
+            }
             gradeAnswer(false, true);
         }
 
         function gradeAnswer(isCorrect, skipped) {
+            if (!state.acceptingAnswer) {
+                return;
+            }
+            setAnswerControls(false);
             state.answered += 1;
             if (isCorrect) {
                 state.correct += 1;
@@ -810,9 +833,10 @@
         function endGame() {
             clearInterval(state.timerId);
             state.timerId = null;
+            setAnswerControls(false);
             state.reviewQueue = [...state.wrongProblems];
             document.getElementById("finalScore").textContent = state.score;
-            document.getElementById("finalCorrect").textContent = state.correct;
+            document.getElementById("finalCorrect").textContent = `${state.correct}/${state.answered}`;
             document.getElementById("finalCombo").textContent = state.bestCombo;
             document.getElementById("resultMessage").textContent = makeResultMessage();
             renderWrongList();
