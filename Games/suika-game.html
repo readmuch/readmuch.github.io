@@ -2,13 +2,14 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>수박게임</title>
     <style>
         * { box-sizing: border-box; }
         body {
             margin: 0;
             min-height: 100vh;
+            min-height: 100svh;
             font-family: "Inter", "Apple SD Gothic Neo", sans-serif;
             background: #fff4e6;
             color: #2b1d17;
@@ -52,11 +53,13 @@
         canvas {
             width: 100%;
             max-width: 480px;
+            max-height: 62svh;
             aspect-ratio: 4 / 5;
             justify-self: center;
             background: #fff8d7;
             border: 4px solid #2b1d17;
             border-radius: 8px;
+            touch-action: none;
         }
         .side { display: grid; gap: 12px; }
         .fruit-card {
@@ -77,14 +80,44 @@
             padding: 12px;
             cursor: pointer;
             box-shadow: 0 4px 0 #2b1d17;
+            touch-action: manipulation;
         }
         button:active { transform: translateY(3px); box-shadow: 0 1px 0 #2b1d17; }
-        input[type="range"] { width: 100%; accent-color: #e85d48; }
+        input[type="range"] { width: 100%; min-height: 36px; accent-color: #e85d48; }
         .message { min-height: 26px; text-align: center; font-weight: 900; }
         @media (max-width: 760px) {
+            body {
+                align-items: start;
+                padding: max(10px, env(safe-area-inset-top)) 10px max(16px, env(safe-area-inset-bottom));
+            }
+            .game { gap: 10px; }
+            .panel { padding: 12px; box-shadow: 0 6px 0 #2b1d17; }
             header, .stage { grid-template-columns: 1fr; }
-            .side { grid-template-columns: repeat(2, 1fr); }
-            .fruit-card { min-height: 90px; }
+            h1 { font-size: clamp(1.75rem, 10vw, 2.6rem); }
+            p { font-size: .92rem; line-height: 1.4; }
+            .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+            .stat { padding: 8px 6px; }
+            .stat strong { font-size: 1.15rem; }
+            canvas {
+                width: min(100%, 58svh);
+                max-height: 50svh;
+                border-width: 3px;
+            }
+            .side {
+                grid-template-columns: 84px minmax(0, 1fr);
+                align-items: center;
+                gap: 8px;
+            }
+            .fruit-card { min-height: 76px; font-size: 2.3rem; }
+            .side label { grid-column: 2; }
+            .side button { min-height: 46px; padding: 8px; }
+            .message { font-size: .92rem; }
+        }
+        @media (max-width: 380px) {
+            .stats { grid-template-columns: 1fr 1fr; }
+            .side { grid-template-columns: 1fr 1fr; }
+            .fruit-card, .side label { grid-column: 1 / -1; }
+            canvas { max-height: 46svh; }
         }
     </style>
 </head>
@@ -135,18 +168,20 @@
             { emoji: "🍈", radius: 55, color: "#9bd770", score: 96 },
             { emoji: "🍉", radius: 66, color: "#35a853", score: 180 }
         ];
-        let balls, score, nextLevel, running, gameOver;
+        let balls, score, nextLevel, running, gameOver, animationId;
         const gravity = 0.24;
         const friction = 0.985;
 
         function init() {
+            running = false;
+            cancelAnimationFrame(animationId);
             balls = [];
             score = 0;
             nextLevel = randomLevel();
             running = true;
             gameOver = false;
             updateHud();
-            requestAnimationFrame(loop);
+            animationId = requestAnimationFrame(loop);
         }
 
         function randomLevel() {
@@ -173,7 +208,7 @@
             if (!running) return;
             updatePhysics();
             draw();
-            requestAnimationFrame(loop);
+            animationId = requestAnimationFrame(loop);
         }
 
         function updatePhysics() {
@@ -305,7 +340,7 @@
             const rect = canvas.getBoundingClientRect();
             aim.value = Math.round((event.clientX - rect.left) * (canvas.width / rect.width));
         });
-        canvas.addEventListener("click", event => {
+        canvas.addEventListener("pointerup", event => {
             const rect = canvas.getBoundingClientRect();
             drop((event.clientX - rect.left) * (canvas.width / rect.width));
         });
