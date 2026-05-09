@@ -579,8 +579,10 @@
 
     <script>
         // 게임 상태를 한 곳에 모아 두면 점수, 콤보, 틀린 문제를 관리하기 쉽습니다.
+        const allDans = [2, 3, 4, 5, 6, 7, 8, 9];
+
         const state = {
-            selectedDans: [2, 3, 4, 5, 6, 7, 8, 9],
+            selectedDans: [2],
             timerMode: false,
             reviewMode: false,
             score: 0,
@@ -630,9 +632,10 @@
             for (let dan = 2; dan <= 9; dan++) {
                 const button = document.createElement("button");
                 button.type = "button";
-                button.className = "btn dan-btn selected";
+                button.className = `btn dan-btn${state.selectedDans.includes(dan) ? " selected" : ""}`;
                 button.textContent = `${dan}단`;
                 button.dataset.dan = String(dan);
+                button.setAttribute("aria-pressed", String(state.selectedDans.includes(dan)));
                 button.addEventListener("click", () => toggleDan(dan, button));
                 danGrid.appendChild(button);
             }
@@ -640,6 +643,15 @@
 
         function toggleDan(dan, button) {
             const hasDan = state.selectedDans.includes(dan);
+            if (hasDan && state.selectedDans.length === allDans.length) {
+                state.selectedDans = [dan];
+                document.querySelectorAll(".dan-btn").forEach(danButton => {
+                    const isSelected = Number(danButton.dataset.dan) === dan;
+                    danButton.classList.toggle("selected", isSelected);
+                    danButton.setAttribute("aria-pressed", String(isSelected));
+                });
+                return;
+            }
             if (hasDan && state.selectedDans.length === 1) {
                 flashSetupMessage("단은 하나 이상 골라야 해요!");
                 return;
@@ -648,6 +660,15 @@
                 ? state.selectedDans.filter(item => item !== dan)
                 : [...state.selectedDans, dan].sort((a, b) => a - b);
             button.classList.toggle("selected", !hasDan);
+            button.setAttribute("aria-pressed", String(!hasDan));
+        }
+
+        function selectAllDans() {
+            state.selectedDans = [...allDans];
+            document.querySelectorAll(".dan-btn").forEach(button => {
+                button.classList.add("selected");
+                button.setAttribute("aria-pressed", "true");
+            });
         }
 
         function flashSetupMessage(message) {
@@ -830,7 +851,10 @@
         }
 
         document.getElementById("goSetupBtn").addEventListener("click", () => showScreen("setup"));
-        document.getElementById("quickStartBtn").addEventListener("click", () => startGame(false));
+        document.getElementById("quickStartBtn").addEventListener("click", () => {
+            selectAllDans();
+            startGame(false);
+        });
         document.getElementById("startGameBtn").addEventListener("click", () => startGame(false));
         document.getElementById("normalModeBtn").addEventListener("click", () => setTimerMode(false));
         document.getElementById("timerModeBtn").addEventListener("click", () => setTimerMode(true));
@@ -844,8 +868,7 @@
             startGame(true);
         });
         document.getElementById("selectAllBtn").addEventListener("click", () => {
-            state.selectedDans = [2, 3, 4, 5, 6, 7, 8, 9];
-            document.querySelectorAll(".dan-btn").forEach(button => button.classList.add("selected"));
+            selectAllDans();
         });
         answerInput.addEventListener("keydown", event => {
             if (event.key === "Enter") {
