@@ -70,10 +70,19 @@
         .message { min-height: 26px; text-align: center; font-weight: 900; }
         @media (max-width: 720px) {
             body {
+                display: block;
                 align-items: start;
+                min-height: 100vh;
+                min-height: 100svh;
+                overflow-x: hidden;
+                overflow-y: auto;
                 padding: max(6px, env(safe-area-inset-top)) 6px max(10px, env(safe-area-inset-bottom));
             }
-            .game { gap: 6px; }
+            .game {
+                width: 100%;
+                min-height: auto;
+                gap: 6px;
+            }
             .top-link { font-size: .86rem; line-height: 1.2; }
             .panel { padding: 8px; box-shadow: 0 5px 0 #172033; }
             header {
@@ -82,15 +91,19 @@
                 align-items: center;
             }
             .play-area {
-                grid-template-columns: minmax(138px, min-content) minmax(128px, 1fr);
+                grid-template-columns: auto minmax(104px, 1fr);
                 gap: 8px;
                 align-items: start;
+                overflow: visible;
             }
             h1 { font-size: clamp(1.45rem, 8vw, 2.05rem); }
             p { display: none; }
             #board {
-                width: min(52vw, 220px, calc((100svh - 156px) / 2));
-                min-width: 138px;
+                width: 142px;
+                width: min(44vw, 170px, calc((100vh - 170px) / 2));
+                width: min(44vw, 170px, calc((100svh - 170px) / 2));
+                min-width: 0;
+                max-width: 100%;
                 justify-self: center;
                 border-width: 3px;
             }
@@ -127,11 +140,12 @@
         }
         @media (max-width: 380px) {
             .play-area {
-                grid-template-columns: minmax(128px, min-content) minmax(116px, 1fr);
+                grid-template-columns: auto minmax(100px, 1fr);
             }
             #board {
-                width: min(50vw, 180px, calc((100svh - 144px) / 2));
-                min-width: 128px;
+                width: 132px;
+                width: min(42vw, 154px, calc((100vh - 150px) / 2));
+                width: min(42vw, 154px, calc((100svh - 150px) / 2));
             }
             #next {
                 display: none;
@@ -144,7 +158,9 @@
             }
             .panel { padding: 6px; }
             #board {
-                width: min(50vw, 190px, calc((100svh - 104px) / 2));
+                width: 128px;
+                width: min(42vw, 150px, calc((100vh - 112px) / 2));
+                width: min(42vw, 150px, calc((100svh - 112px) / 2));
             }
             .side > button,
             .controls .wide {
