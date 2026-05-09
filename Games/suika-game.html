@@ -219,7 +219,7 @@
             { emoji: "🍈", radius: 55, color: "#9bd770", score: 96 },
             { emoji: "🍉", radius: 66, color: "#35a853", score: 180 }
         ];
-        let balls, score, nextLevel, running, gameOver, animationId;
+        let balls, score, nextLevel, running, gameOver, animationId, dangerFrames;
         const gravity = 0.24;
         const friction = 0.985;
 
@@ -231,6 +231,7 @@
             nextLevel = randomLevel();
             running = true;
             gameOver = false;
+            dangerFrames = 0;
             updateHud();
             animationId = requestAnimationFrame(loop);
         }
@@ -249,6 +250,7 @@
                 vy: 0,
                 level: nextLevel,
                 radius: fruit.radius,
+                age: 0,
                 merging: false
             });
             nextLevel = randomLevel();
@@ -264,6 +266,7 @@
 
         function updatePhysics() {
             balls.forEach(ball => {
+                ball.age += 1;
                 ball.vy += gravity;
                 ball.x += ball.vx;
                 ball.y += ball.vy;
@@ -292,8 +295,13 @@
                 }
             }
             balls = balls.filter(ball => !ball.merging);
-            const danger = balls.some(ball => ball.y - ball.radius < 76 && Math.abs(ball.vy) < 0.3);
-            if (danger && balls.length > 8) {
+            const danger = balls.some(ball =>
+                ball.age > 90 &&
+                ball.y - ball.radius < 76 &&
+                Math.abs(ball.vy) < 0.25
+            );
+            dangerFrames = danger && balls.length > 8 ? dangerFrames + 1 : 0;
+            if (dangerFrames > 45) {
                 gameOver = true;
                 document.getElementById("message").textContent = "게임 끝! 처음부터 다시 도전해 보세요.";
             }
@@ -319,6 +327,7 @@
                     vy: -2,
                     level,
                     radius: fruit.radius,
+                    age: 0,
                     merging: false
                 });
                 score += fruit.score;
