@@ -98,32 +98,94 @@
         @media (max-width: 640px) {
             body {
                 align-items: start;
-                padding: max(10px, env(safe-area-inset-top)) 10px max(16px, env(safe-area-inset-bottom));
+                padding: max(6px, env(safe-area-inset-top)) 6px max(10px, env(safe-area-inset-bottom));
             }
-            .game { gap: 10px; }
-            .panel { padding: 12px; box-shadow: 0 6px 0 #1d2b22; }
-            header { display: grid; gap: 10px; }
-            h1 { font-size: clamp(1.75rem, 10vw, 2.6rem); }
-            p { font-size: .92rem; line-height: 1.4; }
-            .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; gap: 8px; }
-            .stat { padding: 8px 6px; }
-            .stat strong { font-size: 1.25rem; }
+            .game {
+                grid-template-columns: minmax(142px, min-content) minmax(128px, 1fr);
+                gap: 6px;
+                align-items: start;
+            }
+            .top-link,
+            .panel,
+            .message {
+                grid-column: 1 / -1;
+            }
+            .top-link { font-size: .86rem; line-height: 1.2; }
+            .panel { padding: 8px; box-shadow: 0 5px 0 #1d2b22; }
+            header {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) minmax(128px, .9fr);
+                gap: 8px;
+                align-items: center;
+            }
+            h1 { font-size: clamp(1.45rem, 8vw, 2.05rem); }
+            p { display: none; }
+            .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; gap: 6px; }
+            .stat { padding: 5px 4px; border-width: 2px; }
+            .stat span { font-size: .66rem; }
+            .stat strong { font-size: 1rem; line-height: 1.1; }
             canvas {
-                width: min(100%, 72svh);
-                max-height: 46svh;
+                grid-column: 1;
+                grid-row: 3 / span 2;
+                width: min(52vw, 230px, calc(100svh - 132px));
+                min-width: 142px;
+                max-height: none;
                 border-width: 3px;
             }
-            .controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-            .controls button { min-height: 44px; padding: 8px 6px; }
-            .pad { grid-template-columns: repeat(3, 64px); gap: 7px; }
-            .pad button { width: 64px; height: 48px; }
-            .message { font-size: .92rem; }
+            .controls {
+                grid-column: 2;
+                grid-row: 3;
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .controls button {
+                min-height: 36px;
+                padding: 6px;
+                font-size: .84rem;
+            }
+            .pad {
+                grid-column: 2;
+                grid-row: 4;
+                grid-template-columns: repeat(3, minmax(34px, 1fr));
+                gap: 6px;
+                width: 100%;
+            }
+            .pad button {
+                width: 100%;
+                height: 42px;
+                min-width: 0;
+            }
+            .message { min-height: 20px; font-size: .82rem; line-height: 1.25; }
         }
         @media (max-width: 360px) {
-            .pad { grid-template-columns: repeat(3, 58px); }
-            .pad button { width: 58px; height: 46px; }
-            .controls { grid-template-columns: 1fr; }
-            canvas { max-height: 42svh; }
+            .game {
+                grid-template-columns: minmax(128px, min-content) minmax(116px, 1fr);
+            }
+            header {
+                grid-template-columns: 1fr;
+            }
+            canvas {
+                width: min(50vw, 190px, calc(100svh - 128px));
+                min-width: 128px;
+            }
+            .pad button { height: 38px; }
+        }
+        @media (max-height: 620px) and (max-width: 640px) {
+            .top-link,
+            .message {
+                display: none;
+            }
+            .panel { padding: 6px; }
+            canvas {
+                width: min(50vw, 210px, calc(100svh - 76px));
+            }
+            .controls button {
+                min-height: 32px;
+            }
+            .pad button {
+                height: 36px;
+            }
         }
     </style>
 </head>

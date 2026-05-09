@@ -71,35 +71,88 @@
         @media (max-width: 720px) {
             body {
                 align-items: start;
-                padding: max(10px, env(safe-area-inset-top)) 10px max(16px, env(safe-area-inset-bottom));
+                padding: max(6px, env(safe-area-inset-top)) 6px max(10px, env(safe-area-inset-bottom));
             }
-            .game { gap: 10px; }
-            .panel { padding: 12px; box-shadow: 0 6px 0 #172033; }
-            header, .play-area { grid-template-columns: 1fr; }
-            h1 { font-size: clamp(1.75rem, 10vw, 2.5rem); }
-            p { font-size: .92rem; line-height: 1.4; }
+            .game { gap: 6px; }
+            .top-link { font-size: .86rem; line-height: 1.2; }
+            .panel { padding: 8px; box-shadow: 0 5px 0 #172033; }
+            header {
+                grid-template-columns: minmax(0, 1fr) 72px;
+                gap: 8px;
+                align-items: center;
+            }
+            .play-area {
+                grid-template-columns: minmax(138px, min-content) minmax(128px, 1fr);
+                gap: 8px;
+                align-items: start;
+            }
+            h1 { font-size: clamp(1.45rem, 8vw, 2.05rem); }
+            p { display: none; }
             #board {
-                width: min(68vw, 260px, 42svh);
+                width: min(52vw, 220px, calc((100svh - 156px) / 2));
+                min-width: 138px;
                 justify-self: center;
                 border-width: 3px;
             }
-            #next { width: 76px; height: 76px; justify-self: stretch; }
+            #next {
+                width: 58px;
+                height: 58px;
+                justify-self: stretch;
+            }
             .side {
                 width: 100%;
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-                gap: 8px;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                align-content: start;
+                gap: 6px;
             }
-            .stat { padding: 8px; }
-            .stat strong { font-size: 1.2rem; }
-            .side > button { min-height: 44px; padding: 8px; }
+            .stat { padding: 5px; border-width: 2px; }
+            .stat span { font-size: .68rem; }
+            .stat strong { font-size: 1rem; line-height: 1.1; }
+            .side > button {
+                min-height: 38px;
+                padding: 6px;
+                font-size: .86rem;
+            }
             .controls { grid-column: 1 / -1; }
-            .controls button { min-height: 48px; }
-            .message { font-size: .92rem; }
+            .controls button {
+                min-height: 42px;
+                padding: 6px;
+                font-size: 1.05rem;
+            }
+            .controls .wide {
+                min-height: 38px;
+                font-size: .86rem;
+            }
+            .message { min-height: 20px; font-size: .82rem; line-height: 1.25; }
         }
         @media (max-width: 380px) {
-            .side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            #next, .controls { grid-column: 1 / -1; }
-            #board { width: min(76vw, 240px, 40svh); }
+            .play-area {
+                grid-template-columns: minmax(128px, min-content) minmax(116px, 1fr);
+            }
+            #board {
+                width: min(50vw, 180px, calc((100svh - 144px) / 2));
+                min-width: 128px;
+            }
+            #next {
+                display: none;
+            }
+        }
+        @media (max-height: 620px) and (max-width: 720px) {
+            .top-link,
+            .message {
+                display: none;
+            }
+            .panel { padding: 6px; }
+            #board {
+                width: min(50vw, 190px, calc((100svh - 104px) / 2));
+            }
+            .side > button,
+            .controls .wide {
+                min-height: 34px;
+            }
+            .controls button {
+                min-height: 38px;
+            }
         }
     </style>
 </head>
