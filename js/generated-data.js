@@ -92,7 +92,7 @@
     ]
   },
   "generatedPosts": {
-    "generatedAt": "2026-05-16T01:20:07.320Z",
+    "generatedAt": "2026-05-16T01:28:55.993Z",
     "categories": [
       {
         "id": "book",
@@ -106,6 +106,7 @@
               "변화"
             ],
             "source": "Book/2026-03-24_rufvlq.md",
+            "dataFile": "post-data/6c51cdf73f080466.js",
             "link": "post.html?src=Book%2F2026-03-24_rufvlq.md"
           },
           {
@@ -118,6 +119,7 @@
               "뇌과학"
             ],
             "source": "Book/2026-02-08_art.md",
+            "dataFile": "post-data/c65afa0b6b6a5134.js",
             "link": "post.html?src=Book%2F2026-02-08_art.md"
           },
           {
@@ -130,6 +132,7 @@
               "부"
             ],
             "source": "Book/2026-02-08_bu.md",
+            "dataFile": "post-data/27f186b8d2220d20.js",
             "link": "post.html?src=Book%2F2026-02-08_bu.md"
           },
           {
@@ -142,6 +145,7 @@
               "사유"
             ],
             "source": "Book/2026-02-08_choijinsuk.md",
+            "dataFile": "post-data/d62d53acec29cbc3.js",
             "link": "post.html?src=Book%2F2026-02-08_choijinsuk.md"
           },
           {
@@ -154,6 +158,7 @@
               "도전"
             ],
             "source": "Book/2026-02-08_comfortcrisis.md",
+            "dataFile": "post-data/a9eeffef59129cbf.js",
             "link": "post.html?src=Book%2F2026-02-08_comfortcrisis.md"
           },
           {
@@ -166,6 +171,7 @@
               "예술"
             ],
             "source": "Book/2026-02-08_creator.md",
+            "dataFile": "post-data/266f774361b2528a.js",
             "link": "post.html?src=Book%2F2026-02-08_creator.md"
           },
           {
@@ -178,6 +184,7 @@
               "사고"
             ],
             "source": "Book/2026-02-08_datanoprediction.md",
+            "dataFile": "post-data/687def8cf86e22ed.js",
             "link": "post.html?src=Book%2F2026-02-08_datanoprediction.md"
           },
           {
@@ -190,6 +197,7 @@
               "심리"
             ],
             "source": "Book/2026-02-08_dopaminenation.md",
+            "dataFile": "post-data/3e98258d35a63f51.js",
             "link": "post.html?src=Book%2F2026-02-08_dopaminenation.md"
           },
           {
@@ -202,6 +210,7 @@
               "생산성"
             ],
             "source": "Book/2026-02-08_dualbrain.md",
+            "dataFile": "post-data/ae576c17a0050d02.js",
             "link": "post.html?src=Book%2F2026-02-08_dualbrain.md"
           },
           {
@@ -214,6 +223,7 @@
               "미래"
             ],
             "source": "Book/2026-02-08_futureself.md",
+            "dataFile": "post-data/a27848ea880d70fb.js",
             "link": "post.html?src=Book%2F2026-02-08_futureself.md"
           },
           {
@@ -226,6 +236,7 @@
               "삶"
             ],
             "source": "Book/2026-02-08_gojun.md",
+            "dataFile": "post-data/25a1f3c7a903e9d2.js",
             "link": "post.html?src=Book%2F2026-02-08_gojun.md"
           },
           {
@@ -238,6 +249,7 @@
               "부"
             ],
             "source": "Book/2026-02-08_gojun2.md",
+            "dataFile": "post-data/5ad7faad077b07ae.js",
             "link": "post.html?src=Book%2F2026-02-08_gojun2.md"
           },
           {
@@ -250,6 +262,7 @@
               "겸손"
             ],
             "source": "Book/2026-02-08_Icanbewrong.md",
+            "dataFile": "post-data/6ae8d9768bbda392.js",
             "link": "post.html?src=Book%2F2026-02-08_Icanbewrong.md"
           },
           {
@@ -262,6 +275,7 @@
               "심리"
             ],
             "source": "Book/2026-02-08_mindcommunication.md",
+            "dataFile": "post-data/2185bb6a3a41d0e0.js",
             "link": "post.html?src=Book%2F2026-02-08_mindcommunication.md"
           },
           {
@@ -274,6 +288,7 @@
               "뇌과학"
             ],
             "source": "Book/2026-02-08_misul.md",
+            "dataFile": "post-data/bc1148d4ad04ca6c.js",
             "link": "post.html?src=Book%2F2026-02-08_misul.md"
           },
           {
@@ -286,6 +301,7 @@
               "배움"
             ],
             "source": "Book/2026-02-08_realfunmath.md",
+            "dataFile": "post-data/f781014ca9619d0f.js",
             "link": "post.html?src=Book%2F2026-02-08_realfunmath.md"
           },
           {
@@ -298,6 +314,7 @@
               "심리"
             ],
             "source": "Book/2026-02-08_suim.md",
+            "dataFile": "post-data/30c46284764fb764.js",
             "link": "post.html?src=Book%2F2026-02-08_suim.md"
           },
           {
@@ -310,6 +327,7 @@
               "심리"
             ],
             "source": "Book/2026-02-08_TheWarforKindness.md",
+            "dataFile": "post-data/37fe65677feece9d.js",
             "link": "post.html?src=Book%2F2026-02-08_TheWarforKindness.md"
           },
           {
@@ -322,6 +340,7 @@
               "성장"
             ],
             "source": "Book/2026-02-08_work.md",
+            "dataFile": "post-data/25e02997fbfb60f5.js",
             "link": "post.html?src=Book%2F2026-02-08_work.md"
           },
           {
@@ -334,6 +353,7 @@
               "작가"
             ],
             "source": "Book/2026-02-08_writing.md",
+            "dataFile": "post-data/d565881ef4b52ccb.js",
             "link": "post.html?src=Book%2F2026-02-08_writing.md"
           },
           {
@@ -346,6 +366,7 @@
               "자기계발"
             ],
             "source": "Book/2026-01-12_brain100.md",
+            "dataFile": "post-data/0ec1ec8e378098e0.js",
             "link": "post.html?src=Book%2F2026-01-12_brain100.md"
           },
           {
@@ -358,6 +379,7 @@
               "리더십"
             ],
             "source": "Book/2025-12-18_jensenhwang.md",
+            "dataFile": "post-data/407101d5666f341c.js",
             "link": "post.html?src=Book%2F2025-12-18_jensenhwang.md"
           },
           {
@@ -370,6 +392,7 @@
               "인생"
             ],
             "source": "Book/2025-12-18_maum.md",
+            "dataFile": "post-data/024a2e4162158055.js",
             "link": "post.html?src=Book%2F2025-12-18_maum.md"
           },
           {
@@ -382,6 +405,7 @@
               "미래"
             ],
             "source": "Book/2025-12-18_palantir.md",
+            "dataFile": "post-data/3830bb2cba775649.js",
             "link": "post.html?src=Book%2F2025-12-18_palantir.md"
           }
         ]
@@ -399,6 +423,7 @@
               "무한"
             ],
             "source": "Education/2026-02-08_infinity.md",
+            "dataFile": "post-data/b44a92afa11d79ca.js",
             "link": "post.html?src=Education%2F2026-02-08_infinity.md"
           },
           {
@@ -411,6 +436,7 @@
               "복권"
             ],
             "source": "Education/2026-02-08_lottery.md",
+            "dataFile": "post-data/ddd5f1305d80d261.js",
             "link": "post.html?src=Education%2F2026-02-08_lottery.md"
           },
           {
@@ -423,6 +449,7 @@
               "문법"
             ],
             "source": "Education/2026-02-08_markdowninhtml.md",
+            "dataFile": "post-data/a804d64cb130fdf6.js",
             "link": "post.html?src=Education%2F2026-02-08_markdowninhtml.md"
           }
         ]
@@ -440,6 +467,7 @@
               "야채"
             ],
             "source": "Life/2026-02-08_care.md",
+            "dataFile": "post-data/816b63e3fab19388.js",
             "link": "post.html?src=Life%2F2026-02-08_care.md"
           },
           {
@@ -452,6 +480,7 @@
               "한그릇"
             ],
             "source": "Life/2026-02-08_dubbab.md",
+            "dataFile": "post-data/d0c17a8be835f4ea.js",
             "link": "post.html?src=Life%2F2026-02-08_dubbab.md"
           },
           {
@@ -464,6 +493,7 @@
               "계란"
             ],
             "source": "Life/2026-02-08_EasyTastyHealthyRecipes.md",
+            "dataFile": "post-data/b4fbcc24f9644f80.js",
             "link": "post.html?src=Life%2F2026-02-08_EasyTastyHealthyRecipes.md"
           },
           {
@@ -476,6 +506,7 @@
               "국"
             ],
             "source": "Life/2026-02-08_miyuk.md",
+            "dataFile": "post-data/2a26f6af607c8bdf.js",
             "link": "post.html?src=Life%2F2026-02-08_miyuk.md"
           },
           {
@@ -488,6 +519,7 @@
               "국"
             ],
             "source": "Life/2026-02-08_mookook.md",
+            "dataFile": "post-data/060cc43573181b4d.js",
             "link": "post.html?src=Life%2F2026-02-08_mookook.md"
           },
           {
@@ -500,6 +532,7 @@
               "반찬"
             ],
             "source": "Life/2026-02-08_myeolchi.md",
+            "dataFile": "post-data/62ae9e6930e94f2f.js",
             "link": "post.html?src=Life%2F2026-02-08_myeolchi.md"
           },
           {
@@ -512,6 +545,7 @@
               "나물"
             ],
             "source": "Life/2026-02-08_sigmchi.md",
+            "dataFile": "post-data/f3ccedc0832a3ac7.js",
             "link": "post.html?src=Life%2F2026-02-08_sigmchi.md"
           },
           {
@@ -524,6 +558,7 @@
               "국"
             ],
             "source": "Life/2026-02-08_soondooboo.md",
+            "dataFile": "post-data/9dd2c6cc82fded73.js",
             "link": "post.html?src=Life%2F2026-02-08_soondooboo.md"
           },
           {
@@ -536,6 +571,7 @@
               "나물"
             ],
             "source": "Life/2026-02-08_sukjoo.md",
+            "dataFile": "post-data/4a4095da29d90619.js",
             "link": "post.html?src=Life%2F2026-02-08_sukjoo.md"
           },
           {
@@ -548,6 +584,7 @@
               "반찬"
             ],
             "source": "Life/2025-12-17_aehobak.md",
+            "dataFile": "post-data/63f56ca64f8060bd.js",
             "link": "post.html?src=Life%2F2025-12-17_aehobak.md"
           },
           {
@@ -560,6 +597,7 @@
               "김치"
             ],
             "source": "Life/2025-12-17_altarikimchi.md",
+            "dataFile": "post-data/373d39fb5ba7b5b2.js",
             "link": "post.html?src=Life%2F2025-12-17_altarikimchi.md"
           },
           {
@@ -572,6 +610,7 @@
               "소고기"
             ],
             "source": "Life/2025-12-17_jangjorim.md",
+            "dataFile": "post-data/4558724ffbcbba06.js",
             "link": "post.html?src=Life%2F2025-12-17_jangjorim.md"
           },
           {
@@ -584,6 +623,7 @@
               "반찬"
             ],
             "source": "Life/2025-12-17_jinmichae.md",
+            "dataFile": "post-data/32f5fb331c639680.js",
             "link": "post.html?src=Life%2F2025-12-17_jinmichae.md"
           }
         ]
@@ -601,6 +641,7 @@
               "마케팅"
             ],
             "source": "Tech/2026-02-08_AIinFinance.md",
+            "dataFile": "post-data/8d034ac01e882b02.js",
             "link": "post.html?src=Tech%2F2026-02-08_AIinFinance.md"
           },
           {
@@ -613,6 +654,7 @@
               "커리어"
             ],
             "source": "Tech/2026-02-08_career.md",
+            "dataFile": "post-data/76f368a06ad37773.js",
             "link": "post.html?src=Tech%2F2026-02-08_career.md"
           },
           {
@@ -625,6 +667,7 @@
               "허깅페이스"
             ],
             "source": "Tech/2026-02-08_imagegeneration.md",
+            "dataFile": "post-data/ad23a3957deb0f21.js",
             "link": "post.html?src=Tech%2F2026-02-08_imagegeneration.md"
           },
           {
@@ -637,6 +680,7 @@
               "머신러닝"
             ],
             "source": "Tech/2026-02-08_prediction.md",
+            "dataFile": "post-data/cb115924a51fb828.js",
             "link": "post.html?src=Tech%2F2026-02-08_prediction.md"
           },
           {
@@ -649,6 +693,7 @@
               "유페이퍼"
             ],
             "source": "Tech/2026-02-08_youpaper.md",
+            "dataFile": "post-data/361ed9dabc78a86e.js",
             "link": "post.html?src=Tech%2F2026-02-08_youpaper.md"
           },
           {
@@ -661,6 +706,7 @@
               "인사이트"
             ],
             "source": "Tech/2026-02-05_ai-five-surprising-truths.md",
+            "dataFile": "post-data/9a7185147dbba42d.js",
             "link": "post.html?src=Tech%2F2026-02-05_ai-five-surprising-truths.md"
           },
           {
@@ -673,6 +719,7 @@
               "연구"
             ],
             "source": "Tech/2026-02-05_alhpha_evolve.md",
+            "dataFile": "post-data/6b2351ac70c95c6c.js",
             "link": "post.html?src=Tech%2F2026-02-05_alhpha_evolve.md"
           },
           {
@@ -685,6 +732,7 @@
               "트렌드"
             ],
             "source": "Tech/2026-01-12_ai-four-truths-2025.md",
+            "dataFile": "post-data/e7908f53ce1287c6.js",
             "link": "post.html?src=Tech%2F2026-01-12_ai-four-truths-2025.md"
           },
           {
@@ -697,6 +745,7 @@
               "진화"
             ],
             "source": "Tech/2026-01-11_agent-evolver-three-innovations.md",
+            "dataFile": "post-data/96790be68865cc40.js",
             "link": "post.html?src=Tech%2F2026-01-11_agent-evolver-three-innovations.md"
           },
           {
@@ -709,6 +758,7 @@
               "학습"
             ],
             "source": "Tech/2026-01-11_openai-dropout-six-lessons.md",
+            "dataFile": "post-data/47b1e7d32635d0b4.js",
             "link": "post.html?src=Tech%2F2026-01-11_openai-dropout-six-lessons.md"
           },
           {
@@ -721,6 +771,7 @@
               "디지털전환"
             ],
             "source": "Tech/2025-12-17_crm-capital-markets.md",
+            "dataFile": "post-data/4def9bf50f52b318.js",
             "link": "post.html?src=Tech%2F2025-12-17_crm-capital-markets.md"
           }
         ]
@@ -738,6 +789,7 @@
               "대화"
             ],
             "source": "MindNotes/2026-02-08_bookclub.md",
+            "dataFile": "post-data/560e832be10ef50b.js",
             "link": "post.html?src=MindNotes%2F2026-02-08_bookclub.md"
           },
           {
@@ -750,6 +802,7 @@
               "생각"
             ],
             "source": "MindNotes/2026-02-08_booklike.md",
+            "dataFile": "post-data/3d6274bf8a1c771c.js",
             "link": "post.html?src=MindNotes%2F2026-02-08_booklike.md"
           },
           {
@@ -762,6 +815,7 @@
               "성장"
             ],
             "source": "MindNotes/2026-02-08_happiness.md",
+            "dataFile": "post-data/3398b07db991dc65.js",
             "link": "post.html?src=MindNotes%2F2026-02-08_happiness.md"
           },
           {
@@ -774,6 +828,7 @@
               "소통"
             ],
             "source": "MindNotes/2026-02-08_leadership1.md",
+            "dataFile": "post-data/df4bbbc78145af3a.js",
             "link": "post.html?src=MindNotes%2F2026-02-08_leadership1.md"
           }
         ]
@@ -791,6 +846,7 @@
               "snake"
             ],
             "source": "Games/2026-05-09_snake.md",
+            "dataFile": "post-data/2b1fb95fe8195850.js",
             "link": "Games/snake.html"
           },
           {
@@ -803,6 +859,7 @@
               "suika"
             ],
             "source": "Games/2026-05-09_suika-game.md",
+            "dataFile": "post-data/7cb06561d4afe406.js",
             "link": "Games/suika-game.html"
           },
           {
@@ -815,6 +872,7 @@
               "tetris"
             ],
             "source": "Games/2026-05-09_tetris.md",
+            "dataFile": "post-data/8660d1e65d683759.js",
             "link": "Games/tetris.html"
           },
           {
@@ -827,6 +885,7 @@
               "multiplication"
             ],
             "source": "Games/2026-05-08_gugudan-game.md",
+            "dataFile": "post-data/fc983fd606d2e329.js",
             "link": "Games/multiplication-table-game.html"
           }
         ]

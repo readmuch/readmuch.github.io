@@ -3,6 +3,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONFIG_PATH = path.join(ROOT, 'config', 'site-config.json');
+const GENERATED_POSTS_PATH = path.join(ROOT, 'config', 'generated-posts.json');
 const GENERATED_DATA_PATH = path.join(ROOT, 'js', 'generated-data.js');
 
 const TEXT_FILES_TO_SCAN = [
@@ -10,6 +11,7 @@ const TEXT_FILES_TO_SCAN = [
     'README.md',
     'templates/home.html',
     'templates/category.html',
+    'templates/post.html',
     'post.html'
 ];
 
@@ -23,7 +25,8 @@ const HTML_FILES_TO_SCAN = [
     'games.html',
     'post.html',
     'templates/home.html',
-    'templates/category.html'
+    'templates/category.html',
+    'templates/post.html'
 ];
 
 const MOJIBAKE_PATTERNS = [
@@ -112,6 +115,32 @@ function validateGeneratedDataIsMetadataOnly() {
     }
 }
 
+function validatePostDataFiles() {
+    if (!fs.existsSync(GENERATED_POSTS_PATH)) return;
+
+    const generatedPosts = readJSON(GENERATED_POSTS_PATH);
+    (generatedPosts.categories || []).forEach(category => {
+        (category.posts || []).forEach(post => {
+            if (!post.source || !post.link || !post.link.startsWith('post.html?src=')) return;
+            if (!post.dataFile) {
+                fail(`${post.source} is missing generated post dataFile.`);
+                return;
+            }
+
+            const dataPath = path.join(ROOT, post.dataFile);
+            if (!fs.existsSync(dataPath)) {
+                fail(`${post.source} references missing post data file: ${post.dataFile}`);
+                return;
+            }
+
+            const content = fs.readFileSync(dataPath, 'utf8');
+            if (!content.includes(post.source) || !content.includes('__POST_DATA__')) {
+                fail(`${post.dataFile} does not contain loadable post data for ${post.source}.`);
+            }
+        });
+    });
+}
+
 function main() {
     const config = readJSON(CONFIG_PATH);
 
@@ -154,6 +183,7 @@ function main() {
     validateNoMojibake();
     validateReferencedIconsExist();
     validateGeneratedDataIsMetadataOnly();
+    validatePostDataFiles();
 
     if (!process.exitCode) {
         console.log('Validation completed successfully.');
