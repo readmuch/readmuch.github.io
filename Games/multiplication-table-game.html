@@ -765,6 +765,12 @@
             skipBtn.disabled = !enabled;
         }
 
+        function focusAnswerInput() {
+            requestAnimationFrame(() => {
+                answerInput.focus({ preventScroll: true });
+            });
+        }
+
         // 새 게임을 시작하기 전에 점수와 기록을 초기화합니다.
         function resetGame(reviewOnly = false) {
             state.reviewMode = reviewOnly;
@@ -818,6 +824,7 @@
             answerInput.value = "";
             setAnswerControls(true);
             updateHud();
+            focusAnswerInput();
         }
 
         function randomProblem() {
