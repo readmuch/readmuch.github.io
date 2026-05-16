@@ -3,4 +3,208 @@
 @import 'components.css';
 @import 'layout.css';
 
-/* Additional main-specific styles can be added here */ 
+/* Individual post page */
+.post-page {
+    background:
+        linear-gradient(180deg, rgba(255, 252, 245, 0.92), rgba(245, 241, 234, 0.98)),
+        var(--bg);
+}
+
+.article-container {
+    max-width: 880px;
+    padding-top: 42px;
+}
+
+.post-article {
+    padding: clamp(22px, 4vw, 44px);
+    border: 1px solid rgba(28, 26, 23, 0.12);
+    border-radius: var(--radius);
+    background: rgba(255, 252, 245, 0.9);
+    box-shadow: 0 24px 70px rgba(36, 26, 12, 0.08);
+}
+
+.post-article__header {
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(28, 26, 23, 0.12);
+}
+
+.post-article__category {
+    margin-top: 18px;
+    color: var(--accent-2);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.post-article h1 {
+    max-width: 760px;
+    margin-top: 10px;
+    color: var(--ink);
+    font-size: clamp(2rem, 7vw, 4rem);
+    line-height: 1.05;
+}
+
+.post-meta {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.post-content {
+    padding-top: 34px;
+    color: var(--text);
+    font-size: 1.06rem;
+    line-height: 1.85;
+}
+
+.post-content > * + * {
+    margin-top: 1.05em;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    color: var(--ink);
+    line-height: 1.25;
+}
+
+.post-content h1 {
+    margin-top: 1.4em;
+    font-size: 2rem;
+}
+
+.post-content h2 {
+    margin-top: 2em;
+    padding-top: 0.35em;
+    border-top: 1px solid rgba(28, 26, 23, 0.1);
+    font-size: 1.55rem;
+}
+
+.post-content h3 {
+    margin-top: 1.7em;
+    font-size: 1.25rem;
+}
+
+.post-content p {
+    color: rgba(28, 26, 23, 0.9);
+}
+
+.post-content a {
+    color: var(--accent);
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.post-content ul,
+.post-content ol {
+    padding-left: 1.45rem;
+}
+
+.post-content li + li {
+    margin-top: 0.42em;
+}
+
+.post-content blockquote {
+    margin: 1.6em 0;
+    padding: 4px 0 4px 18px;
+    border-left: 4px solid var(--accent-2);
+    color: var(--muted);
+    font-size: 1.02rem;
+}
+
+.post-content code {
+    padding: 0.14em 0.36em;
+    border: 1px solid rgba(28, 26, 23, 0.12);
+    border-radius: 6px;
+    background: rgba(235, 227, 213, 0.72);
+    color: var(--ink);
+    font-size: 0.92em;
+}
+
+.post-content pre {
+    overflow-x: auto;
+    padding: 16px;
+    border: 1px solid rgba(28, 26, 23, 0.12);
+    border-radius: var(--radius);
+    background: #1f2522;
+    color: #fffaf0;
+    line-height: 1.55;
+}
+
+.post-content pre code {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+}
+
+.post-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.6em auto;
+    border-radius: var(--radius);
+}
+
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    display: block;
+    overflow-x: auto;
+    border: 1px solid rgba(28, 26, 23, 0.12);
+    border-radius: var(--radius);
+}
+
+.post-content th,
+.post-content td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(28, 26, 23, 0.1);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.post-content th {
+    background: rgba(235, 227, 213, 0.64);
+    color: var(--ink);
+    font-weight: 800;
+}
+
+.post-state {
+    padding: 18px 20px;
+    border: 1px solid rgba(23, 63, 53, 0.16);
+    border-radius: var(--radius);
+    background: rgba(235, 227, 213, 0.52);
+    color: var(--muted);
+    font-weight: 800;
+}
+
+.post-state--error {
+    border-color: rgba(165, 71, 43, 0.28);
+    background: rgba(255, 235, 224, 0.72);
+    color: var(--accent-2);
+}
+
+@media (max-width: 599px) {
+    .article-container {
+        padding-top: 18px;
+    }
+
+    .post-article {
+        padding: 20px 16px;
+    }
+
+    .post-article__header {
+        padding-bottom: 22px;
+    }
+
+    .post-content {
+        padding-top: 24px;
+        font-size: 1rem;
+        line-height: 1.78;
+    }
+}

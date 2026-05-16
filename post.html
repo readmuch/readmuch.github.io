@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="styles/category.css?v=934e69a3a4">
     <link rel="stylesheet" href="styles/main.css?v=934e69a3a4">
 </head>
-<body>
+<body class="post-page">
     <header class="site-header">
         <div class="brand-block">
             <a href="index.html" class="brand-title">Readmuch</a>
@@ -29,12 +29,15 @@
     </header>
 
     <main class="container article-container" role="main">
-        <article id="postArticle">
-            <header>
+        <article id="postArticle" class="post-article">
+            <header class="post-article__header">
+                <div id="postCategory" class="post-article__category">Article</div>
                 <h1 id="postTitle">Loading...</h1>
                 <div id="postMeta" class="post-meta"></div>
             </header>
-            <section id="postContent"></section>
+            <section id="postContent" class="post-content" aria-live="polite">
+                <div class="post-state">Loading article...</div>
+            </section>
         </article>
     </main>
 
@@ -89,7 +92,12 @@
 
         function showMissingPost(message) {
             document.getElementById('postTitle').textContent = 'Post not found';
-            document.getElementById('postContent').textContent = message;
+            document.getElementById('postCategory').textContent = 'Missing article';
+            document.getElementById('postContent').innerHTML = '';
+            const state = document.createElement('div');
+            state.className = 'post-state post-state--error';
+            state.textContent = message;
+            document.getElementById('postContent').appendChild(state);
         }
 
         function loadPostDataScript(entry) {
@@ -156,10 +164,8 @@
         const backLink = document.createElement('a');
         backLink.id = 'backLink';
         backLink.className = 'back-link';
-        backLink.style.display = 'inline-block';
-        backLink.style.marginBottom = '12px';
         backLink.href = entry.category.file || 'index.html';
-        backLink.textContent = `Back to ${entry.category.title}`;
+        backLink.textContent = `← Back to ${entry.category.title}`;
         if (articleHeader) articleHeader.insertBefore(backLink, articleHeader.firstChild);
 
         try {
@@ -168,6 +174,7 @@
             const title = (attributes.title || entry.post.title || '').trim();
             document.getElementById('postTitle').textContent = title || 'Untitled';
             document.title = `${title || 'Post'} - Readmuch's Blog`;
+            document.getElementById('postCategory').textContent = entry.category.title || 'Article';
 
             const html = marked.parse(body);
             const safeHtml = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
@@ -179,10 +186,16 @@
                 }
             });
 
-            document.getElementById('postMeta').textContent = attributes.date || entry.post.date || '';
+            const dateText = attributes.date || entry.post.date || '';
+            document.getElementById('postMeta').textContent = dateText ? `Published ${dateText}` : '';
         } catch (error) {
             document.getElementById('postTitle').textContent = 'Failed to load post';
-            document.getElementById('postContent').textContent = String(error);
+            document.getElementById('postCategory').textContent = 'Loading error';
+            document.getElementById('postContent').innerHTML = '';
+            const state = document.createElement('div');
+            state.className = 'post-state post-state--error';
+            state.textContent = String(error);
+            document.getElementById('postContent').appendChild(state);
             console.error(error);
         }
     })();
