@@ -3,6 +3,39 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const CONFIG_PATH = path.join(ROOT, 'config', 'site-config.json');
+const GENERATED_DATA_PATH = path.join(ROOT, 'js', 'generated-data.js');
+
+const TEXT_FILES_TO_SCAN = [
+    'build.js',
+    'README.md',
+    'templates/home.html',
+    'templates/category.html',
+    'post.html'
+];
+
+const HTML_FILES_TO_SCAN = [
+    'index.html',
+    'book.html',
+    'education.html',
+    'life.html',
+    'tech.html',
+    'mindnotes.html',
+    'games.html',
+    'post.html',
+    'templates/home.html',
+    'templates/category.html'
+];
+
+const MOJIBAKE_PATTERNS = [
+    /\?쎄/,
+    /\?ㅻ/,
+    /\?뱀/,
+    /湲/,
+    /蹂몃/,
+    /諛곗/,
+    /梨낆/,
+    /쨌/
+];
 
 function readJSON(filePath) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, ''));
@@ -36,6 +69,47 @@ function parseFrontMatter(content) {
 function fail(message) {
     console.error(`ERROR: ${message}`);
     process.exitCode = 1;
+}
+
+function readTextIfExists(relativePath) {
+    const filePath = path.join(ROOT, relativePath);
+    return fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8').replace(/^\uFEFF/, '') : '';
+}
+
+function validateNoMojibake() {
+    TEXT_FILES_TO_SCAN.forEach(relativePath => {
+        const content = readTextIfExists(relativePath);
+        MOJIBAKE_PATTERNS.forEach(pattern => {
+            if (pattern.test(content)) {
+                fail(`${relativePath} contains likely mojibake text matching ${pattern}.`);
+            }
+        });
+    });
+}
+
+function validateReferencedIconsExist() {
+    HTML_FILES_TO_SCAN.forEach(relativePath => {
+        const content = readTextIfExists(relativePath);
+        const iconLinks = content.matchAll(/<link\b[^>]*rel=["'][^"']*icon[^"']*["'][^>]*href=["']([^"']+)["'][^>]*>/gi);
+
+        for (const match of iconLinks) {
+            const href = match[1].split('?')[0];
+            if (/^(https?:)?\/\//.test(href) || href.startsWith('data:')) continue;
+            const iconPath = path.join(ROOT, href);
+            if (!fs.existsSync(iconPath)) {
+                fail(`${relativePath} references missing icon asset: ${href}`);
+            }
+        }
+    });
+}
+
+function validateGeneratedDataIsMetadataOnly() {
+    if (!fs.existsSync(GENERATED_DATA_PATH)) return;
+
+    const content = fs.readFileSync(GENERATED_DATA_PATH, 'utf8');
+    if (content.includes('__POST_MARKDOWN__') || content.includes('postMarkdown')) {
+        fail('js/generated-data.js should not embed full Markdown post bodies.');
+    }
 }
 
 function main() {
@@ -76,6 +150,10 @@ function main() {
                 }
             });
     });
+
+    validateNoMojibake();
+    validateReferencedIconsExist();
+    validateGeneratedDataIsMetadataOnly();
 
     if (!process.exitCode) {
         console.log('Validation completed successfully.');

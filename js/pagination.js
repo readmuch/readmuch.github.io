@@ -333,6 +333,7 @@ class Pagination {
                     post.author,
                     post.source
                 ]
+                    .map(value => Array.isArray(value) ? value.join(' ') : value)
                     .filter(value => typeof value === 'string')
                     .join(' ')
                     .toLowerCase();

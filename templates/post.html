@@ -3,28 +3,22 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Exploring the intersection of knowledge and creativity">
+    <meta name="description" content="{{ SITE_DESCRIPTION }}">
     <meta name="theme-color" content="#f5f1ea">
     <meta name="color-scheme" content="light">
-    <title>Post - Readmuch's Blog</title>
+    <title>Post - {{ SITE_NAME }}</title>
     <link rel="icon" type="image/svg+xml" href="images/games.svg">
-    <link rel="stylesheet" href="styles/category.css?v=934e69a3a4">
-    <link rel="stylesheet" href="styles/main.css?v=934e69a3a4">
+    <link rel="stylesheet" href="styles/category.css?v={{ ASSET_VERSION }}">
+    <link rel="stylesheet" href="styles/main.css?v={{ ASSET_VERSION }}">
 </head>
 <body>
     <header class="site-header">
         <div class="brand-block">
-            <a href="index.html" class="brand-title">Readmuch</a>
-            <span class="brand-subtitle">Exploring the intersection of knowledge and creativity</span>
+            <a href="index.html" class="brand-title">{{ SITE_SHORT_NAME }}</a>
+            <span class="brand-subtitle">{{ SITE_DESCRIPTION }}</span>
         </div>
         <nav class="tab-nav" aria-label="Categories" id="siteNav">
-            <a class="tab" href="index.html">All Posts</a>
-            <a class="tab" href="book.html">Book</a>
-            <a class="tab" href="education.html">Education</a>
-            <a class="tab" href="life.html">Lifestyle</a>
-            <a class="tab" href="tech.html">Technology</a>
-            <a class="tab" href="mindnotes.html">Mind Notes</a>
-            <a class="tab" href="games.html">Games</a>
+            {{ NAV }}
         </nav>
     </header>
 
@@ -39,13 +33,13 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Readmuch's Blog. All rights reserved.</p>
+        <p>&copy; {{ SITE_YEAR }} {{ SITE_NAME }}. All rights reserved.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/marked@15.0.12/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
-    <script src="js/generated-data.js?v=934e69a3a4"></script>
-    <script src="js/config.js?v=934e69a3a4"></script>
+    <script src="js/generated-data.js?v={{ ASSET_VERSION }}"></script>
+    <script src="js/config.js?v={{ ASSET_VERSION }}"></script>
     <script>
     (async function() {
         function decodeMarkdownBuffer(buffer) {
@@ -135,7 +129,7 @@
             const { attributes, body } = parseFrontMatter(markdown);
             const title = (attributes.title || entry.post.title || '').trim();
             document.getElementById('postTitle').textContent = title || 'Untitled';
-            document.title = `${title || 'Post'} - Readmuch's Blog`;
+            document.title = `${title || 'Post'} - {{ SITE_NAME }}`;
 
             const html = marked.parse(body);
             const safeHtml = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
